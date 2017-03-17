@@ -1,7 +1,7 @@
 /**
  * Created by warren on 3/16/17.
  */
-import React, {Component, PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react'
 import {Button} from 'react-bootstrap'
 
 const counter = ({count, incrementCounter}) => (

@@ -3,6 +3,7 @@
  */
 import {combineReducers} from 'redux'
 import {routerReducer} from 'react-router-redux'
+import loginParams from './loginReducer';
 import counter from './counter'
 
-export default combineReducers({counter, routing: routerReducer})
+export default combineReducers({counter, routing: routerReducer, loginParams})
