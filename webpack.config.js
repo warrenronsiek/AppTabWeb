@@ -55,7 +55,13 @@ const common_build = {
       favicon: path.join(PATHS.static, 'favicon.ico'), //TODO: make favicon work
       inject: false
     })
-  ]
+  ],
+  node: {
+    fs: 'empty',
+    tls: 'empty',
+    net: 'empty',
+    console: true
+  }
 };
 
 const dev_build = {
@@ -84,6 +90,10 @@ const dev_build = {
       test: /\.css$/,
       loaders: ['style-loader', 'css-loader'],
       include: PATHS.css
+    }, {
+      test: /\.ts$/,
+      loaders: ['typescript-loader', 'react-hot-loader', 'babel-loader?cacheDirectory=' + PATHS.cache],
+      exclude: PATHS.node_modules
     }]
   }
 };
