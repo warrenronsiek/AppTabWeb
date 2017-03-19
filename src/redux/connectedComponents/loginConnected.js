@@ -7,7 +7,11 @@ import login from '../components/login';
 import loginThunk from '../middleware/loginThunk';
 
 const mapStateToProps = (state) => {
-  return {email: state.loginParams.email, password: state.loginParams.password}
+  return {
+    email: state.loginParams.email,
+    password: state.loginParams.password,
+    loginStatus: state.loginStatus
+  }
 };
 
 const mapDispatchToProps = (dispatch) => {

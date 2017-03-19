@@ -36,3 +36,12 @@ export const statusLoginComplete = () => {
   return {type: STATUS_LOGIN_COMPLETE, }
 };
 
+export const STATUS_NETWORK_ERROR = 'STATUS_NETWORK_ERROR';
+export const statusNetworkError = () => {
+    return {type: STATUS_NETWORK_ERROR, }
+};
+
+export const STATUS_MYSTERY_ERROR = 'STATUS_MYSTERY_ERROR';
+export const statusMysteryError = () => {
+    return {type: STATUS_MYSTERY_ERROR, }
+};

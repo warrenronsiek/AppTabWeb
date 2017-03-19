@@ -8,7 +8,9 @@ import {
   UPDATE_CLIENT_ID,
   STATUS_LOGGING_IN,
   STATUS_LOGIN_COMPLETE,
-  STATUS_WRONG_CREDENTIALS
+  STATUS_WRONG_CREDENTIALS,
+  STATUS_NETWORK_ERROR,
+  STATUS_MYSTERY_ERROR
 } from '../actions/loginActions'
 
 const loginParams = (state = {password: "P@33word", email: "wronsiek@gmail.com"}, action) => {
@@ -53,6 +55,10 @@ const loginStatus = (state = '', action) => {
       return 'wrongCredentials';
     case STATUS_LOGGING_IN:
       return 'loggingIn';
+    case STATUS_NETWORK_ERROR:
+      return 'networkError';
+    case STATUS_MYSTERY_ERROR:
+      return 'mysteryError';
     default:
       return state
 

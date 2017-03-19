@@ -36,10 +36,33 @@ const styles = {
   button: {
     marginRight: '10px',
     width: '90px'
+  },
+  statusTextContainer: {
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '50px',
+    marginLeft: '-40px'
   }
 };
 
-const login = ({email, password, updateEmail, updatePassword, submitLoginCredentials}) => (
+const LoginSwitch = (props) => {
+  switch (props.loginStatus) {
+    case 'loggingIn':
+      return <text>Logging In</text>;
+    case 'wrongCredentials':
+      return <text>Wrong username or password</text>;
+    case 'networkError':
+      return <text>Network Error</text>;
+    case 'mysteryError':
+      return <text>Mysterious Error</text>;
+    default:
+      return <text>Please enter your credentials</text>;
+  }
+};
+
+const login = ({email, password, updateEmail, updatePassword, submitLoginCredentials, loginStatus}) => (
   <div style={styles.parent}>
     <PageHeader style={{position: 'relative', paddingLeft: '40px'}}>AppTab</PageHeader>
     <form>
@@ -55,6 +78,9 @@ const login = ({email, password, updateEmail, updatePassword, submitLoginCredent
     <div style={styles.buttonContainer}>
       <Button style={styles.button} onClick={() => submitLoginCredentials(email, password)}>Login</Button>
     </div>
+    <div style={styles.statusTextContainer}>
+      <LoginSwitch loginStatus={loginStatus}/>
+    </div>
   </div>
 );
 
@@ -63,7 +89,8 @@ login.propTypes = {
   password: PropTypes.string,
   updateEmail: PropTypes.func.isRequired,
   updatePassword: PropTypes.func.isRequired,
-  submitLoginCredentials: PropTypes.func.isRequired
+  submitLoginCredentials: PropTypes.func.isRequired,
+  loginStatus: PropTypes.string
 };
 
 export default login
