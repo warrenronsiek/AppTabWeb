@@ -55,13 +55,7 @@ const common_build = {
       favicon: path.join(PATHS.static, 'favicon.ico'), //TODO: make favicon work
       inject: false
     })
-  ],
-  node: {
-    fs: 'empty',
-    tls: 'empty',
-    net: 'empty',
-    console: true
-  }
+  ]
 };
 
 const dev_build = {

@@ -21,11 +21,6 @@ export const updateClientId = (id) => {
   return {type: UPDATE_CLIENT_ID, id}
 };
 
-export const UPDATE_LOGIN_STATUS = 'UPDATE_LOGIN_STATUS';
-export const updateLoginStatus = (status) => {
-  return {type: UPDATE_LOGIN_STATUS, status}
-};
-
 export const STATUS_LOGGING_IN = 'STATUS_LOGGING_IN';
 export const statusLoggingIn = () => {
   return {type: STATUS_LOGGING_IN, }

@@ -18,15 +18,14 @@ const loginThunk = (email, password) => (dispatch) => {
       return loginRequest(email, password)
     })
     .then(res => {
-      console.log(res);
       let params = res.authParameters;
       let
-        p1 = Promise.resolve(dispatch(updateAuthParams(res.idToken, res.accessToken, res.refreshToken))),
-        p2 = Promise.resolve(dispatch(updateClientId(decode(res.idToken).sub)));
+        p1 = Promise.resolve(dispatch(updateAuthParams(params.IdToken, params.AccessToken, params.RefreshToken))),
+        p2 = Promise.resolve(dispatch(updateClientId(decode(params.IdToken).sub)));
       return Promise.all([p1, p2])
     })
     .then(() => dispatch(statusLoginComplete()))
-    .then(() => push('/counter'))
+    .then(() => dispatch(push('/counter')))
     .catch(err => {
       console.log(err);
       dispatch(statusWrongCredentials())})

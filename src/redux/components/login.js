@@ -53,7 +53,7 @@ const login = ({email, password, updateEmail, updatePassword, submitLoginCredent
       </FormGroup>
     </form>
     <div style={styles.buttonContainer}>
-      <Button style={styles.button} onClick={(email, password) => submitLoginCredentials(email, password)}>Login</Button>
+      <Button style={styles.button} onClick={() => submitLoginCredentials(email, password)}>Login</Button>
     </div>
   </div>
 );

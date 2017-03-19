@@ -2,18 +2,18 @@
  * Created by warren on 3/17/17.
  */
 
-const rp = require('request-promise');
+import 'whatwg-fetch'
 
 const url = require('./vars').environments.dev;
 const loginRequest = (email, password) => {
   const options = {
     method: 'POST',
-    url: url + '/login',
-    body: JSON.stringify({email, password})
+    body: JSON.stringify({email, password}),
+    headers: {
+      'Content-Type': 'application/json'
+    }
   };
-  return rp(options).then(res => {
-    console.log('request response: ', res);
-    return JSON.parse(res)})
+  return fetch(url + '/login', options).then(res => res.json())
 };
 
 export default loginRequest
