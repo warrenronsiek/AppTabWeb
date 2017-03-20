@@ -61,7 +61,6 @@ const loginStatus = (state = '', action) => {
       return 'mysteryError';
     default:
       return state
-
   }
 };
 

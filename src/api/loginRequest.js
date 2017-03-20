@@ -4,7 +4,7 @@
 
 import 'whatwg-fetch'
 
-const url = require('./vars').environments.dev;
+import {lambdaUrl} from '../vars';
 const loginRequest = (email, password) => {
   const options = {
     method: 'POST',
@@ -13,7 +13,7 @@ const loginRequest = (email, password) => {
       'Content-Type': 'application/json'
     }
   };
-  return fetch(url + '/login', options).then(res => res.json())
+  return fetch(lambdaUrl + '/login', options).then(res => res.json())
 };
 
 export default loginRequest

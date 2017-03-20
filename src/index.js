@@ -20,12 +20,14 @@ const history = syncHistoryWithStore(browserHistory, store);
 
 import Counter from './redux/connectedComponents/counter';
 import Login from './redux/connectedComponents/loginConnected';
+import StripeRedirect from './redux/components/stripeRedirect';
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={Login}/>
       <Route path='/counter' component={Counter}/>
+      <Route path="/stripeRedirect" component={StripeRedirect}/>
     </Router>
   </Provider>,
   document.getElementById('app')

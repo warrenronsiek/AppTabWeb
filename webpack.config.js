@@ -125,13 +125,21 @@ const clean_build = {
 };
 
 module.exports = function (env) {
+  let config;
+  console.log(env);
   switch (env) {
     case 'development':
-      return validator(merge(common_build, dev_build));
-    case 'deployment':
-      return merge(common_build, prod_build, clean_build);
+      config = merge(common_build, dev_build);
+      config.plugins.push(new webpack.DefinePlugin({
+        STAGE: JSON.stringify(env)
+      }));
+      return validator(config);
     case 'production':
-      return validator(merge(common_build, prod_build));
+      config = merge(common_build, prod_build);
+      config.plugins.push(new webpack.DefinePlugin({
+        STAGE: JSON.stringify(env)
+      }));
+      return config;
     default:
       return validator(merge(common_build, dev_build))
   }
