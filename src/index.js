@@ -22,12 +22,18 @@ import Counter from './redux/connectedComponents/counter';
 import Login from './redux/connectedComponents/loginConnected';
 import StripeRedirect from './redux/components/stripeRedirect';
 
+const loginRequired = (nextState, replace) => {
+  if (store.getState().loginStatus !== 'loggedIn') {
+    replace('/')
+  }
+};
+
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={Login}/>
       <Route path='/counter' component={Counter}/>
-      <Route path="/stripeRedirect" component={StripeRedirect}/>
+      <Route path="/stripeRedirect" component={StripeRedirect} onEnter={loginRequired}/>
     </Router>
   </Provider>,
   document.getElementById('app')

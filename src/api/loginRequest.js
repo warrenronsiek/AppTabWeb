@@ -3,8 +3,8 @@
  */
 
 import 'whatwg-fetch'
+import {lambdaUrl} from '../vars'
 
-import {lambdaUrl} from '../vars';
 const loginRequest = (email, password) => {
   const options = {
     method: 'POST',
