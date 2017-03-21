@@ -1,31 +1,62 @@
 /**
- * Created by warrenronsiek on 3/19/17.
+ * Created by warren on 3/21/17.
  */
 
-import React, {Component, PropTypes} from 'react'
-import {Button} from 'react-bootstrap'
-import {stripe} from '../../vars'
-
-const redirectUrl = `https://connect.stripe.com/oauth/authorize?response_type=code&client_id=${stripe.client_id}&scope=read_write`;
+import React, {PropTypes} from 'react'
 
 const styles = {
   parent: {
-    position: 'relative',
-    height: 500
+    position: 'relative'
   },
-  redirectButton: {
-    width: '200px',
+  textContainer: {
     position: 'absolute',
     top: '50%',
     left: '50%',
-    marginLeft: '-100px'
+    marginTop: window.innerHeight / 2,
+    transform: 'translate(-50%, -50%)',
   },
+  headerStyle: {
+    textAlign: 'center'
+  },
+  textStyle: {textAlign: 'center'}
 };
 
-const redirectButton = () => (
-  <div style={styles.parent}>
-    <Button href={redirectUrl} style={styles.redirectButton}>Connect To Stripe</Button>
+const GenHtml = (props) => (
+  <div style={styles.textContainer}>
+    <h3 style={styles.headerStyle}>{props.header}</h3>
+    <text style={styles.textStyle}>{props.message}</text>
   </div>
 );
 
-export default  redirectButton
+const StatusSwitch = (props) => {
+  switch (props.status) {
+    case 'processing':
+      return (
+        <GenHtml header="Processing" message="Processing stripe integration, please do not close your browser."/>
+      );
+    case 'complete':
+      return (
+        <GenHtml header="Complete" message="Stripe integration complete. You can now close your browser."/>
+      );
+    case 'error':
+      return (
+        <GenHtml header="ERROR" message="OHS NOES!"/>
+      );
+    default:
+      return (
+        <GenHtml header="Processing" message="Processing stripe integration, please do not close your browser."/>
+      );
+  }
+};
+
+const stripeRedirect = ({status}) => (
+  <div style={styles.parent}>
+    <StatusSwitch status={status}/>
+  </div>
+);
+
+stripeRedirect.propTypes = {
+  status: PropTypes.string.isRequired
+};
+
+export default stripeRedirect

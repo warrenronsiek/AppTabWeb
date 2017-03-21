@@ -3,7 +3,14 @@
  */
 import {combineReducers} from 'redux'
 import {routerReducer} from 'react-router-redux'
+import {stripeRedirectStatus} from './stripeRedirectReducer'
 import {loginParams, authParams, clientId, loginStatus} from './loginReducer'
-import counter from './counter'
 
-export default combineReducers({counter, routing: routerReducer, loginParams, authParams, clientId, loginStatus})
+export default combineReducers({
+  routing: routerReducer,
+  loginParams,
+  authParams,
+  clientId,
+  loginStatus,
+  stripeRedirectStatus
+})

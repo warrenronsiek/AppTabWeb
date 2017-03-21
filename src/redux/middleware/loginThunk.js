@@ -32,7 +32,7 @@ const loginThunk = (email, password) => (dispatch) => {
       }
     })
     .then(() => dispatch(statusLoginComplete()))
-    .then(() => dispatch(push('/stripeRedirect')))
+    .then(() => dispatch(push('/stripeConnect')))
     .catch(err => {
       console.log(err);
       switch (err.name) {

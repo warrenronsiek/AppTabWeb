@@ -18,9 +18,9 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, composeEnhancers(applyMiddleware(routerBrowserMiddleware, thunk)));
 const history = syncHistoryWithStore(browserHistory, store);
 
-import Counter from './redux/connectedComponents/counter';
 import Login from './redux/connectedComponents/loginConnected';
-import StripeRedirect from './redux/components/stripeRedirect';
+import StripeConnect from './redux/components/stripeConnect';
+import StripeRedirect from './scenes/stripeRedirect'
 
 const loginRequired = (nextState, replace) => {
   if (store.getState().loginStatus !== 'loggedIn') {
@@ -28,12 +28,27 @@ const loginRequired = (nextState, replace) => {
   }
 };
 
+class TestComp extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log(props);
+  }
+
+  render() {
+    return (
+      <div>
+        <text>BOO!</text>
+      </div>
+    )
+  }
+}
+
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={Login}/>
-      <Route path='/counter' component={Counter}/>
-      <Route path="/stripeRedirect" component={StripeRedirect} onEnter={loginRequired}/>
+      <Route path="/stripeConnect" component={StripeConnect} onEnter={loginRequired}/>
+      <Route path="/stripeRedirect" component={StripeRedirect}/>
     </Router>
   </Provider>,
   document.getElementById('app')

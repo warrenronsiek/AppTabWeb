@@ -85,7 +85,7 @@ const dev_build = {
       loaders: ['style-loader', 'css-loader'],
       include: PATHS.css
     }, {
-      test: /\.ts$/,
+      test: /\.tsx?$/,
       loaders: ['typescript-loader', 'react-hot-loader', 'babel-loader?cacheDirectory=' + PATHS.cache],
       exclude: PATHS.node_modules
     }]
