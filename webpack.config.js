@@ -131,13 +131,13 @@ module.exports = function (env) {
     case 'development':
       config = merge(common_build, dev_build);
       config.plugins.push(new webpack.DefinePlugin({
-        STAGE: JSON.stringify(env)
+        __STAGE__: JSON.stringify(env)
       }));
       return validator(config);
     case 'production':
       config = merge(common_build, prod_build);
       config.plugins.push(new webpack.DefinePlugin({
-        STAGE: JSON.stringify(env)
+        __STAGE__: JSON.stringify(env)
       }));
       return config;
     default:

@@ -19,7 +19,7 @@ const store = createStore(reducers, composeEnhancers(applyMiddleware(routerBrows
 const history = syncHistoryWithStore(browserHistory, store);
 
 import Login from './redux/connectedComponents/loginConnected';
-import StripeConnect from './redux/components/stripeConnect';
+import StripeConnect from './scenes/stripeConnect';
 import StripeRedirect from './scenes/stripeRedirect'
 
 const loginRequired = (nextState, replace) => {

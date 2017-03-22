@@ -4,6 +4,9 @@
 import React, {Component} from 'react';
 import StripeRedirect from '../redux/connectedComponents/stripeRedirectConnected'
 import {connect} from 'react-redux'
+import cookie from 'react-cookie'
+import {updateClientId} from '../redux/actions/loginActions'
+import redirectThunk from '../redux/middleware/redirectThunk'
 
 class StripeRedirectScene extends Component {
   static contextTypes = {
@@ -12,14 +15,11 @@ class StripeRedirectScene extends Component {
 
   constructor(props) {
     super(props);
-    console.log(props)
   }
 
   componentDidMount() {
     const query = this.props.location.query;
-
-    console.log(query);
-    console.log(this.context)
+    this.props.dispatch(redirectThunk(query));
   }
 
   render() {

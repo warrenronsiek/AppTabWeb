@@ -13,6 +13,7 @@ import {
 } from '../actions/loginActions'
 import {push} from 'react-router-redux'
 import {WrongCredentialsError} from '../../errors'
+import cookie from 'react-cookie'
 const decode = require('jwt-decode');
 
 const loginThunk = (email, password) => (dispatch) => {
@@ -23,9 +24,11 @@ const loginThunk = (email, password) => (dispatch) => {
     .then(res => {
       try {
         let params = res.authParameters;
+        let clientId = decode(params.IdToken).sub;
+        cookie.save('clientId', clientId);
         let
           p1 = Promise.resolve(dispatch(updateAuthParams(params.IdToken, params.AccessToken, params.RefreshToken))),
-          p2 = Promise.resolve(dispatch(updateClientId(decode(params.IdToken).sub)));
+          p2 = Promise.resolve(dispatch(updateClientId(clientId)));
         return Promise.all([p1, p2])
       } catch (err) {
         throw new WrongCredentialsError('wrong username or password')
