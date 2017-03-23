@@ -19,7 +19,7 @@ class StripeRedirectScene extends Component {
 
   componentDidMount() {
     const query = this.props.location.query;
-    this.props.dispatch(redirectThunk(query));
+    this.props.dispatch(redirectThunk(query.scope, query.code));
   }
 
   render() {

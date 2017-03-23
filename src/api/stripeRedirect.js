@@ -5,10 +5,10 @@
 import 'whatwg-fetch'
 import {lambdaUrl} from '../vars'
 
-const stripeRedirect = (clientId, authCode) => {
+const stripeRedirect = (clientId, authCode, scope) => {
   const options = {
     method: 'POST',
-    body: JSON.stringify({clientId, authCode}),
+    body: JSON.stringify({clientId, authCode, scope}),
     headers: {
       'Content-Type': 'application/json'
     }
