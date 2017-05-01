@@ -9,7 +9,8 @@
     "start:prod": "node server.js",
     "build:dev": "webpack --env development",
     "build:prod": "webpack --env production",
-    "start": "node server.js"
+    "start": "node server.js",
+    "deploy": "sh ./scripts/s3_deploy.sh"
   },
   "repository": {
     "type": "git",

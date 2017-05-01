@@ -13,7 +13,7 @@ import {
   STATUS_MYSTERY_ERROR
 } from '../actions/loginActions'
 
-const loginParams = (state = {password: "P@33word", email: "wronsiek@gmail.com"}, action) => {
+const loginParams = (state = {}, action) => {
   switch (action.type) {
     case UPDATE_PASSWORD:
       return {...state, ...{password: action.password}};
