@@ -49,6 +49,7 @@ ReactDOM.render(
       <Route path="/" component={Login}/>
       <Route path="/stripeConnect" component={StripeConnect} onEnter={loginRequired}/>
       <Route path="/stripeRedirect" component={StripeRedirect}/>
+      <Route path="/test" component={TestComp}/>
     </Router>
   </Provider>,
   document.getElementById('app')
