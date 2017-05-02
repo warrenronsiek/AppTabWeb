@@ -7,13 +7,6 @@ Resources:
       BucketName: apptab.io
       WebsiteConfiguration:
         IndexDocument: index.html
-        RoutingRules:
-        - RedirectRule:
-            HostName: apptab.io
-            Protocol: http
-            ReplaceKeyPrefixWith: "#!/"
-          RoutingRuleCondition:
-            HttpErrorCodeReturnedEquals: "404"
   RedirectBucket:
     Type: AWS::S3::Bucket
     Properties:
@@ -43,10 +36,10 @@ Resources:
     Properties:
       DistributionConfig:
         PriceClass: PriceClass_100
-        CustomErrorResponse:
-          ErrorCode: "404"
+        CustomErrorResponses:
+        - ErrorCode: "404"
           ResponsePagePath: /index.html
-          RespnseCode: "200"
+          ResponseCode: "200"
         Enabled: true
         DefaultCacheBehavior:
           AllowedMethods:
@@ -54,14 +47,18 @@ Resources:
           - POST
           - OPTIONS
           - HEAD
+          - DELETE
+          - PUT
+          - PATCH
           ForwardedValues:
             QueryString: true
             Cookies:
               Forward: all
-          TargetOriginId: 1
+          TargetOriginId: apptabOrigin
+          ViewerProtocolPolicy: redirect-to-https
         Origins:
         - DomainName:
-            Fn::GetAtt: SiteBucket
-          Id: 1
+            Fn::GetAtt: [SiteBucket, DomainName]
+          Id: apptabOrigin
           S3OriginConfig:
-            OriginAccessIdentity:
+            OriginAccessIdentity: origin-access-identity/cloudfront/EOGFP725PDDYK
