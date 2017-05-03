@@ -35,7 +35,11 @@ Resources:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
+        Aliases:
+        - apptab.io
+        - www.apptab.io
         PriceClass: PriceClass_100
+        DefaultRootObject: /index.html
         CustomErrorResponses:
         - ErrorCode: "404"
           ResponsePagePath: /index.html
@@ -62,3 +66,11 @@ Resources:
           Id: apptabOrigin
           S3OriginConfig:
             OriginAccessIdentity: origin-access-identity/cloudfront/EOGFP725PDDYK
+        ViewerCertificate:
+          AcmCertificateArn:
+            Ref: Certificate
+          SslSupportMethod: vip
+  Certificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: "apptab.io"
