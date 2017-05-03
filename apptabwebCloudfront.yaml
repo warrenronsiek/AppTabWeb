@@ -1,36 +1,9 @@
 ---
 Resources:
-  SiteBucket:
-    Type: AWS::S3::Bucket
+  Certificate:
+    Type: AWS::CertificateManager::Certificate
     Properties:
-      AccessControl: "PublicRead"
-      BucketName: apptab.io
-      WebsiteConfiguration:
-        IndexDocument: index.html
-  RedirectBucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: www.apptab.io
-      WebsiteConfiguration:
-        RedirectAllRequestsTo:
-          HostName: apptab.io
-          Protocol: http
-  SiteBucketPolicy:
-    Type: AWS::S3::BucketPolicy
-    Properties:
-      Bucket:
-        Ref: SiteBucket
-      PolicyDocument:
-        Statement:
-        - Effect: Allow
-          Principal: "*"
-          Action: s3:GetObject
-          Resource:
-            Fn::Join:
-            - ""
-            - - "arn:aws:s3:::"
-              - Ref: SiteBucket
-              - "/*"
+      DomainName: "apptab.io"
   CloudFront:
     Type: AWS::CloudFront::Distribution
     Properties:
@@ -61,8 +34,7 @@ Resources:
           TargetOriginId: apptabOrigin
           ViewerProtocolPolicy: redirect-to-https
         Origins:
-        - DomainName:
-            Fn::GetAtt: [SiteBucket, DomainName]
+        - DomainName: apptab.io.s3.amazonaws.com
           Id: apptabOrigin
           S3OriginConfig:
             OriginAccessIdentity: origin-access-identity/cloudfront/EOGFP725PDDYK
@@ -70,7 +42,3 @@ Resources:
           AcmCertificateArn:
             Ref: Certificate
           SslSupportMethod: vip
-  Certificate:
-    Type: AWS::CertificateManager::Certificate
-    Properties:
-      DomainName: "apptab.io"

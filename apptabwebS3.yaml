@@ -1,0 +1,40 @@
+---
+Resources:
+  SiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: "PublicRead"
+      BucketName: apptab.io
+      WebsiteConfiguration:
+        IndexDocument: index.html
+  RedirectBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: www.apptab.io
+      WebsiteConfiguration:
+        RedirectAllRequestsTo:
+          HostName: apptab.io
+          Protocol: http
+  SiteBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket:
+        Ref: SiteBucket
+      PolicyDocument:
+        Statement:
+        - Effect: Allow
+          Principal: "*"
+          Action: s3:GetObject
+          Resource:
+            Fn::Join:
+            - ""
+            - - "arn:aws:s3:::"
+              - Ref: SiteBucket
+              - "/*"
+Outputs:
+  SiteBucket:
+    Description: Domain name of apptab.io primary bucket
+    Value:
+      Fn::GetAtt: [SiteBucket, DomainName]
+    Export:
+      Name: SiteBucketDomain
