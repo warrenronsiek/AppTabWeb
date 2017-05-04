@@ -8,8 +8,13 @@ import {complete, error} from '../actions/stripeRedirectActions'
 const redirectThunk = (scope, authCode) => (dispatch, getState) => {
   Promise.resolve(cookie.load('clientId'))
     .then(res => stripeRedirectApi(res, authCode, scope))
-    .then(res => dispatch(complete()))
-    .catch(err => dispatch(error()))
+    .then(res => {
+      console.log(res);
+      dispatch(complete())})
+    .catch(err => {
+      console.log(err);
+      dispatch(error())
+    })
 };
 
 export default  redirectThunk
