@@ -9,7 +9,7 @@ import {Route, Router, browserHistory} from 'react-router'
 import {syncHistoryWithStore} from 'react-router-redux'
 
 import reducers from './redux/reducers/index'
-import {createStore, applyMiddleware} from 'redux'
+import {createStore, applyMiddleware, compose} from 'redux'
 import {routerMiddleware} from 'react-router-redux'
 
 const routerBrowserMiddleware = routerMiddleware(browserHistory);

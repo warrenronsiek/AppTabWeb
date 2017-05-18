@@ -26,6 +26,7 @@ const PATHS = {
 const common_build = {
   context: __dirname,
   entry: [
+    "babel-polyfill",
     PATHS.src
   ],
   resolve: {
