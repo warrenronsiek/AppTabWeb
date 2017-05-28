@@ -41,4 +41,4 @@ Resources:
         ViewerCertificate:
           AcmCertificateArn:
             Ref: Certificate
-          SslSupportMethod: vip
+          SslSupportMethod: sni-only
