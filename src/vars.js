@@ -10,7 +10,7 @@ switch (__STAGE__) {
     break;
   case 'production':
     stripe = {client_id: 'ca_AIdHcBQ0SWvOJvYa64GCGsgD0bO1MK77'};
-    lambdaUrl = '';
+    lambdaUrl = 'https://9w9crn7s63.execute-api.us-west-2.amazonaws.com/prod';
     break;
 }
 

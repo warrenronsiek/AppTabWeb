@@ -1,7 +1,8 @@
 /**
  * Created by warren on 3/17/17.
  */
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'proptypes'
 import {FormGroup, ControlLabel, FormControl, PageHeader, Button} from 'react-bootstrap'
 require('../../css/bootstrap.min.css');
 

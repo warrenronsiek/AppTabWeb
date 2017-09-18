@@ -26,6 +26,8 @@ const loginThunk = (email, password) => (dispatch) => {
         let params = res.authParameters;
         let clientId = decode(params.IdToken).sub;
         cookie.save('clientId', clientId);
+        cookie.save('idToken', params.IdToken);
+        cookie.save('refreshToken', params.RefreshToken);
         let
           p1 = Promise.resolve(dispatch(updateAuthParams(params.IdToken, params.AccessToken, params.RefreshToken))),
           p2 = Promise.resolve(dispatch(updateClientId(clientId)));
