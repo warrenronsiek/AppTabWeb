@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom'
 import {Provider} from 'react-redux'
 import {Route, Router} from 'react-router'
 import {store, history} from "./redux/store";
+import {CookiesProvider} from 'react-cookie'
 
 import Login from './redux/connectedComponents/loginConnected';
 import StripeConnect from './scenes/stripeConnect';

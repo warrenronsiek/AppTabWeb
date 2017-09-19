@@ -2,18 +2,9 @@
  * Created by warrenronsiek on 3/19/17.
  */
 
-import 'whatwg-fetch'
-import {lambdaUrl} from '../vars'
+import requester from './requester'
 
-const stripeRedirect = (clientId, authCode, scope) => {
-  const options = {
-    method: 'POST',
-    body: JSON.stringify({clientId, authCode, scope}),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-  return fetch(lambdaUrl + '/stripe-redirect', options).then(res => res.json())
-};
+// invoke with {clientId, authCode, scope}
+const stripeRedirect = requester('/stripe-redirect', 'StripeRedirectSuccessful', 'StripeRedirectFailure');
 
 export default stripeRedirect

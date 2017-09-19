@@ -31,7 +31,7 @@ const authParams = (state = {}, action) => {
         idToken: action.idToken,
         accessToken: action.accessToken,
         refreshToken: action.refreshToken,
-        updateTime: new Date()
+        updateTime: action.updateTime
       };
       return {...state, ...newState};
     default:

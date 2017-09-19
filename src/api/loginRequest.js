@@ -3,17 +3,9 @@
  */
 
 import 'whatwg-fetch'
-import {lambdaUrl} from '../vars'
+import requester from './requester'
 
-const loginRequest = (email, password) => {
-  const options = {
-    method: 'POST',
-    body: JSON.stringify({email, password}),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-  return fetch(lambdaUrl + '/login', options).then(res => res.json())
-};
+// invoke with {email, password}
+const loginRequest = requester('/login', 'LoginSuccessful', 'LoginFailed', null, false);
 
 export default loginRequest
