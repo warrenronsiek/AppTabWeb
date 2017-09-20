@@ -32,7 +32,7 @@ const loginThunk = (email, password) => (dispatch) => {
         cookie.save('idToken', params.IdToken);
         cookie.save('refreshToken', params.RefreshToken);
         cookie.save('accessToken', params.AccessToken);
-        cookie.save('updateTime', new Date());
+        cookie.save('updateTime', new Date().toISOString());
         let
           p1 = Promise.resolve(dispatch(updateAuthParams(params.IdToken, params.AccessToken, params.RefreshToken, new Date()))),
           p2 = Promise.resolve(dispatch(updateClientId(clientId)));

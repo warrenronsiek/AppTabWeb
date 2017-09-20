@@ -5,6 +5,6 @@
 import requester from './requester'
 
 // invoke with {clientId, authCode, scope}
-const stripeRedirect = requester('/stripe-redirect', 'StripeRedirectSuccessful', 'StripeRedirectFailure');
+const stripeRedirect = requester('/stripe-redirect', 'StripeIntegrationSuccessful', 'StripeRedirectFailure');
 
 export default stripeRedirect

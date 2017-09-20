@@ -22,7 +22,6 @@ const requester = (apiPath, successMessage, errorMessage, responseProcessor, all
 
     const desiredFetch = () => fetch(lambdaUrl + apiPath, desiredFetchParams)
       .then(res => {
-        console.log(res);
         if (res.ok) {
           return res.json();
         } else {
@@ -43,8 +42,11 @@ const requester = (apiPath, successMessage, errorMessage, responseProcessor, all
     const tokenRefreshFetch = () => fetch(lambdaUrl + '/refresh-cognito-tokens', tokenRefreshFetchParams)
       .then(res => {
         console.log(res);
-        const resBody = JSON.parse(res._bodyText);
+        return res.json()})
+      .then(resBody => {
+        console.log(resBody);
         const idVals = decode(resBody['authParameters']['IdToken']);
+        console.log(idVals);
         return Promise.resolve({
           accessToken: resBody['authParameters']['AccessToken'],
           idToken: resBody['authParameters']['IdToken'],
@@ -60,6 +62,8 @@ const requester = (apiPath, successMessage, errorMessage, responseProcessor, all
       .catch(err => console.log('failedTokenRefreshFetch', err));
 
     const timeCondition = (new Date() - state.authParams.updateTime) / (60 * 1000) > 30;
+    console.log(state.authParams.updateTime);
+    console.log(timeCondition);
     if (timeCondition && allowTokenRefresh) {
       return tokenRefreshFetch().then(() => desiredFetch())
     } else {

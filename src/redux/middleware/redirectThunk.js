@@ -17,13 +17,13 @@ const redirectThunk = (scope, authCode) => (dispatch, getState) => {
         updateTime = cookie.load('updateTime');
 
       let
-        p1 = Promise.resolve(dispatch(updateAuthParams(idToken, accessToken, refreshToken, updateTime))),
+        p1 = Promise.resolve(dispatch(updateAuthParams(idToken, accessToken, refreshToken, new Date(updateTime)))),
         p2 = Promise.resolve(dispatch(updateClientId(clientId)));
       return Promise.all([p1, p2])
     })
     .then(res => {
       const state = getState();
-      return stripeRedirectApi(state.clientId, authCode, scope)
+      return stripeRedirectApi({clientId: state.clientId, authCode, scope})
     })
     .then(res => {
       console.log(res);
