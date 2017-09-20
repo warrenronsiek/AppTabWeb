@@ -2,7 +2,7 @@
  * Created by warrenronsiek on 3/19/17.
  */
 
-import React, {Component, PropTypes} from 'react'
+import React from 'react'
 import {Button} from 'react-bootstrap'
 import {stripe} from '../../vars'
 

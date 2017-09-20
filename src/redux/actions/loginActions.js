@@ -12,8 +12,8 @@ export const updatePassword = (password) => {
 };
 
 export const UPDATE_AUTH_PARAMS = 'UPDATE_AUTH_PARAMS';
-export const updateAuthParams = (idToken, accessToken, refreshToken) => {
-  return {type: UPDATE_AUTH_PARAMS, idToken, accessToken, refreshToken}
+export const updateAuthParams = (idToken, accessToken, refreshToken, updateTime) => {
+  return {type: UPDATE_AUTH_PARAMS, idToken, accessToken, refreshToken, updateTime}
 };
 
 export const UPDATE_CLIENT_ID = 'UPDATE_CLIENT_ID';

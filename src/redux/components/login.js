@@ -1,7 +1,8 @@
 /**
  * Created by warren on 3/17/17.
  */
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'proptypes'
 import {FormGroup, ControlLabel, FormControl, PageHeader, Button} from 'react-bootstrap'
 require('../../css/bootstrap.min.css');
 
@@ -69,9 +70,9 @@ const login = ({email, password, updateEmail, updatePassword, submitLoginCredent
       <FormGroup style={styles.form}>
         <ControlLabel>Email</ControlLabel>
         <FormControl type="text" value={email} placeholder="Please enter your email"
-                     onChange={text => updateEmail(text.target.value)}/>
+                     onChange={text => updateEmail(text.target.value)} />
         <ControlLabel>Password</ControlLabel>
-        <FormControl type="text" value={password} placeholder="Please enter your password"
+        <FormControl type="password" value={password} placeholder="Please enter your password"
                      onChange={text => updatePassword(text.target.value)}/>
       </FormGroup>
     </form>

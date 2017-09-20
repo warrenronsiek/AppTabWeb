@@ -130,18 +130,18 @@ module.exports = function (env) {
   console.log(env);
   switch (env) {
     case 'development':
-      config = merge(common_build, dev_build);
+      config = merge(common_build, dev_build, clean_build);
       config.plugins.push(new webpack.DefinePlugin({
         __STAGE__: JSON.stringify(env)
       }));
-      return validator(config);
+      return config;
     case 'production':
-      config = merge(common_build, prod_build);
+      config = merge(common_build, prod_build, clean_build);
       config.plugins.push(new webpack.DefinePlugin({
         __STAGE__: JSON.stringify(env)
       }));
       return config;
     default:
-      return validator(merge(common_build, dev_build))
+      return merge(common_build, dev_build)
   }
 };
