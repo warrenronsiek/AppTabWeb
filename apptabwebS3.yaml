@@ -31,6 +31,37 @@ Resources:
             - - "arn:aws:s3:::"
               - Ref: SiteBucket
               - "/*"
+  TestBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: "PublicRead"
+      BucketName: apptabtest.io
+      WebsiteConfiguration:
+        IndexDocument: index.html
+  RedirectTestBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: www.apptabtest.io
+      WebsiteConfiguration:
+        RedirectAllRequestsTo:
+          HostName: apptabtest.io
+          Protocol: http
+  SiteTestBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket:
+        Ref: TestBucket
+      PolicyDocument:
+        Statement:
+        - Effect: Allow
+          Principal: "*"
+          Action: s3:GetObject
+          Resource:
+            Fn::Join:
+            - ""
+            - - "arn:aws:s3:::"
+              - Ref: TestBucket
+              - "/*"
 Outputs:
   SiteBucket:
     Description: Domain name of apptab.io primary bucket
@@ -38,3 +69,9 @@ Outputs:
       Fn::GetAtt: [SiteBucket, DomainName]
     Export:
       Name: SiteBucketDomain
+  TestBucket:
+    Description: Domain name of apptabtest.io primary bucket
+    Value:
+      Fn::GetAtt: [TestBucket, DomainName]
+    Export:
+      Name: TestBucketDomain
