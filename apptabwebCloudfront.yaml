@@ -84,3 +84,35 @@ Resources:
           AcmCertificateArn:
             Ref: TestCertificate
           SslSupportMethod: sni-only
+        WebACLId:
+          Ref: TestWebACL
+  TestWebACL:
+    Type: AWS::WAF::WebACL
+    Properties:
+      DefaultAction:
+        Type: BLOCK
+      MetricName: AppTabTestMetric
+      Name: AppTabTestACL
+      Rules:
+      - Action:
+          Type: ALLOW
+        Priority: 1
+        RuleId:
+          Ref: WhiteListRule
+  WhiteListRule:
+    Type: AWS::WAF::Rule
+    Properties:
+      Name: WhiteListRule
+      MetricName: AppTabTestWhiteListMetric
+      Predicates:
+      - DataId:
+          Ref: IPWhiteList
+        Negated: false
+        Type: IPMatch
+  IPWhiteList:
+    Type: AWS::WAF::IPSet
+    Properties:
+      IPSetDescriptors:
+      - Type: IPV4
+        Value: 73.202.73.133/32
+      Name: WhiteList
