@@ -23,3 +23,18 @@ export const updateConfirmPassword = (confirmPassword) => {
   return {type: UPDATE_CONFIRM_PASSWORD, confirmPassword}
 };
 
+export const REGISTERING = 'REGISTERING';
+export const registering = () => {
+  return {type: REGISTERING, }
+};
+
+export const REGISTRATION_COMPLETE = 'REGISTRATION_COMPLETE';
+export const registrationComplete = () => {
+  return {type: REGISTRATION_COMPLETE, }
+};
+
+export const REGISTRATION_ERROR = 'REGISTRATION_ERROR';
+export const registrationError = (error) => {
+  return {type: REGISTRATION_ERROR, error}
+};
+

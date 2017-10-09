@@ -3,7 +3,10 @@ import {
   UPDATE_PASSWORD,
   UPDATE_PHONE_NUMBER,
   UPDATE_NAME,
-  UPDATE_EMAIL
+  UPDATE_EMAIL,
+  REGISTERING,
+  REGISTRATION_COMPLETE,
+  REGISTRATION_ERROR
 } from '../actions/registerActions'
 import phoneNumberHandler from '../../common/phoneNumberHandler'
 
@@ -61,7 +64,7 @@ const registerParamValidation = (state = {validEmail: null, validName: null, val
     case UPDATE_EMAIL:
       return {...state, validEmail: !!action.email.match(/\w+@\w+\.\w+/) ? 'success' : 'error'};
     case UPDATE_PHONE_NUMBER:
-      return {...state, validPhoneNumber: !!action.phoneNumber.match(/\(\d{3}\) \d{3}-\d{4}/) ? 'success' : 'error'};
+      return {...state, validPhoneNumber: !!phoneNumberHandler(action.phoneNumber).match(/\(\d{3}\) \d{3}-\d{4}/) ? 'success' : 'error'};
     case UPDATE_NAME:
       return {...state, validName: !!action.name.match(/\w{2,}/) ? 'success' : 'error'};
     default:
@@ -69,4 +72,17 @@ const registerParamValidation = (state = {validEmail: null, validName: null, val
   }
 };
 
-export {registerParams, validPassword, registerParamValidation};
+const registrationStatus = (state = {status: '', error: ''}, action) => {
+  switch (action.type){
+    case REGISTRATION_ERROR:
+      return {status: 'error', error: action.error};
+    case REGISTERING:
+      return {status: 'registering', error: null};
+    case REGISTRATION_COMPLETE:
+      return {status: 'registrationComplete', error: null};
+    default:
+      return state
+  }
+};
+
+export {registerParams, validPassword, registerParamValidation, registrationStatus};

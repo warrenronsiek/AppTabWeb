@@ -7,6 +7,7 @@ import {
 } from '../actions/registerActions'
 import {connect} from 'react-redux'
 import Register from '../components/register'
+import registerThunk from '../middleware/registerThunk'
 
 const mapStateToProps = state => ({
   name: state.registerParams.name,
@@ -22,7 +23,8 @@ const mapStateToProps = state => ({
   passwordHasChar: state.validPassword.hasChar,
   passwordHasInt: state.validPassword.hasInt,
   passwordHasLength: state.validPassword.hasLength,
-  passwordsMatch: state.validPassword.matches
+  passwordsMatch: state.validPassword.matches,
+  registrationStatus: state.registrationStatus.status
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -30,7 +32,8 @@ const mapDispatchToProps = dispatch => ({
   updatePassword: password => dispatch(updatePassword(password)),
   updateEmail: email => dispatch(updateEmail(email)),
   updateConfirmPassword: confirmPassword => dispatch(updateConfirmPassword(confirmPassword)),
-  updatePhoneNumber: phoneNumber => dispatch(updatePhoneNumber(phoneNumber))
+  updatePhoneNumber: phoneNumber => dispatch(updatePhoneNumber(phoneNumber)),
+  register: () => dispatch(registerThunk())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register)

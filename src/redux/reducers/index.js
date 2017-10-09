@@ -5,7 +5,7 @@ import {combineReducers} from 'redux'
 import {routerReducer} from 'react-router-redux'
 import {stripeRedirectStatus} from './stripeRedirectReducer'
 import {loginParams, authParams, clientId, loginStatus} from './loginReducer'
-import {validPassword, registerParams, registerParamValidation} from './registerReducer'
+import {validPassword, registerParams, registerParamValidation, registrationStatus} from './registerReducer'
 
 export default combineReducers({
   routing: routerReducer,
@@ -16,5 +16,6 @@ export default combineReducers({
   clientId,
   loginStatus,
   registerParamValidation,
-  stripeRedirectStatus
+  stripeRedirectStatus,
+  registrationStatus
 })
