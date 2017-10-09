@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import {updatePassword, updateEmail} from '../actions/loginActions'
 import login from '../components/login'
 import loginThunk from '../middleware/loginThunk'
+import {push} from 'react-router-redux'
 
 const mapStateToProps = (state) => {
   return {
@@ -18,7 +19,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateEmail: text => dispatch(updateEmail(text)),
     updatePassword: text => dispatch(updatePassword(text)),
-    submitLoginCredentials: (email, password) => dispatch(loginThunk(email, password))
+    submitLoginCredentials: (email, password) => dispatch(loginThunk(email, password)),
+    navToRegister: () => dispatch(push('/register'))
   }
 };
 

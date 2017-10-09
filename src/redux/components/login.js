@@ -11,7 +11,7 @@ const styles = {
     position: 'relative',
     height: 500
   },
-  form: {
+  formGroup: {
     width: '300px',
     height: '300px',
     position: 'absolute',
@@ -63,11 +63,11 @@ const LoginSwitch = (props) => {
   }
 };
 
-const login = ({email, password, updateEmail, updatePassword, submitLoginCredentials, loginStatus}) => (
+const login = ({email, password, updateEmail, updatePassword, submitLoginCredentials, loginStatus, navToRegister}) => (
   <div style={styles.parent}>
     <PageHeader style={{position: 'relative', paddingLeft: '40px'}}>AppTab</PageHeader>
     <form>
-      <FormGroup style={styles.form}>
+      <FormGroup style={styles.formGroup}>
         <ControlLabel>Email</ControlLabel>
         <FormControl type="text" value={email} placeholder="Please enter your email"
                      onChange={text => updateEmail(text.target.value)} />
@@ -78,6 +78,7 @@ const login = ({email, password, updateEmail, updatePassword, submitLoginCredent
     </form>
     <div style={styles.buttonContainer}>
       <Button style={styles.button} onClick={() => submitLoginCredentials(email, password)}>Login</Button>
+      <Button style={styles.button} onClick={() => navToRegister()}>Register</Button>
     </div>
     <div style={styles.statusTextContainer}>
       <LoginSwitch loginStatus={loginStatus}/>
@@ -91,7 +92,8 @@ login.propTypes = {
   updateEmail: PropTypes.func.isRequired,
   updatePassword: PropTypes.func.isRequired,
   submitLoginCredentials: PropTypes.func.isRequired,
-  loginStatus: PropTypes.string
+  loginStatus: PropTypes.string,
+  navToRegister: PropTypes.func.isRequired
 };
 
 export default login

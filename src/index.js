@@ -5,10 +5,10 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {Provider} from 'react-redux'
 import {Route, Router} from 'react-router'
-import {store, history} from "./redux/store";
-import {CookiesProvider} from 'react-cookie'
+import {store, history} from "./redux/store"
 
-import Login from './redux/connectedComponents/loginConnected';
+import Login from './redux/connectedComponents/loginConnected'
+import Register from './redux/connectedComponents/registerConnected'
 import StripeConnect from './scenes/stripeConnect';
 import StripeRedirect from './scenes/stripeRedirect'
 
@@ -24,6 +24,7 @@ ReactDOM.render(
       <Route path="/" component={Login}/>
       <Route path="/stripeConnect" component={StripeConnect} onEnter={loginRequired}/>
       <Route path="/stripeRedirect" component={StripeRedirect}/>
+      <Route path="/register" component={Register}/>
     </Router>
   </Provider>,
   document.getElementById('app')
