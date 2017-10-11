@@ -20,7 +20,8 @@ const mapDispatchToProps = (dispatch) => {
     updateEmail: text => dispatch(updateEmail(text)),
     updatePassword: text => dispatch(updatePassword(text)),
     submitLoginCredentials: (email, password) => dispatch(loginThunk(email, password)),
-    navToRegister: () => dispatch(push('/register'))
+    navToRegister: () => dispatch(push('/register')),
+    navToPasswordReset: () => dispatch(push('/password-reset'))
   }
 };
 

@@ -11,28 +11,27 @@ const styles = {
     position: 'relative',
     height: 500
   },
+  form: {
+    marginTop: '150px'
+  },
   formGroup: {
     width: '300px',
-    height: '300px',
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    margin: "100px 0 0 -170px"
+    position: 'relative',
+    margin: 'auto',
   },
   header: {
     textAlign: 'center',
   },
   subHeader: {
     textAlign: 'center',
-    margin: "30px 0 0 0"
+    margin: "auto"
   },
   buttonContainer: {
     position: 'relative',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: '450px',
-    marginLeft: '-30px'
+    marginTop: '30px',
   },
   button: {
     marginRight: '10px',
@@ -43,8 +42,19 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: '50px',
-    marginLeft: '-40px'
+    margin: 'auto',
+    marginTop: '20px'
+  },
+  passwordResetButtonContainer: {
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '10px',
+  },
+  passwordResetButton: {
+    width: '130px',
+    marginRight: '10px'
   }
 };
 
@@ -59,18 +69,21 @@ const LoginSwitch = (props) => {
     case 'mysteryError':
       return <text>Mysterious Error</text>;
     default:
-      return <text>Please enter your credentials</text>;
+      return null;
   }
 };
 
-const login = ({email, password, updateEmail, updatePassword, submitLoginCredentials, loginStatus, navToRegister}) => (
+const login = ({
+                 email, password, updateEmail, updatePassword, submitLoginCredentials, loginStatus, navToRegister,
+                 navToPasswordReset
+               }) => (
   <div style={styles.parent}>
     <PageHeader style={{position: 'relative', paddingLeft: '40px'}}>AppTab</PageHeader>
-    <form>
+    <form style={styles.form}>
       <FormGroup style={styles.formGroup}>
         <ControlLabel>Email</ControlLabel>
         <FormControl type="text" value={email} placeholder="Please enter your email"
-                     onChange={text => updateEmail(text.target.value)} />
+                     onChange={text => updateEmail(text.target.value)}/>
         <ControlLabel>Password</ControlLabel>
         <FormControl type="password" value={password} placeholder="Please enter your password"
                      onChange={text => updatePassword(text.target.value)}/>
@@ -79,6 +92,9 @@ const login = ({email, password, updateEmail, updatePassword, submitLoginCredent
     <div style={styles.buttonContainer}>
       <Button style={styles.button} onClick={() => submitLoginCredentials(email, password)}>Login</Button>
       <Button style={styles.button} onClick={() => navToRegister()}>Register</Button>
+    </div>
+    <div style={styles.passwordResetButtonContainer}>
+      <Button style={styles.passwordResetButton} onClick={() => navToPasswordReset()}>Reset Password</Button>
     </div>
     <div style={styles.statusTextContainer}>
       <LoginSwitch loginStatus={loginStatus}/>
@@ -93,7 +109,8 @@ login.propTypes = {
   updatePassword: PropTypes.func.isRequired,
   submitLoginCredentials: PropTypes.func.isRequired,
   loginStatus: PropTypes.string,
-  navToRegister: PropTypes.func.isRequired
+  navToRegister: PropTypes.func.isRequired,
+  navToPasswordReset: PropTypes.func.isRequired
 };
 
 export default login
