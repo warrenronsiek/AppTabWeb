@@ -69,36 +69,22 @@ const passwordResetValidator = (state = {validEmail: null, validCode: null}, act
   }
 };
 
-const passwordResetStatus = (state = "enterEmail", action) => {
+const passwordResetStatus = (state = {stage: "enterEmail", error: null, processing: false}, action) => {
   switch (action.type) {
     case ENTER_EMAIL_STATUS:
-      return 'enterEmail';
+      return {...state, stage: 'enterEmail',  processing: false};
     case ENTER_CODE_STATUS:
-      return 'enterCode';
+      return {...state, stage: 'enterCode', processing: false};
     case PASSWORD_RESET_FAILED:
-      return 'resetFailed';
+      return {...state, error: 'resetFailed', processing: false};
     case PASSWORD_RESET_SUCCESSFUL:
-      return 'resetSuccessful';
+      return {...state, error: 'success', processing: false};
+    case PASSWORD_RESET_PROCESSING:
+      return {...state, processing: true};
     default:
       return state;
   }
 };
 
-const passwordResetProcessing = (state = false, action) => {
-  switch (action.type) {
-    case PASSWORD_RESET_PROCESSING:
-      return true;
-    case ENTER_EMAIL_STATUS:
-      return false;
-    case ENTER_CODE_STATUS:
-      return false;
-    case PASSWORD_RESET_FAILED:
-      return false;
-    case PASSWORD_RESET_SUCCESSFUL:
-      return false;
-    default:
-      return state
-  }
-};
 
-export {passwordReset, passwordResetStatus, passwordResetValidator, validResetPassword, passwordResetProcessing}
+export {passwordReset, passwordResetStatus, passwordResetValidator, validResetPassword}

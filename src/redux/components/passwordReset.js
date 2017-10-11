@@ -36,14 +36,25 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: '30px',
+  },
+  statusTextContainer: {
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '30px',
   }
-
 };
 
-const StatusMessage = ({props}) => {
+const StatusMessage = (props) => {
   switch (props.status) {
-    case 'enterEmail':
-      return <h4>Please enter your email so we can send you a password reset code.</h4>;
+    case 'resetFailed':
+      return <div style={{justifyContent: 'center', alignItems: 'center', position: 'relative', textAlign: 'center'}}>
+        <h5>Password reset failed!</h5>
+        <h5>Double check your email and confirmation code.</h5>
+      </div>;
+    case 'success':
+      return <h4>Password reset successful!</h4>;
     default:
       return null
   }
@@ -65,9 +76,9 @@ const CheckMarkRow = (props) => (
 );
 const PasswordReset = ({
                          password, updatePassword, email, updateEmail, confirmPassword, updateConfirmPassword, code,
-                         updateResetCode, status, sendCode, resetPassword, passwordHasLength, passwordHasCap,
+                         updateResetCode, stage, sendCode, resetPassword, passwordHasLength, passwordHasCap,
                          passwordHasChar, passwordHasInt, passwordsMatch, validEmail, validPassword, validCode,
-                         processing
+                         processing, error
                        }) => (
   <div>
     <PageHeader style={{position: 'relative', paddingLeft: '40px'}}>AppTab</PageHeader>
@@ -75,7 +86,7 @@ const PasswordReset = ({
       <CustomForm label='Email' type='text' value={email} placeholder='please enter your email' updater={updateEmail}
                   validationState={validEmail}/>
     </form>
-    <Collapse in={status === 'enterCode'}>
+    <Collapse in={stage === 'enterCode'}>
       <div>
         <form>
           <CustomForm label='ConfirmationCode' type='text' value={code} updater={updateResetCode}
@@ -102,10 +113,13 @@ const PasswordReset = ({
     <div style={styles.buttonContainer}>
       {(processing)
         ? <h4>Processing...</h4>
-        : (status === 'enterEmail')
+        : (stage === 'enterEmail')
           ? <Button onClick={() => sendCode(email)} disabled={validEmail !== 'success'}>Send Confirmation Code</Button>
-          : <Button onClick={() => resetPassword(password)}
+          : <Button onClick={() => resetPassword(email, password, code)}
                     disabled={(validPassword !== 'success') || (validCode !== 'success')}>Reset Password</Button>}
+    </div>
+    <div style={styles.statusTextContainer}>
+      <StatusMessage status={error}/>
     </div>
   </div>
 );
@@ -119,7 +133,8 @@ PasswordReset.propTypes = {
   updateEmail: PropTypes.func.isRequired,
   updateConfirmPassword: PropTypes.func.isRequired,
   updateResetCode: PropTypes.func.isRequired,
-  status: PropTypes.string.isRequired,
+  stage: PropTypes.string.isRequired,
+  error: PropTypes.string,
   sendCode: PropTypes.func.isRequired,
   resetPassword: PropTypes.func.isRequired,
   passwordHasLength: PropTypes.bool,

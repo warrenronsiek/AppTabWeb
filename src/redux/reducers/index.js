@@ -11,7 +11,6 @@ import {
   passwordResetStatus,
   passwordResetValidator,
   validResetPassword,
-  passwordResetProcessing
 } from './passwordResetReducer'
 
 export default combineReducers({
@@ -20,7 +19,6 @@ export default combineReducers({
   passwordResetValidator,
   validResetPassword,
   passwordReset,
-  passwordResetProcessing,
   validPassword,
   registerParams,
   loginParams,

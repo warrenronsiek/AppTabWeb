@@ -13,7 +13,9 @@ const mapStateToProps = state => ({
   confirmPassword: state.passwordReset.confirmPassword,
   email: state.passwordReset.email,
   code: state.passwordReset.code,
-  status: state.passwordResetStatus,
+  stage: state.passwordResetStatus.stage,
+  error: state.passwordResetStatus.error,
+  processing: state.passwordResetStatus.processing,
   validEmail: state.passwordResetValidator.validEmail,
   validCode: state.passwordResetValidator.validCode,
   validPassword: state.validResetPassword.isValid,
@@ -22,7 +24,6 @@ const mapStateToProps = state => ({
   passwordHasCap: state.validResetPassword.hasCap,
   passwordHasLength: state.validResetPassword.hasLength,
   passwordsMatch: state.validResetPassword.matches,
-  processing: state.passwordResetProcessing
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -31,7 +32,7 @@ const mapDispatchToProps = dispatch => ({
   updatePassword: password => dispatch(updateResetPassword(password)),
   updateResetCode: code => dispatch(updateResetCode(code)),
   sendCode: email => dispatch(sendCode(email)),
-  resetPassword: (email, password) => dispatch(resetPassword(email, password))
+  resetPassword: (email, password, code) => dispatch(resetPassword(email, password, code))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PasswordReset)
