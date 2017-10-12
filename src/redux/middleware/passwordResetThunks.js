@@ -30,7 +30,7 @@ const resetPassword = (email, password, code) => (dispatch) => {
     .then(res => {
       return Promise.all([
         Promise.resolve(dispatch(passwordResetSuccessful())),
-        new Promise((resolve, reject) => setTimeout(() => resolve(), 2000))
+        new Promise((resolve, reject) => setTimeout(() => resolve(), 3000))
       ])
     })
     .then(res => {

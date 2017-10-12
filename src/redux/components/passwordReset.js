@@ -54,7 +54,10 @@ const StatusMessage = (props) => {
         <h5>Double check your email and confirmation code.</h5>
       </div>;
     case 'success':
-      return <h4>Password reset successful!</h4>;
+      return <div style={{justifyContent: 'center', alignItems: 'center', position: 'relative', textAlign: 'center'}}>
+        <h5>Password reset successful!</h5>
+        <h5>Redirecting you to login.</h5>
+      </div>;
     default:
       return null
   }
