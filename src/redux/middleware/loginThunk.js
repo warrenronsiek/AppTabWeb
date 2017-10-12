@@ -22,12 +22,10 @@ const loginThunk = (email, password) => (dispatch) => {
       return loginRequest({email, password})
     })
     .then(res => {
-      console.log(res);
       try {
         let params = res.authParameters;
         console.log(params.IdToken);
         let clientId = decode(params.IdToken).sub;
-        console.log(clientId);
         cookie.save('clientId', clientId);
         cookie.save('idToken', params.IdToken);
         cookie.save('refreshToken', params.RefreshToken);
@@ -44,7 +42,6 @@ const loginThunk = (email, password) => (dispatch) => {
     .then(() => dispatch(statusLoginComplete()))
     .then(() => dispatch(push('/stripeConnect')))
     .catch(err => {
-      console.log(err);
       switch (err.name) {
         case 'WrongCredentialsError':
           dispatch(statusWrongCredentials());

@@ -5,12 +5,14 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {Provider} from 'react-redux'
 import {Route, Router} from 'react-router'
-import {store, history} from "./redux/store";
-import {CookiesProvider} from 'react-cookie'
+import {store, history} from "./redux/store"
 
-import Login from './redux/connectedComponents/loginConnected';
-import StripeConnect from './scenes/stripeConnect';
+import Login from './redux/connectedComponents/loginConnected'
+import Register from './redux/connectedComponents/registerConnected'
+import StripeConnect from './scenes/stripeConnect'
 import StripeRedirect from './scenes/stripeRedirect'
+import PasswordReset from './redux/connectedComponents/passwordResetConnected'
+import SupportScene from './scenes/support'
 
 const loginRequired = (nextState, replace) => {
   if (store.getState().loginStatus !== 'loggedIn') {
@@ -24,6 +26,9 @@ ReactDOM.render(
       <Route path="/" component={Login}/>
       <Route path="/stripeConnect" component={StripeConnect} onEnter={loginRequired}/>
       <Route path="/stripeRedirect" component={StripeRedirect}/>
+      <Route path="/register" component={Register}/>
+      <Route path="/password-reset" component={PasswordReset}/>
+      <Route path="/support" component={SupportScene}/>
     </Router>
   </Provider>,
   document.getElementById('app')

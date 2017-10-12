@@ -62,8 +62,6 @@ const requester = (apiPath, successMessage, errorMessage, responseProcessor, all
       .catch(err => console.log('failedTokenRefreshFetch', err));
 
     const timeCondition = (new Date() - state.authParams.updateTime) / (60 * 1000) > 30;
-    console.log(state.authParams.updateTime);
-    console.log(timeCondition);
     if (timeCondition && allowTokenRefresh) {
       return tokenRefreshFetch().then(() => desiredFetch())
     } else {

@@ -4,8 +4,6 @@
 import React, {Component} from 'react';
 import StripeRedirect from '../redux/connectedComponents/stripeRedirectConnected'
 import {connect} from 'react-redux'
-import cookie from 'react-cookie'
-import {updateClientId} from '../redux/actions/loginActions'
 import redirectThunk from '../redux/middleware/redirectThunk'
 
 class StripeRedirectScene extends Component {
