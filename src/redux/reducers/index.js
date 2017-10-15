@@ -4,7 +4,7 @@
 import {combineReducers} from 'redux'
 import {routerReducer} from 'react-router-redux'
 import {stripeRedirectStatus} from './stripeRedirectReducer'
-import {loginParams, authParams, clientId, loginStatus} from './loginReducer'
+import {loginParams, authParams, clientId, loginStatus, stripeData} from './loginReducer'
 import {validPassword, registerParams, registerParamValidation, registrationStatus} from './registerReducer'
 import {
   passwordReset,
@@ -12,9 +12,11 @@ import {
   passwordResetValidator,
   validResetPassword,
 } from './passwordResetReducer'
+import {venueFormStatus, venues, activeVenue} from './venueReducer'
 
 export default combineReducers({
   routing: routerReducer,
+  stripeData,
   passwordResetStatus,
   passwordResetValidator,
   validResetPassword,
@@ -27,5 +29,8 @@ export default combineReducers({
   loginStatus,
   registerParamValidation,
   stripeRedirectStatus,
-  registrationStatus
+  registrationStatus,
+  venueFormStatus,
+  venues,
+  activeVenue
 })

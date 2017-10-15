@@ -9,41 +9,55 @@ import {
   statusLoginComplete,
   statusWrongCredentials,
   statusNetworkError,
-  statusMysteryError
+  statusMysteryError,
+  updateStripeId
 } from '../actions/loginActions'
 import {push} from 'react-router-redux'
 import {WrongCredentialsError} from '../../errors'
 import cookie from 'react-cookie'
+import getClientLoginData from '../../api/getClientLoginData'
+
 const decode = require('jwt-decode');
 
 const loginThunk = (email, password) => (dispatch) => {
+  let clientId, stripeId;
   return Promise.resolve(dispatch(statusLoggingIn()))
     .then(() => {
       return loginRequest({email, password})
     })
     .then(res => {
-      try {
-        let params = res.authParameters;
-        console.log(params.IdToken);
-        let clientId = decode(params.IdToken).sub;
-        cookie.save('clientId', clientId);
-        cookie.save('idToken', params.IdToken);
-        cookie.save('refreshToken', params.RefreshToken);
-        cookie.save('accessToken', params.AccessToken);
-        cookie.save('updateTime', new Date().toISOString());
-        let
-          p1 = Promise.resolve(dispatch(updateAuthParams(params.IdToken, params.AccessToken, params.RefreshToken, new Date()))),
-          p2 = Promise.resolve(dispatch(updateClientId(clientId)));
-        return Promise.all([p1, p2])
-      } catch (err) {
+      let params = res.authParameters;
+      if (params.code === 'NotAuthorizedException') {
         throw new WrongCredentialsError('wrong username or password')
       }
+      clientId = decode(params.IdToken).sub;
+      cookie.save('clientId', clientId);
+      cookie.save('idToken', params.IdToken);
+      cookie.save('refreshToken', params.RefreshToken);
+      cookie.save('accessToken', params.AccessToken);
+      cookie.save('updateTime', new Date().toISOString());
+      let
+        p1 = Promise.resolve(dispatch(updateAuthParams(params.IdToken, params.AccessToken, params.RefreshToken, new Date()))),
+        p2 = Promise.resolve(dispatch(updateClientId(clientId)));
+      return Promise.all([p1, p2])
     })
-    .then(() => dispatch(statusLoginComplete()))
-    .then(() => dispatch(push('/stripeConnect')))
+    .then(() => getClientLoginData({clientId}))
+    .then((res) => {
+      console.log(res);
+      stripeId = res.stripeData.Item.StripeId.S;
+      dispatch(updateStripeId(stripeId));
+      return Promise.resolve(dispatch(statusLoginComplete()));
+    })
+    .then(() => {
+      if (stripeId) {
+        return Promise.resolve(dispatch(push('/venues')))
+      } else {
+        return Promise.resolve(dispatch(push('/stripeConnect')))
+      }
+    })
     .catch(err => {
-      switch (err.name) {
-        case 'WrongCredentialsError':
+      switch (err.message) {
+        case 'wrong username or password':
           dispatch(statusWrongCredentials());
           break;
         case 'NetworkError':
