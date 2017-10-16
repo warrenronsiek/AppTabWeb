@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'proptypes'
-import {FormGroup, FormControl, ControlLabel, HelpBlock, Grid, Col, Row, Table, Button, Collapse} from 'react-bootstrap'
+import {FormGroup, FormControl, ControlLabel, Table, Button, Collapse} from 'react-bootstrap'
 
 const styles = {
   editButtonCol: {
@@ -31,7 +31,7 @@ const styles = {
   },
 };
 
-const venues = ({venueList, activeVenue, venueFormStatus, editVenue, updateActiveVenue, doneEditing, addVenue, updateVenue, cancelEditing}) => (
+const venues = ({venueList, activeVenue, venueFormStatus, setActiveVenue, updateActiveVenue, doneEditing, addVenue, cancelEditing}) => (
   <div>
     <div style={{marginLeft: '70px', marginRight: '70px'}}>
       <Table>
@@ -48,7 +48,7 @@ const venues = ({venueList, activeVenue, venueFormStatus, editVenue, updateActiv
             <td style={styles.venueNameCol}>{venue.name}</td>
             <td style={styles.addressCol}>{venue.address}</td>
             <td style={styles.editButtonCol}><Button
-              onClick={() => editVenue(venue.venueId, venue.name, venue.address)}>Edit</Button></td>
+              onClick={() => setActiveVenue(venue.venueId, venue.name, venue.address)}>Edit</Button></td>
           </tr>))}
         </tbody>
       </Table>
@@ -65,11 +65,16 @@ const venues = ({venueList, activeVenue, venueFormStatus, editVenue, updateActiv
                          onChange={text => updateActiveVenue(activeVenue.venueId, activeVenue.name, text.target.value)}/>
           </FormGroup>
         </form>
-        <div style={styles.buttonContainer}>
+        { (venueFormStatus === 'updating')
+          ? <div style={{justifyContent: 'center', alignItems: 'center', position: 'relative', textAlign: 'center'}}>
+            <h3>Updating...</h3>
+          </div>
+          : <div style={styles.buttonContainer}>
           <Button style={styles.button}
                   onClick={() => doneEditing(activeVenue.venueId, activeVenue.name, activeVenue.address)}>Done</Button>
           <Button style={styles.button} onClick={() => cancelEditing()}>Cancel</Button>
         </div>
+        }
       </div>
     </Collapse>
     <Collapse in={venueFormStatus === ''}>
@@ -94,11 +99,10 @@ venues.propTypes = {
     name: PropTypes.string
   }),
   venueFormStatus: PropTypes.string.isRequired,
-  editVenue: PropTypes.func.isRequired,
+  setActiveVenue: PropTypes.func.isRequired,
   updateActiveVenue: PropTypes.func.isRequired,
   doneEditing: PropTypes.func.isRequired,
   addVenue: PropTypes.func.isRequired,
-  updateVenue: PropTypes.func.isRequired
 };
 
 export default venues

@@ -4,7 +4,7 @@ import {
   SET_VENUE_STATE
 } from '../actions/venueActions'
 
-const venues = (state = [{venueId: '1', address: 'here', name: 'v1'}, {venueId: '2', address: 'there', name: 'v2'}], action) => {
+const venues = (state = [], action) => {
   switch (action.type) {
     case UPDATE_VENUE:
       return [...state.filter(item => item.venueId !== action.venueId), {
