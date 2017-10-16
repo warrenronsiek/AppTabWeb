@@ -13,6 +13,7 @@ import {
   validResetPassword,
 } from './passwordResetReducer'
 import {venueFormStatus, venues, activeVenue} from './venueReducer'
+import {menu, activeMenuItem, viewableMenuOptions, menuViewState} from './menuReducer'
 
 export default combineReducers({
   routing: routerReducer,
@@ -21,6 +22,7 @@ export default combineReducers({
   passwordResetValidator,
   validResetPassword,
   passwordReset,
+  menu,
   validPassword,
   registerParams,
   loginParams,
@@ -32,5 +34,8 @@ export default combineReducers({
   registrationStatus,
   venueFormStatus,
   venues,
-  activeVenue
+  activeVenue,
+  activeMenuItem,
+  viewableMenuOptions,
+  menuViewState
 })

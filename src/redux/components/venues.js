@@ -28,11 +28,15 @@ const styles = {
     marginRight: '10px',
     width: '90px'
   },
+  tableContainer: {
+    marginLeft: '70px',
+    marginRight: '70px'
+  }
 };
 
 const venues = ({venueList, activeVenue, venueFormStatus, setActiveVenue, updateActiveVenue, doneEditing, addVenue, cancelEditing}) => (
   <div>
-    <div style={{marginLeft: '70px', marginRight: '70px'}}>
+    <div style={styles.tableContainer}>
       <Table>
         <thead>
         <tr>
@@ -64,15 +68,15 @@ const venues = ({venueList, activeVenue, venueFormStatus, setActiveVenue, update
                          onChange={text => updateActiveVenue(activeVenue.venueId, activeVenue.name, text.target.value)}/>
           </FormGroup>
         </form>
-        { (venueFormStatus === 'updating')
+        {(venueFormStatus === 'updating')
           ? <div style={{justifyContent: 'center', alignItems: 'center', position: 'relative', textAlign: 'center'}}>
             <h3>Updating...</h3>
           </div>
           : <div style={styles.buttonContainer}>
-          <Button style={styles.button}
-                  onClick={() => doneEditing(activeVenue.venueId, activeVenue.name, activeVenue.address)}>Done</Button>
-          <Button style={styles.button} onClick={() => cancelEditing()}>Cancel</Button>
-        </div>
+            <Button style={styles.button}
+                    onClick={() => doneEditing(activeVenue.venueId, activeVenue.name, activeVenue.address)}>Done</Button>
+            <Button style={styles.button} onClick={() => cancelEditing()}>Cancel</Button>
+          </div>
         }
       </div>
     </Collapse>

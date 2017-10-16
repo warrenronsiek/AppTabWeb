@@ -44,7 +44,6 @@ const loginThunk = (email, password) => (dispatch) => {
     })
     .then(() => getClientLoginData({clientId}))
     .then((res) => {
-      console.log(res);
       stripeId = res.stripeData.Item.StripeId.S;
       res.venues.Items.forEach(venue => dispatch(updateVenue(venue.VenueId.S, venue.Name.S, venue.Address.S)));
       dispatch(updateStripeId(stripeId));
