@@ -14,6 +14,7 @@ import StripeRedirect from './scenes/stripeRedirect'
 import PasswordReset from './redux/connectedComponents/passwordResetConnected'
 import SupportScene from './scenes/support'
 import VenueScene from './scenes/venueScene'
+import MenuScene from './scenes/menuScene'
 
 const loginRequired = (nextState, replace) => {
   if (store.getState().loginStatus !== 'loggedIn') {
@@ -31,6 +32,7 @@ ReactDOM.render(
       <Route path="/password-reset" component={PasswordReset}/>
       <Route path="/support" component={SupportScene}/>
       <Route path="/venues" components={VenueScene} onEnter={loginRequired}/>
+      <Route path="/menus" components={MenuScene} onEnter={loginRequired}/>
     </Router>
   </Provider>,
   document.getElementById('app')

@@ -12,6 +12,7 @@ import {
   statusMysteryError,
   updateStripeId
 } from '../actions/loginActions'
+import {updateVenue} from '../actions/venueActions'
 import {push} from 'react-router-redux'
 import {WrongCredentialsError} from '../../errors'
 import cookie from 'react-cookie'
@@ -45,6 +46,7 @@ const loginThunk = (email, password) => (dispatch) => {
     .then((res) => {
       console.log(res);
       stripeId = res.stripeData.Item.StripeId.S;
+      res.venues.Items.forEach(venue => dispatch(updateVenue(venue.VenueId.S, venue.Name.S, venue.Address.S)));
       dispatch(updateStripeId(stripeId));
       return Promise.resolve(dispatch(statusLoginComplete()));
     })

@@ -16,7 +16,6 @@ const styles = {
     width: '50%',
     position: 'relative',
     margin: 'auto',
-    marginTop: '10px'
   },
   buttonContainer: {
     position: 'relative',
