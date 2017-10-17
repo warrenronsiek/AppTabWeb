@@ -22,3 +22,8 @@ export const UPDATE_OPTION = 'UPDATE_OPTION';
 export const updateOption = (optionSetId, optionId, name, price) => {
   return {type: UPDATE_OPTION, optionSetId, optionId, name, price}
 };
+
+export const CANCEL_EDITING = 'CANCEL_EDITING';
+export const cancelEditing = () => {
+  return {type: CANCEL_EDITING, }
+};

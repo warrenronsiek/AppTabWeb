@@ -28,6 +28,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: '30px',
+    marginBottom: '50px'
   },
   button: {
     marginRight: '10px',
@@ -42,7 +43,7 @@ const styles = {
 
 const tagProcessor = string => string.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").split(' ');
 
-const Menus = ({menuItems, updateItem, addItem, editItem, viewOptions, optionsData, viewState, activeItem, updateOptionSetName, updateOption}) => (
+const Menus = ({menuItems, updateItem, addItem, editItem, viewOptions, optionsData, viewState, activeItem, updateOptionSetName, updateOption, cancelEditing}) => (
   <div>
     <MenuTable menuItems={menuItems} viewOptions={viewOptions} editItem={editItem}/>
     <MenuItemOptions optionsData={optionsData} viewState={viewState}/>
@@ -53,27 +54,27 @@ const Menus = ({menuItems, updateItem, addItem, editItem, viewOptions, optionsDa
             <FormGroup>
               <ControlLabel>Name</ControlLabel>
               <FormControl type='text' value={activeItem.name}
-                           onChange={text => editItem(activeItem.itemId, text.target.value, activeItem.description, activeItem.price, activeItem.category, activeItem.tags, activeItem.options, activeItem.venueId)}/>
+                           onChange={text => editItem(activeItem.itemId, text.target.value, activeItem.description, activeItem.price, activeItem.category, activeItem.tags, activeItem.optionSets, activeItem.venueId)}/>
             </FormGroup>
             <FormGroup>
               <ControlLabel>Description</ControlLabel>
               <FormControl type='text' value={activeItem.description}
-                           onChange={text => editItem(activeItem.itemId, activeItem.name, text.target.value, activeItem.price, activeItem.category, activeItem.tags, activeItem.options, activeItem.venueId)}/>
+                           onChange={text => editItem(activeItem.itemId, activeItem.name, text.target.value, activeItem.price, activeItem.category, activeItem.tags, activeItem.optionSets, activeItem.venueId)}/>
             </FormGroup>
             <FormGroup>
               <ControlLabel>Price</ControlLabel>
               <FormControl type='text' value={activeItem.price ? centsIntToString(activeItem.price) : '0'}
-                           onChange={text => editItem(activeItem.itemId, activeItem.name, activeItem.description, stringToCentsInt(text.target.value), activeItem.category, activeItem.tags, activeItem.options, activeItem.venueId)}/>
+                           onChange={text => editItem(activeItem.itemId, activeItem.name, activeItem.description, stringToCentsInt(text.target.value), activeItem.category, activeItem.tags, activeItem.optionSets, activeItem.venueId)}/>
             </FormGroup>
             <FormGroup>
               <ControlLabel>Category</ControlLabel>
               <FormControl type='text' value={activeItem.category}
-                           onChange={text => editItem(activeItem.itemId, activeItem.name, activeItem.description, activeItem.price, text.target.value, activeItem.tags, activeItem.options, activeItem.venueId)}/>
+                           onChange={text => editItem(activeItem.itemId, activeItem.name, activeItem.description, activeItem.price, text.target.value, activeItem.tags, activeItem.optionSets, activeItem.venueId)}/>
             </FormGroup>
             <FormGroup>
               <ControlLabel>Tags</ControlLabel>
               <FormControl type='text' value={activeItem.tags.reduce((accum, str) => accum + ' ' + str, '').slice(1)}
-                           onChange={text => editItem(activeItem.itemId, activeItem.name, activeItem.description, activeItem.price, activeItem.category, tagProcessor(text.target.value), activeItem.options, activeItem.venueId)}/>
+                           onChange={text => editItem(activeItem.itemId, activeItem.name, activeItem.description, activeItem.price, activeItem.category, tagProcessor(text.target.value), activeItem.optionSets, activeItem.venueId)}/>
               <HelpBlock>Enter tags separated by spaces.</HelpBlock>
             </FormGroup>
           </form>
@@ -111,8 +112,8 @@ const Menus = ({menuItems, updateItem, addItem, editItem, viewOptions, optionsDa
             </div>
           ))}
           <div style={styles.buttonContainer}>
-            <Button style={styles.button}>Done</Button>
-            <Button style={styles.button}>Cancel</Button>
+            <Button style={styles.button} onClick={() => updateItem(activeItem.itemId, activeItem.name, activeItem.description, activeItem.price, activeItem.category, activeItem.tags, activeItem.optionSets, activeItem.venueId)}>Done</Button>
+            <Button style={styles.button} onClick={() => cancelEditing()}>Cancel</Button>
             <Button style={styles.button}>Add Option Set</Button>
           </div>
         </div>
@@ -124,7 +125,13 @@ const Menus = ({menuItems, updateItem, addItem, editItem, viewOptions, optionsDa
 Menus.propTypes = {
   menuItems: PropTypes.array,
   viewState: PropTypes.oneOf(['', 'viewOptions', 'editingMenuItem']).isRequired,
-
+  optionsData: PropTypes.array,
+  activeItem: PropTypes.object,
+  editItem: PropTypes.func.isRequired,
+  updateOptionSetName: PropTypes.func.isRequired,
+  updateOption: PropTypes.func.isRequired,
+  updateItem: PropTypes.func.isRequired,
+  cancelEditing: PropTypes.func.isRequired
 };
 
 export default Menus

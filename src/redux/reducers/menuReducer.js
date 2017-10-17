@@ -3,7 +3,8 @@ import {
   VIEW_OPTIONS,
   UPDATE_ACTIVE_MENU_ITEM,
   UPDATE_OPTION_SET_NAME,
-  UPDATE_OPTION
+  UPDATE_OPTION,
+  CANCEL_EDITING
 } from '../actions/menuActions'
 import {sortBy} from 'lodash'
 
@@ -45,8 +46,12 @@ const viewableMenuOptions = (state = {itemId: '', optionSets: [{optionSetName: '
 
 const menuViewState = (state = '', action) => {
   switch (action.type) {
+    case UPDATE_MENU_ITEM:
+      return '';
+    case CANCEL_EDITING:
+      return '';
     case VIEW_OPTIONS:
-      return 'viewOptions';
+      return (state === 'viewOptions') ? '' : 'viewOptions';
     case UPDATE_ACTIVE_MENU_ITEM:
       return 'editingMenuItem';
     default:
@@ -79,14 +84,8 @@ const activeMenuItem = (state = {tags: [], optionSets: [{optionSetName: '', data
     case UPDATE_OPTION:
       let
         otherOptionSets = state.optionSets.filter(optionSet => optionSet.optionSetId !== action.optionSetId),
-        currentOptionSet = state.optionSets.filter(optionSet => optionSet.optionSetId === action.optionSetId)[0];
-
-      console.log(otherOptionSets, currentOptionSet);
-      let
+        currentOptionSet = state.optionSets.filter(optionSet => optionSet.optionSetId === action.optionSetId)[0],
         otherOptions = currentOptionSet.data.filter(option => option.optionId !== action.optionId);
-      let
-        currentOption = currentOptionSet.data.filter(option => option.optionId === action.optionId)[0];
-      console.log(otherOptions, currentOption);
       return {
         ...state, optionSets: [
           ...otherOptionSets,
