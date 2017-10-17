@@ -1,31 +1,22 @@
 import React from 'react'
-import {Button, Table, Collapse} from 'react-bootstrap'
+import {
+  Button,
+  Collapse,
+  FormControl,
+  FormGroup,
+  HelpBlock,
+  ControlLabel,
+  Grid,
+  Col,
+  Row
+} from 'react-bootstrap'
 import PropTypes from 'proptypes'
 import centsIntToString from '../../common/centsIntToString'
+import stringToCentsInt from '../../common/stringToCentsInt'
+import MenuTable from './menuTable'
+import MenuItemOptions from './menuItemOptions'
 
 const styles = {
-  nameCol: {
-    width: '10%'
-  },
-  descriptionCol: {
-    width: '35%',
-  },
-  categoryCol: {
-    width: '10%'
-  },
-  priceCol: {
-    width: '5%'
-  },
-  tagsCol: {
-    width: '20%',
-    flexDirection: 'column',
-  },
-  optionsCol: {
-    width: '15%'
-  },
-  editCol: {
-    width: '5%'
-  },
   formGroup: {
     width: '50%',
     position: 'relative',
@@ -40,95 +31,100 @@ const styles = {
   },
   button: {
     marginRight: '10px',
-    width: '90px'
+    width: '130px'
   },
-  tableContainer: {
-    marginLeft: '70px',
-    marginRight: '70px',
-  },
-  tagBox: {
-    borderRadius: '3px',
-    backgroundColor: 'lightblue',
+  collapseContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    display: 'flex',
-    marginLeft: '2px',
-    paddingLeft: '3px',
-    paddingRight: '3px'
-  },
-  tagContainer: {
-    display: 'flex',
-    flexDirection: 'row'
-  },
-  optionsTableContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    display: 'flex',
-  },
-  optionsTable: {
-    width: '30%'
-  },
-  optionsPriceCol: {
-    width: '30%'
-  },
-  optionsNameCol: {
-    width: '70%'
+    display: 'flex'
   }
 };
 
-const Menus = ({menuItems, updateItem, addItem, setStateToEditingItem, setStateToAddingItem, viewOptions, optionsData, viewState}) => (
+const tagProcessor = string => string.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").split(' ');
+
+const Menus = ({menuItems, updateItem, addItem, editItem, viewOptions, optionsData, viewState, activeItem, updateOptionSetName, updateOption}) => (
   <div>
-    <div style={styles.tableContainer}>
-      <Table>
-        <thead>
-        <tr>
-          <th style={styles.nameCol}>Name</th>
-          <th style={styles.descriptionCol}>Description</th>
-          <th style={styles.categoryCol}>Category</th>
-          <th style={styles.priceCol}>Price</th>
-          <th style={styles.tagsCol}>Tags</th>
-          <th style={styles.optionsCol}>Options</th>
-          <th style={styles.editCol}>Edit</th>
-        </tr>
-        </thead>
-        <tbody>
-        {menuItems.map(item => (
-          <tr key={item.itemId}>
-            <td style={styles.nameCol}>{item.name}</td>
-            <td style={styles.descriptionCol}>{item.description}</td>
-            <td style={styles.categoryCol}>{item.category}</td>
-            <td style={styles.priceCol}>{centsIntToString(item.price)}</td>
-            <td style={styles.tagsCol}>
-              <div style={styles.tagContainer}>
-                {item.tags.map(tag => <div style={styles.tagBox} key={tag}>
-                  <text>{tag}</text>
-                </div>)}
-              </div>
-            </td>
-            <td style={styles.optionsCol}><Button>View Options</Button></td>
-            <td style={styles.editCol}><Button>Edit</Button></td>
-          </tr>
-        ))}
-        </tbody>
-      </Table>
+    <MenuTable menuItems={menuItems} viewOptions={viewOptions} editItem={editItem}/>
+    <MenuItemOptions optionsData={optionsData} viewState={viewState}/>
+    <div style={styles.collapseContainer}>
+      <Collapse in={viewState === 'editingMenuItem'}>
+        <div>
+          <form style={{width: '500px'}}>
+            <FormGroup>
+              <ControlLabel>Name</ControlLabel>
+              <FormControl type='text' value={activeItem.name}
+                           onChange={text => editItem(activeItem.itemId, text.target.value, activeItem.description, activeItem.price, activeItem.category, activeItem.tags, activeItem.options, activeItem.venueId)}/>
+            </FormGroup>
+            <FormGroup>
+              <ControlLabel>Description</ControlLabel>
+              <FormControl type='text' value={activeItem.description}
+                           onChange={text => editItem(activeItem.itemId, activeItem.name, text.target.value, activeItem.price, activeItem.category, activeItem.tags, activeItem.options, activeItem.venueId)}/>
+            </FormGroup>
+            <FormGroup>
+              <ControlLabel>Price</ControlLabel>
+              <FormControl type='text' value={activeItem.price ? centsIntToString(activeItem.price) : '0'}
+                           onChange={text => editItem(activeItem.itemId, activeItem.name, activeItem.description, stringToCentsInt(text.target.value), activeItem.category, activeItem.tags, activeItem.options, activeItem.venueId)}/>
+            </FormGroup>
+            <FormGroup>
+              <ControlLabel>Category</ControlLabel>
+              <FormControl type='text' value={activeItem.category}
+                           onChange={text => editItem(activeItem.itemId, activeItem.name, activeItem.description, activeItem.price, text.target.value, activeItem.tags, activeItem.options, activeItem.venueId)}/>
+            </FormGroup>
+            <FormGroup>
+              <ControlLabel>Tags</ControlLabel>
+              <FormControl type='text' value={activeItem.tags.reduce((accum, str) => accum + ' ' + str, '').slice(1)}
+                           onChange={text => editItem(activeItem.itemId, activeItem.name, activeItem.description, activeItem.price, activeItem.category, tagProcessor(text.target.value), activeItem.options, activeItem.venueId)}/>
+              <HelpBlock>Enter tags separated by spaces.</HelpBlock>
+            </FormGroup>
+          </form>
+          {activeItem.optionSets.map(optionSet => (
+            <div key={optionSet.optionSetName}>
+              <form style={{width: '450px', marginLeft: '25px', marginRight: '25px'}}>
+                <FormGroup>
+                  <ControlLabel>Option Set Name</ControlLabel>
+                  <FormControl type='text' value={optionSet.optionSetName}
+                               onChange={text => updateOptionSetName(optionSet.optionSetId, text.target.value)}/>
+                </FormGroup>
+                {optionSet.data.map(option => (
+                  <div style={{marginLeft: '20px', marginRight: '20px'}} key={option.optionId}>
+                    <Grid style={{width: '100%'}}>
+                      <Row>
+                        <Col sm={6}>
+                          <FormGroup style={{display: 'inlineBlock'}}>
+                            <ControlLabel>Option Name</ControlLabel>
+                            <FormControl type='text' value={option.optionName}
+                                         onChange={text => updateOption(optionSet.optionSetId, option.optionId, text.target.value, option.price)}/>
+                          </FormGroup>
+                        </Col>
+                        <Col sm={6}>
+                          <FormGroup style={{display: 'inlineBlock'}}>
+                            <ControlLabel>Option Price</ControlLabel>
+                            <FormControl type='text' value={option.price ? centsIntToString(option.price) : '0'}
+                                         onChange={text => updateOption(optionSet.optionSetId, option.optionId, option.optionName, stringToCentsInt(text.target.value))}/>
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                    </Grid>
+                  </div>
+                ))}
+              </form>
+            </div>
+          ))}
+          <div style={styles.buttonContainer}>
+            <Button style={styles.button}>Done</Button>
+            <Button style={styles.button}>Cancel</Button>
+            <Button style={styles.button}>Add Option Set</Button>
+          </div>
+        </div>
+      </Collapse>
     </div>
-    <Collapse in={viewState === 'viewingOptions'}>
-      <div style={styles.optionsTableContainer}>
-        <Table style={styles.optionsTable}>
-          <thead>
-          <tr>
-            <th style={styles.optionsNameCol}>Option Name</th>
-            <th style={styles.optionsPriceCol}>Option Price</th>
-          </tr>
-          </thead>
-        </Table>
-      </div>
-    </Collapse>
   </div>
 );
 
 Menus.propTypes = {
   menuItems: PropTypes.array,
+  viewState: PropTypes.oneOf(['', 'viewOptions', 'editingMenuItem']).isRequired,
+
 };
 
 export default Menus
