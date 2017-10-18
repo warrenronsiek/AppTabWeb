@@ -27,3 +27,13 @@ export const CANCEL_EDITING = 'CANCEL_EDITING';
 export const cancelEditing = () => {
   return {type: CANCEL_EDITING, }
 };
+
+export const ADD_OPTION = 'ADD_OPTION';
+export const addOption = (optionSetId) => {
+  return {type: ADD_OPTION, optionSetId}
+};
+
+export const ADD_OPTION_SET = 'ADD_OPTION_SET';
+export const addOptionSet = () => {
+  return {type: ADD_OPTION_SET, }
+};

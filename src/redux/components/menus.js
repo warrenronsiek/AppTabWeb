@@ -43,7 +43,7 @@ const styles = {
 
 const tagProcessor = string => string.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").split(' ');
 
-const Menus = ({menuItems, updateItem, addItem, editItem, viewOptions, optionsData, viewState, activeItem, updateOptionSetName, updateOption, cancelEditing}) => (
+const Menus = ({menuItems, updateItem, addItem, editItem, viewOptions, optionsData, viewState, activeItem, updateOptionSetName, updateOption, cancelEditing, addOption, addOptionSet}) => (
   <div>
     <MenuTable menuItems={menuItems} viewOptions={viewOptions} editItem={editItem}/>
     <MenuItemOptions optionsData={optionsData} viewState={viewState}/>
@@ -108,13 +108,16 @@ const Menus = ({menuItems, updateItem, addItem, editItem, viewOptions, optionsDa
                     </Grid>
                   </div>
                 ))}
+                <div style={styles.buttonContainer}>
+                  <Button style={styles.button} onClick={() => addOption(optionSet.optionSetId)}>Add Option</Button>
+                </div>
               </form>
             </div>
           ))}
           <div style={styles.buttonContainer}>
             <Button style={styles.button} onClick={() => updateItem(activeItem.itemId, activeItem.name, activeItem.description, activeItem.price, activeItem.category, activeItem.tags, activeItem.optionSets, activeItem.venueId)}>Done</Button>
             <Button style={styles.button} onClick={() => cancelEditing()}>Cancel</Button>
-            <Button style={styles.button}>Add Option Set</Button>
+            <Button style={styles.button} onClick={() => addOptionSet()}>Add Option Set</Button>
           </div>
         </div>
       </Collapse>
@@ -131,7 +134,9 @@ Menus.propTypes = {
   updateOptionSetName: PropTypes.func.isRequired,
   updateOption: PropTypes.func.isRequired,
   updateItem: PropTypes.func.isRequired,
-  cancelEditing: PropTypes.func.isRequired
+  cancelEditing: PropTypes.func.isRequired,
+  addOption: PropTypes.func.isRequired,
+  addOptionSet: PropTypes.func.isRequired
 };
 
 export default Menus
