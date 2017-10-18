@@ -37,3 +37,8 @@ export const ADD_OPTION_SET = 'ADD_OPTION_SET';
 export const addOptionSet = () => {
   return {type: ADD_OPTION_SET, }
 };
+
+export const ADD_MENU_ITEM = 'ADD_MENU_ITEM';
+export const addMenuItem = (venueId) => {
+  return {type: ADD_MENU_ITEM, venueId}
+};

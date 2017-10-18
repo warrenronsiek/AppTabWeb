@@ -6,9 +6,11 @@ import {
   UPDATE_OPTION,
   CANCEL_EDITING,
   ADD_OPTION,
-  ADD_OPTION_SET
+  ADD_OPTION_SET,
+  ADD_MENU_ITEM
 } from '../actions/menuActions'
 import {sortBy, maxBy, get} from 'lodash'
+import crypto from 'crypto'
 
 const menu = (state = [{
   itemId: 1,
@@ -56,6 +58,8 @@ const menuViewState = (state = '', action) => {
       return (state === 'viewOptions') ? '' : 'viewOptions';
     case UPDATE_ACTIVE_MENU_ITEM:
       return 'editingMenuItem';
+    case ADD_MENU_ITEM:
+      return 'editingMenuItem';
     default:
       return state
   }
@@ -74,6 +78,17 @@ const activeMenuItem = (state = {tags: [], optionSets: [{optionSetName: '', opti
         price: action.price,
         tags: action.tags,
         venueId: action.venueId
+      };
+    case ADD_MENU_ITEM:
+      return {
+        itemId: crypto.randomBytes(10).toString('hex'),
+        name: '',
+        description: '',
+        category: '',
+        optionSets: [],
+        price: 0,
+        tags: [],
+        venueId: 'v1'
       };
     case UPDATE_OPTION_SET_NAME:
       otherOptionSets = state.optionSets.filter(optionSet => optionSet.optionSetId !== action.optionSetId);

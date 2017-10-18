@@ -5,7 +5,7 @@ import {
   updateMenuItem,
   updateOptionSetName,
   updateOption,
-  cancelEditing, addOption, addOptionSet
+  cancelEditing, addOption, addOptionSet, addMenuItem
 } from '../actions/menuActions';
 import menus from '../components/menus';
 
@@ -13,7 +13,8 @@ const mapStateToProps = state => ({
   menuItems: state.menu,
   viewState: state.menuViewState,
   optionsData: state.viewableMenuOptions.optionSets,
-  activeItem: state.activeMenuItem
+  activeItem: state.activeMenuItem,
+  activeVenueId: state.activeVenueId
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -26,7 +27,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateMenuItem(itemId, itemName, itemDescription, price, category, tags, options, venueId)),
   cancelEditing: () => dispatch(cancelEditing()),
   addOption: optionSetId => dispatch(addOption(optionSetId)),
-  addOptionSet: () => dispatch(addOptionSet())
+  addOptionSet: () => dispatch(addOptionSet()),
+  addMenuItem: venueId => dispatch(addMenuItem(venueId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(menus)
