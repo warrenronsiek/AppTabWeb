@@ -8,8 +8,7 @@ import {
   ADD_OPTION,
   ADD_OPTION_SET
 } from '../actions/menuActions'
-import {sortBy} from 'lodash'
-import crypto from 'crypto'
+import {sortBy, maxBy, get} from 'lodash'
 
 const menu = (state = [{
   itemId: 1,
@@ -19,7 +18,7 @@ const menu = (state = [{
   price: '1599',
   tags: ['beef', 'sauce'],
   venueId: 'v1',
-  optionSets: JSON.parse('[{"optionSetName":"steak", "optionSetId": "1","data":[{"optionName":"rare","price":0,"isSelected":false,"optionSetName":"steak", "optionId": "asdf"},{"optionName":"medium","price":0,"isSelected":false,"optionSetName":"steak", "optionId": "dfds"},{"optionName":"well-done","price":0,"isSelected":false,"optionSetName":"steak", "optionId": "dsdfs"}]}]')
+  optionSets: JSON.parse('[{"optionSetName":"steak", "optionSetId": 0,"data":[{"optionName":"rare","price":0,"isSelected":false,"optionSetName":"steak", "optionId": 0},{"optionName":"medium","price":0,"isSelected":false,"optionSetName":"steak", "optionId": 1},{"optionName":"well-done","price":0,"isSelected":false,"optionSetName":"steak", "optionId": 2}]}]')
 }], action) => {
   switch (action.type) {
     case UPDATE_MENU_ITEM:
@@ -62,7 +61,7 @@ const menuViewState = (state = '', action) => {
   }
 };
 
-const activeMenuItem = (state = {tags: [], optionSets: [{optionSetName: '', data: []}]}, action) => {
+const activeMenuItem = (state = {tags: [], optionSets: [{optionSetName: '', optionSetId: 0, data: []}]}, action) => {
   let otherOptionSets, currentOptionSet, otherOptions;
   switch (action.type) {
     case UPDATE_ACTIVE_MENU_ITEM:
@@ -81,18 +80,18 @@ const activeMenuItem = (state = {tags: [], optionSets: [{optionSetName: '', data
       currentOptionSet = state.optionSets.filter(optionSet => optionSet.optionSetId === action.optionSetId)[0];
       return {
         ...state,
-        optionSets:[...otherOptionSets,
+        optionSets: sortBy([...otherOptionSets,
           {
             ...currentOptionSet,
             optionSetName: action.name
-          }]
+          }], optionSet => optionSet.optionSetId)
       };
     case UPDATE_OPTION:
         otherOptionSets = state.optionSets.filter(optionSet => optionSet.optionSetId !== action.optionSetId);
         currentOptionSet = state.optionSets.filter(optionSet => optionSet.optionSetId === action.optionSetId)[0];
         otherOptions = currentOptionSet.data.filter(option => option.optionId !== action.optionId);
       return {
-        ...state, optionSets: [
+        ...state, optionSets: sortBy([
           ...otherOptionSets,
           {
             ...currentOptionSet,
@@ -101,33 +100,34 @@ const activeMenuItem = (state = {tags: [], optionSets: [{optionSetName: '', data
               {optionName: action.name, price: action.price, optionId: action.optionId}
             ], option => option.optionId)
           }
-        ]
+        ], optionSet => optionSet.optionSetId)
       };
     case ADD_OPTION_SET:
       return {
         ...state,
         optionSets: [...state.optionSets, {
           optionSetName: '',
-          optionSetId: crypto.randomBytes(5).toString('hex'),
+          optionSetId: get(maxBy(state.optionSets, optionSet => optionSet.optionSetId), 'optionSetId') + 1 || 0,
           data: []
         }]
       };
     case ADD_OPTION:
       otherOptionSets = state.optionSets.filter(optionSet => optionSet.optionSetId !== action.optionSetId);
       currentOptionSet = state.optionSets.filter(optionSet => optionSet.optionSetId === action.optionSetId)[0];
+      console.log(currentOptionSet);
       return {
         ...state,
-        optionSets: [...otherOptionSets, {
+        optionSets: sortBy([...otherOptionSets, {
           ...currentOptionSet,
-          data: [
+          data: sortBy([
             ...currentOptionSet.data,
             {
               optionName: '',
-              price: '',
-              optionId: crypto.randomBytes(5).toString('hex')
+              price: 0,
+              optionId: get(maxBy(currentOptionSet.data, option => option.optionId), 'optionId') + 1 || 0
             }
-          ]
-        }]
+          ], option => option.optionId)
+        }], optionSet => optionSet.optionSetId)
       };
     default:
       return state

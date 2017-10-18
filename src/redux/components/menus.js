@@ -79,7 +79,7 @@ const Menus = ({menuItems, updateItem, addItem, editItem, viewOptions, optionsDa
             </FormGroup>
           </form>
           {activeItem.optionSets.map(optionSet => (
-            <div key={optionSet.optionSetName}>
+            <div key={optionSet.optionSetId}>
               <form style={{width: '450px', marginLeft: '25px', marginRight: '25px'}}>
                 <FormGroup>
                   <ControlLabel>Option Set Name</ControlLabel>
