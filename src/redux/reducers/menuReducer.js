@@ -88,7 +88,7 @@ const activeMenuItem = (state = {tags: [], optionSets: [{optionSetName: '', opti
         optionSets: [],
         price: 0,
         tags: [],
-        venueId: 'v1'
+        venueId: action.venueId
       };
     case UPDATE_OPTION_SET_NAME:
       otherOptionSets = state.optionSets.filter(optionSet => optionSet.optionSetId !== action.optionSetId);

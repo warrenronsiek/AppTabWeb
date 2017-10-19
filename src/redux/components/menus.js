@@ -8,7 +8,11 @@ import {
   ControlLabel,
   Grid,
   Col,
-  Row
+  Row,
+  ListGroup,
+  ListGroupItem,
+  DropdownButton,
+  MenuItem
 } from 'react-bootstrap'
 import PropTypes from 'proptypes'
 import centsIntToString from '../../common/centsIntToString'
@@ -44,15 +48,27 @@ const styles = {
 
 const tagProcessor = string => string.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").split(' ');
 
-const Menus = ({menuItems, updateItem, addItem, editItem, viewOptions, optionsData, viewState, activeItem, updateOptionSetName, updateOption, cancelEditing, addOption, addOptionSet, addMenuItem, activeVenueId}) => (
+const Menus = ({
+                 menuItems, updateItem, addItem, editItem, viewOptions, optionsData, viewState, activeItem,
+                 updateOptionSetName, updateOption, cancelEditing, addOption, addOptionSet, addMenuItem, activeVenue,
+                 venues, setActiveVenue
+               }) => (
   <div>
+    <div style={styles.buttonContainer}>
+      <DropdownButton title={activeVenue.name || 'Select Venue'}>
+        {venues.map(venue => (
+          <MenuItem key={venue.venueId} id={venue.name} onClick={() => setActiveVenue(venue.venueId, venue.name, venue.address)}>{venue.name}</MenuItem>
+        ))}
+      </DropdownButton>
+    </div>
+
     <MenuTable menuItems={menuItems} viewOptions={viewOptions} editItem={editItem}/>
     <MenuItemOptions optionsData={optionsData} viewState={viewState}/>
     <ActiveItemForm viewState={viewState} activeItem={activeItem} editItem={editItem}
                     updateOptionSetName={updateOptionSetName} updateOption={updateOption} addOption={addOption}
                     addOptionSet={addOptionSet} updateItem={updateItem} cancelEditing={cancelEditing}/>
     <div style={styles.buttonContainer}>
-      <Button style={styles.button} onClick={() => addMenuItem(activeVenueId)}>Add Item</Button>
+      <Button style={styles.button} onClick={() => addMenuItem(activeVenue.venueId)} disabled={!activeVenue.venueId}>Add Item</Button>
     </div>
   </div>
 );
@@ -70,7 +86,10 @@ Menus.propTypes = {
   addOption: PropTypes.func.isRequired,
   addOptionSet: PropTypes.func.isRequired,
   addMenuItem: PropTypes.func.isRequired,
-  activeVenueId: PropTypes.string
+  activeVenueId: PropTypes.string,
+  activeVenue: PropTypes.object,
+  venues: PropTypes.array,
+  setActiveVenue: PropTypes.func.isRequired
 };
 
 export default Menus
