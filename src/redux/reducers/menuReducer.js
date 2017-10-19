@@ -7,7 +7,8 @@ import {
   CANCEL_EDITING,
   ADD_OPTION,
   ADD_OPTION_SET,
-  ADD_MENU_ITEM
+  ADD_MENU_ITEM,
+  DELETE_MENU_ITEM
 } from '../actions/menuActions'
 import {sortBy, maxBy, get} from 'lodash'
 import crypto from 'crypto'
@@ -34,6 +35,8 @@ const menu = (state = [{
         tags: action.tags,
         venueId: action.venueId
       }];
+    case DELETE_MENU_ITEM:
+      return [...state.filter(item => item.itemId !== action.itemId)];
     default:
       return state
   }

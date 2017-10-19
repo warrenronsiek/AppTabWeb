@@ -47,7 +47,7 @@ const styles = {
   },
 };
 
-const MenuTable = ({menuItems, viewOptions, editItem}) => (
+const MenuTable = ({menuItems, viewOptions, editItem, deleteItem}) => (
   <div style={styles.tableContainer}>
     <Table>
       <thead>
@@ -59,6 +59,7 @@ const MenuTable = ({menuItems, viewOptions, editItem}) => (
         <th style={styles.tagsCol}>Tags</th>
         <th style={styles.optionsCol}/>
         <th style={styles.editCol}/>
+        <th/>
       </tr>
       </thead>
       <tbody>
@@ -80,6 +81,9 @@ const MenuTable = ({menuItems, viewOptions, editItem}) => (
           </td>
           <td style={styles.editCol}>
             <Button onClick={() => editItem(item.itemId, item.name, item.description, item.price, item.category, item.tags, item.optionSets, item.venueId)}>Edit</Button>
+          </td>
+          <td>
+            <Button onClick={() => deleteItem(item.itemId, item.venueId)}>Delete</Button>
           </td>
         </tr>
       ))}

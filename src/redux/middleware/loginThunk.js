@@ -17,6 +17,7 @@ import {push} from 'react-router-redux'
 import {WrongCredentialsError} from '../../errors'
 import cookie from 'react-cookie'
 import getClientLoginData from '../../api/getClientLoginData'
+import {updateMenuItem} from "../actions/menuActions";
 
 const decode = require('jwt-decode');
 
@@ -44,8 +45,12 @@ const loginThunk = (email, password) => (dispatch) => {
     })
     .then(() => getClientLoginData({clientId}))
     .then((res) => {
+    console.log(res);
       stripeId = res.stripeData.Item.StripeId.S;
       res.venues.Items.forEach(venue => dispatch(updateVenue(venue.VenueId.S, venue.Name.S, venue.Address.S)));
+      res.menus.forEach(item =>
+        dispatch(updateMenuItem(item.ItemId.S, item.ItemName.S, item.ItemDescription.S, item.Price.N, item.Category.S,
+          item.Tags.SS, (item.ItemOptions.S === 'NULL') ? [] : JSON.parse(item.ItemOptions.S), item.VenueId.S)));
       dispatch(updateStripeId(stripeId));
       return Promise.resolve(dispatch(statusLoginComplete()));
     })
@@ -57,6 +62,7 @@ const loginThunk = (email, password) => (dispatch) => {
       }
     })
     .catch(err => {
+      console.log(err);
       switch (err.message) {
         case 'wrong username or password':
           dispatch(statusWrongCredentials());

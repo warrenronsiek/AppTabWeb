@@ -46,23 +46,21 @@ const styles = {
   }
 };
 
-const tagProcessor = string => string.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").split(' ');
-
 const Menus = ({
                  menuItems, updateItem, addItem, editItem, viewOptions, optionsData, viewState, activeItem,
                  updateOptionSetName, updateOption, cancelEditing, addOption, addOptionSet, addMenuItem, activeVenue,
-                 venues, setActiveVenue
+                 venues, setActiveVenue, deleteMenuItem
                }) => (
   <div>
     <div style={styles.buttonContainer}>
-      <DropdownButton title={activeVenue.name || 'Select Venue'}>
+      <DropdownButton title={activeVenue.name || 'Select Venue'} id='Venue Selection'>
         {venues.map(venue => (
-          <MenuItem key={venue.venueId} id={venue.name} onClick={() => setActiveVenue(venue.venueId, venue.name, venue.address)}>{venue.name}</MenuItem>
+          <MenuItem key={venue.venueId} onClick={() => setActiveVenue(venue.venueId, venue.name, venue.address)}>{venue.name}</MenuItem>
         ))}
       </DropdownButton>
     </div>
 
-    <MenuTable menuItems={menuItems} viewOptions={viewOptions} editItem={editItem}/>
+    <MenuTable menuItems={menuItems} viewOptions={viewOptions} editItem={editItem} deleteItem={deleteMenuItem}/>
     <MenuItemOptions optionsData={optionsData} viewState={viewState}/>
     <ActiveItemForm viewState={viewState} activeItem={activeItem} editItem={editItem}
                     updateOptionSetName={updateOptionSetName} updateOption={updateOption} addOption={addOption}
@@ -89,7 +87,8 @@ Menus.propTypes = {
   activeVenueId: PropTypes.string,
   activeVenue: PropTypes.object,
   venues: PropTypes.array,
-  setActiveVenue: PropTypes.func.isRequired
+  setActiveVenue: PropTypes.func.isRequired,
+  deleteMenuItem: PropTypes.func.isRequired
 };
 
 export default Menus
