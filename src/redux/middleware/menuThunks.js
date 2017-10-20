@@ -4,7 +4,6 @@ import deleteMenuItemApi from '../../api/deleteMenuItem'
 
 const updateMenuItemThunk = (itemId, itemName, itemDescription, price, category, tags, itemOptions, venueId) => (dispatch) => {
   dispatch(updateMenuItem(itemId, itemName, itemDescription, price, category, tags, itemOptions, venueId));
-  console.log(itemOptions);
   updateMenuItemApi({itemId, itemName, itemDescription, price, category, tags, itemOptions: (itemOptions.length === 0) ? 'NULL' : itemOptions, venueId})
     .catch(err => console.log(err))
 };

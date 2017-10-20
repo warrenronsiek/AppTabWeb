@@ -113,6 +113,8 @@ const prod_build = {
       compress: {warnings: false, drop_console: true},
       beautify: false,
       comments: false,
+      warnings: false,
+      drop_console: true,
       mangle: {except: ['$', 'webpackJsonp'], screw_ie8: true, keep_fnames: false}
     }),
     new ExtractTextPlugin('[name].[chunkhash].css')
@@ -127,7 +129,6 @@ const clean_build = {
 
 module.exports = function (env) {
   let config;
-  console.log(env);
   switch (env) {
     case 'development':
       config = merge(common_build, dev_build, clean_build);

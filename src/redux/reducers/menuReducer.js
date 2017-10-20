@@ -132,7 +132,6 @@ const activeMenuItem = (state = {tags: [], optionSets: [{optionSetName: '', opti
     case ADD_OPTION:
       otherOptionSets = state.optionSets.filter(optionSet => optionSet.optionSetId !== action.optionSetId);
       currentOptionSet = state.optionSets.filter(optionSet => optionSet.optionSetId === action.optionSetId)[0];
-      console.log(currentOptionSet);
       return {
         ...state,
         optionSets: sortBy([...otherOptionSets, {

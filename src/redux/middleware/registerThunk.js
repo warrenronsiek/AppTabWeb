@@ -12,7 +12,6 @@ const registerThunk = () => (dispatch, getState) => {
       phoneNumber: '+1' + state.registerParams.phoneNumber.replace(/\D/g, '')
     }))
     .then(res => {
-      console.log(res);
       cookie.save('clientId', res.clientId);
       cookie.save('email', state.registerParams.email);
       return Promise.resolve(dispatch(registrationComplete()))

@@ -41,7 +41,6 @@ const requester = (apiPath, successMessage, errorMessage, responseProcessor, all
 
     const tokenRefreshFetch = () => fetch(lambdaUrl + '/refresh-cognito-tokens', tokenRefreshFetchParams)
       .then(res => {
-        console.log(res);
         return res.json()})
       .then(resBody => {
         console.log(resBody);
