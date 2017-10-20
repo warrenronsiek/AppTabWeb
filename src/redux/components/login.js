@@ -4,6 +4,7 @@
 import React from 'react'
 import PropTypes from 'proptypes'
 import {FormGroup, ControlLabel, FormControl, PageHeader, Button} from 'react-bootstrap'
+
 require('../../css/bootstrap.min.css');
 
 const styles = {
@@ -61,13 +62,13 @@ const styles = {
 const LoginSwitch = (props) => {
   switch (props.loginStatus) {
     case 'loggingIn':
-      return <text>Logging In</text>;
+      return <h3>Logging In...</h3>;
     case 'wrongCredentials':
-      return <text>Wrong username or password</text>;
+      return <h3>Wrong username or password</h3>;
     case 'networkError':
-      return <text>Network Error</text>;
+      return <h3>Network Error</h3>;
     case 'mysteryError':
-      return <text>Mysterious Error</text>;
+      return <h3>Mysterious Error</h3>;
     default:
       return null;
   }
@@ -89,13 +90,18 @@ const login = ({
                      onChange={text => updatePassword(text.target.value)}/>
       </FormGroup>
     </form>
-    <div style={styles.buttonContainer}>
-      <Button style={styles.button} onClick={() => submitLoginCredentials(email, password)}>Login</Button>
-      <Button style={styles.button} onClick={() => navToRegister()}>Register</Button>
-    </div>
-    <div style={styles.passwordResetButtonContainer}>
-      <Button style={styles.passwordResetButton} onClick={() => navToPasswordReset()}>Reset Password</Button>
-    </div>
+    {(loginStatus === 'loggingIn')
+      ? null
+      : <div>
+        <div style={styles.buttonContainer}>
+          <Button style={styles.button} onClick={() => submitLoginCredentials(email, password)}>Login</Button>
+          <Button style={styles.button} onClick={() => navToRegister()}>Register</Button>
+        </div>
+        <div style={styles.passwordResetButtonContainer}>
+          <Button style={styles.passwordResetButton} onClick={() => navToPasswordReset()}>Reset Password</Button>
+        </div>
+      </div>
+    }
     <div style={styles.statusTextContainer}>
       <LoginSwitch loginStatus={loginStatus}/>
     </div>

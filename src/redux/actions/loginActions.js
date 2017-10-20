@@ -45,3 +45,8 @@ export const STATUS_MYSTERY_ERROR = 'STATUS_MYSTERY_ERROR';
 export const statusMysteryError = () => {
     return {type: STATUS_MYSTERY_ERROR, }
 };
+
+export const UPDATE_STRIPE_ID = 'UPDATE_STRIPE_ID';
+export const updateStripeId = (stripeId) => {
+  return {type: UPDATE_STRIPE_ID, stripeId}
+};

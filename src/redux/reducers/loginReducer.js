@@ -6,6 +6,7 @@ import {
   UPDATE_EMAIL,
   UPDATE_AUTH_PARAMS,
   UPDATE_CLIENT_ID,
+  UPDATE_STRIPE_ID,
   STATUS_LOGGING_IN,
   STATUS_LOGIN_COMPLETE,
   STATUS_WRONG_CREDENTIALS,
@@ -13,7 +14,7 @@ import {
   STATUS_MYSTERY_ERROR
 } from '../actions/loginActions'
 
-const loginParams = (state = {}, action) => {
+const loginParams = (state = {email: 'warrenronsiek@gmail.com', password: 'P@33word!'}, action) => {
   switch (action.type) {
     case UPDATE_PASSWORD:
       return {...state, ...{password: action.password}};
@@ -65,4 +66,13 @@ const loginStatus = (state = '', action) => {
   }
 };
 
-export {loginParams, authParams, clientId, loginStatus}
+const stripeData = (state = {connected: false, stripeId: null}, action) => {
+  switch (action.type) {
+    case UPDATE_STRIPE_ID:
+      return {connected: true, stripeId: action.stripeId};
+    default:
+      return state
+  }
+};
+
+export {loginParams, authParams, clientId, loginStatus, stripeData}
