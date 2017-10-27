@@ -26,7 +26,6 @@ const redirectThunk = (scope, authCode) => (dispatch, getState) => {
       return stripeRedirectApi({clientId: state.clientId, authCode, scope})
     })
     .then(res => {
-      console.log(res);
       dispatch(complete())})
     .catch(err => {
       console.log(err);
