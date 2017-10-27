@@ -1,5 +1,5 @@
 import {store} from "../redux/store"
-import {lambdaUrl} from "../vars"
+import {lambdaUrl, apiKey} from "../vars"
 import 'whatwg-fetch'
 import decode from 'jwt-decode'
 import {updateAuthParams, updateClientId} from "../redux/actions/loginActions"
@@ -8,13 +8,13 @@ const requester = (apiPath, successMessage, errorMessage, responseProcessor, all
     const state = store.getState();
     const desiredFetchParams = {
       method: 'POST',
-      headers: {'Authorization': state.authParams.idToken, 'Content-Type': 'application/json'},
+      headers: {'Authorization': state.authParams.idToken, 'x-api-key': apiKey, 'Content-Type': 'application/json'},
       body: JSON.stringify(postBody)
     };
 
     const tokenRefreshFetchParams = {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: {'Content-Type': 'application/json', 'x-api-key': apiKey},
       body: JSON.stringify({
         refreshToken: state.authParams.refreshToken,
       })
