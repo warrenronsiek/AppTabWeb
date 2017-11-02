@@ -13,6 +13,7 @@ export default class NavContainer extends React.Component {
         <Nav bsStyle="tabs" onSelect={eventKey => this.props.navHandler(eventKey)} activeKey={this.props.activeKey} style={{paddingLeft: '12px'}}>
           <NavItem eventKey='/venues'>Venues</NavItem>
           <NavItem eventKey='/menus'>Menus</NavItem>
+          <NavItem eventKey='/reports'>Reports</NavItem>
         </Nav>
         {this.props.children}
       </div>

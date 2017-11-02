@@ -1,27 +1,23 @@
 import React from 'react'
 import {
   Button,
-  Collapse,
-  FormControl,
-  FormGroup,
-  HelpBlock,
-  ControlLabel,
-  Grid,
-  Col,
-  Row,
-  ListGroup,
-  ListGroupItem,
   DropdownButton,
-  MenuItem
+  MenuItem,
+  ButtonGroup
 } from 'react-bootstrap'
 import PropTypes from 'proptypes'
-import centsIntToString from '../../common/centsIntToString'
-import stringToCentsInt from '../../common/stringToCentsInt'
 import MenuTable from './menuTable'
 import MenuItemOptions from './menuItemOptions'
 import ActiveItemForm from './activeItemForm'
 
 const styles = {
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    flexDirection: 'column',
+    position: 'relative',
+  },
   formGroup: {
     width: '50%',
     position: 'relative',
@@ -30,13 +26,14 @@ const styles = {
   buttonContainer: {
     position: 'relative',
     display: 'flex',
+    flex: 1,
     justifyContent: 'center',
+    flexDirection: 'column',
     alignItems: 'center',
     marginTop: '30px',
-    marginBottom: '50px'
+    marginBottom: '50px',
   },
   button: {
-    marginRight: '10px',
     width: '130px'
   },
   collapseContainer: {
@@ -51,22 +48,25 @@ const Menus = ({
                  updateOptionSetName, updateOption, cancelEditing, addOption, addOptionSet, addMenuItem, activeVenue,
                  venues, setActiveVenue, deleteMenuItem
                }) => (
-  <div>
+  <div style={styles.container}>
     <div style={styles.buttonContainer}>
-      <DropdownButton title={activeVenue.name || 'Select Venue'} id='Venue Selection'>
-        {venues.map(venue => (
-          <MenuItem key={venue.venueId} onClick={() => setActiveVenue(venue.venueId, venue.name, venue.address)}>{venue.name}</MenuItem>
-        ))}
-      </DropdownButton>
+      <ButtonGroup justified style={styles.button}>
+        <DropdownButton title={activeVenue.name || 'Select Venue'} id='Venue Selection'>
+          {venues.map(venue => (
+            <MenuItem key={venue.venueId}
+                      onClick={() => setActiveVenue(venue.venueId, venue.name, venue.address)}>{venue.name}</MenuItem>
+          ))}
+        </DropdownButton>
+      </ButtonGroup>
     </div>
-
     <MenuTable menuItems={menuItems} viewOptions={viewOptions} editItem={editItem} deleteItem={deleteMenuItem}/>
     <MenuItemOptions optionsData={optionsData} viewState={viewState}/>
     <ActiveItemForm viewState={viewState} activeItem={activeItem} editItem={editItem}
                     updateOptionSetName={updateOptionSetName} updateOption={updateOption} addOption={addOption}
                     addOptionSet={addOptionSet} updateItem={updateItem} cancelEditing={cancelEditing}/>
     <div style={styles.buttonContainer}>
-      <Button style={styles.button} onClick={() => addMenuItem(activeVenue.venueId)} disabled={!activeVenue.venueId}>Add Item</Button>
+      <Button style={styles.button} onClick={() => addMenuItem(activeVenue.venueId)} disabled={!activeVenue.venueId}>Add
+        Item</Button>
     </div>
   </div>
 );

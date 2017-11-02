@@ -15,6 +15,7 @@ import PasswordReset from './redux/connectedComponents/passwordResetConnected'
 import SupportScene from './scenes/support'
 import VenueScene from './scenes/venueScene'
 import MenuScene from './scenes/menuScene'
+import ReportScene from './scenes/reportScene'
 
 const loginRequired = (nextState, replace) => {
   if (store.getState().loginStatus !== 'loggedIn') {
@@ -33,6 +34,7 @@ ReactDOM.render(
       <Route path="/support" component={SupportScene}/>
       <Route path="/venues" components={VenueScene} onEnter={loginRequired}/>
       <Route path="/menus" components={MenuScene} onEnter={loginRequired}/>
+      <Route path="/reports" components={ReportScene}/>
     </Router>
   </Provider>,
   document.getElementById('app')
