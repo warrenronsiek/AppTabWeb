@@ -43,9 +43,7 @@ const requester = (apiPath, successMessage, errorMessage, responseProcessor, all
       .then(res => {
         return res.json()})
       .then(resBody => {
-        console.log(resBody);
         const idVals = decode(resBody['authParameters']['IdToken']);
-        console.log(idVals);
         return Promise.resolve({
           accessToken: resBody['authParameters']['AccessToken'],
           idToken: resBody['authParameters']['IdToken'],

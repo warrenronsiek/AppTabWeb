@@ -34,7 +34,7 @@ ReactDOM.render(
       <Route path="/support" component={SupportScene}/>
       <Route path="/venues" components={VenueScene} onEnter={loginRequired}/>
       <Route path="/menus" components={MenuScene} onEnter={loginRequired}/>
-      <Route path="/reports" components={ReportScene}/>
+      <Route path="/reports" components={ReportScene} onEnter={loginRequired}/>
     </Router>
   </Provider>,
   document.getElementById('app')

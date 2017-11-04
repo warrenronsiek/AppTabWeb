@@ -1,6 +1,7 @@
-import Reports from '../components/reports'
+import reports from '../components/reports'
 import {connect} from 'react-redux'
-import {updateDateRange, updateGroupbyInterval, updateReportType} from '../actions/reportActions'
+import {updateDateRange, updateGroupbyInterval} from '../actions/reportActions'
+import getReportThunk from '../middleware/getReportThunk'
 
 const mapStateToProps = state => ({
   reportType: state.reports.report,
@@ -10,9 +11,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   updateDateRange: (start, end) => dispatch(updateDateRange(start,end)),
-  updateReportType: report => dispatch(updateReportType(report)),
+  updateReportType: report => dispatch(getReportThunk(report)),
   updateGroupbyInterval: interval => dispatch(updateGroupbyInterval(interval))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Reports)
+export default connect(mapStateToProps, mapDispatchToProps)(reports)
 

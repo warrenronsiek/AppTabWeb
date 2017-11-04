@@ -18,7 +18,6 @@ const registerThunk = () => (dispatch, getState) => {
     })
     .catch(err => {
       dispatch(registrationError('failed'));
-      console.log(err)
     })
 };
 
