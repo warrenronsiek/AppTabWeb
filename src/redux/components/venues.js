@@ -1,8 +1,15 @@
 import React from 'react'
 import PropTypes from 'proptypes'
-import {FormGroup, FormControl, ControlLabel, Table, Button, Collapse} from 'react-bootstrap'
+import {FormGroup, FormControl, ControlLabel, Table, Button, Collapse, Grid, Row, Col} from 'react-bootstrap'
 
 const styles = {
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+  },
   editButtonCol: {
     width: '10%'
   },
@@ -34,8 +41,8 @@ const styles = {
   }
 };
 
-const venues = ({venueList, activeVenue, venueFormStatus, setActiveVenue, updateActiveVenue, doneEditing, addVenue, cancelEditing}) => (
-  <div>
+const venues = ({venueList, activeVenue, venueFormStatus, setActiveVenue, updateActiveVenue, doneEditing, addVenue, cancelEditing, updateTimeRange, addTimeRange}) => (
+  <div style={styles.container}>
     <div style={styles.tableContainer}>
       <Table>
         <thead>
@@ -51,22 +58,48 @@ const venues = ({venueList, activeVenue, venueFormStatus, setActiveVenue, update
             <td style={styles.venueNameCol}>{venue.name}</td>
             <td style={styles.addressCol}>{venue.address}</td>
             <td style={styles.editButtonCol}><Button
-              onClick={() => setActiveVenue(venue.venueId, venue.name, venue.address)}>Edit</Button></td>
+              onClick={() => setActiveVenue(venue.venueId, venue.name, venue.address, venue.timeRanges)}>Edit</Button>
+            </td>
           </tr>))}
         </tbody>
       </Table>
     </div>
     <Collapse in={venueFormStatus !== ''}>
-      <div>
-        <form>
+      <div style={{width: '450px', flex: 1}}>
+        <form width={{maxWidth: '450px'}}>
           <FormGroup style={styles.formGroup}>
             <ControlLabel>Name</ControlLabel>
             <FormControl type='text' value={activeVenue.name}
-                         onChange={text => updateActiveVenue(activeVenue.venueId, text.target.value, activeVenue.address)}/>
+                         onChange={text => updateActiveVenue(activeVenue.venueId, text.target.value, activeVenue.address, activeVenue.timeRanges)}/>
             <ControlLabel>Address</ControlLabel>
             <FormControl type='text' value={activeVenue.address}
-                         onChange={text => updateActiveVenue(activeVenue.venueId, activeVenue.name, text.target.value)}/>
+                         onChange={text => updateActiveVenue(activeVenue.venueId, activeVenue.name, text.target.value, activeVenue.timeRanges)}/>
           </FormGroup>
+          {activeVenue.timeRanges.map(timeRange => (
+            <div style={{marginLeft: '20px', marginRight: '20px', marginTop: '10px'}} key={timeRange.id}>
+              <Grid style={{width: '100%'}}>
+                <Row>
+                  <Col sm={6}>
+                    <FormGroup style={{display: 'inlineBlock'}}>
+                      <ControlLabel>Menu Name</ControlLabel>
+                      <FormControl type='text' value={timeRange.name}
+                                   onChange={text => updateTimeRange(text.target.value, timeRange.id, timeRange.range)}/>
+                    </FormGroup>
+                  </Col>
+                  <Col sm={6}>
+                    <FormGroup style={{display: 'inlineBlock'}}>
+                      <ControlLabel>Time Range</ControlLabel>
+                      <FormControl type='text' value={timeRange.range}
+                                   onChange={text => updateTimeRange(timeRange.name, timeRange.id, text.target.value)}/>
+                    </FormGroup>
+                  </Col>
+                </Row>
+              </Grid>
+            </div>
+          ))}
+          <div style={styles.buttonContainer}>
+                <Button style={styles.button} onClick={() => addTimeRange()}>Add Menu</Button>
+              </div>
         </form>
         {(venueFormStatus === 'updating')
           ? <div style={{justifyContent: 'center', alignItems: 'center', position: 'relative', textAlign: 'center'}}>
@@ -74,7 +107,7 @@ const venues = ({venueList, activeVenue, venueFormStatus, setActiveVenue, update
           </div>
           : <div style={styles.buttonContainer}>
             <Button style={styles.button}
-                    onClick={() => doneEditing(activeVenue.venueId, activeVenue.name, activeVenue.address)}>Done</Button>
+                    onClick={() => doneEditing(activeVenue.venueId, activeVenue.name, activeVenue.address, activeVenue.timeRanges)}>Done</Button>
             <Button style={styles.button} onClick={() => cancelEditing()}>Cancel</Button>
           </div>
         }
@@ -106,6 +139,8 @@ venues.propTypes = {
   updateActiveVenue: PropTypes.func.isRequired,
   doneEditing: PropTypes.func.isRequired,
   addVenue: PropTypes.func.isRequired,
+  updateTimeRange: PropTypes.func.isRequired,
+  addTimeRange: PropTypes.func.isRequired
 };
 
 export default venues

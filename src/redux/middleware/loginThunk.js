@@ -22,6 +22,22 @@ import {get} from 'lodash'
 
 const decode = require('jwt-decode');
 
+function decapitalizeFirstLetter(string) {
+    return string.charAt(0).toLowerCase() + string.slice(1);
+}
+
+const dedynamoify = objlist => {
+  console.log(objlist);
+  if (!objlist) {
+    return []
+  }
+  return objlist.map(obj => Object.keys(obj.M).reduce((accum, key) => {
+    accum[decapitalizeFirstLetter(key)] = get(obj, `M[${key}].S`) || get(obj, `M[${key}].N`);
+    console.log(accum);
+    return accum
+  }, {}))
+};
+
 const loginThunk = (email, password) => (dispatch) => {
   let clientId, stripeId;
   return Promise.resolve(dispatch(statusLoggingIn()))
@@ -47,7 +63,8 @@ const loginThunk = (email, password) => (dispatch) => {
     .then(() => getClientLoginData({clientId}))
     .then((res) => {
       stripeId = get(res, 'stripeData.Item.StripeId.S');
-      res.venues.Items.forEach(venue => dispatch(updateVenue(venue.VenueId.S, venue.Name.S, venue.Address.S)));
+      console.log(res.venues.Items);
+      res.venues.Items.forEach(venue => dispatch(updateVenue(venue.VenueId.S, venue.Name.S, venue.Address.S, dedynamoify(get(venue, 'TimeRanges.L')))));
       res.menus.forEach(item =>
         dispatch(updateMenuItem(item.ItemId.S, item.ItemName.S, item.ItemDescription.S, item.Price.N, item.Category.S,
           item.Tags.SS, (item.ItemOptions.S === 'NULL') ? [] : JSON.parse(item.ItemOptions.S), item.VenueId.S)));
@@ -62,6 +79,7 @@ const loginThunk = (email, password) => (dispatch) => {
       }
     })
     .catch(err => {
+      console.log(err);
       switch (err.message) {
         case 'wrong username or password':
           dispatch(statusWrongCredentials());
