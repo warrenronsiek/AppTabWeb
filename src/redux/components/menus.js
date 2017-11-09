@@ -1,14 +1,12 @@
 import React from 'react'
 import {
-  Button,
-  DropdownButton,
-  MenuItem,
-  ButtonGroup
+  Button
 } from 'react-bootstrap'
 import PropTypes from 'proptypes'
 import MenuTable from './menuTable'
 import MenuItemOptions from './menuItemOptions'
 import ActiveItemForm from './activeItemForm'
+import VenueDropdown from './venueSelectionDropdown'
 
 const styles = {
   container: {
@@ -49,16 +47,7 @@ const Menus = ({
                  venues, setActiveVenue, deleteMenuItem
                }) => (
   <div style={styles.container}>
-    <div style={styles.buttonContainer}>
-      <ButtonGroup justified style={styles.button}>
-        <DropdownButton title={activeVenue.name || 'Select Venue'} id='Venue Selection'>
-          {venues.map(venue => (
-            <MenuItem key={venue.venueId}
-                      onClick={() => setActiveVenue(venue.venueId, venue.name, venue.address)}>{venue.name}</MenuItem>
-          ))}
-        </DropdownButton>
-      </ButtonGroup>
-    </div>
+    <VenueDropdown setActiveVenue={setActiveVenue} activeVenue={activeVenue} venues={venues}/>
     <MenuTable menuItems={menuItems} viewOptions={viewOptions} editItem={editItem} deleteItem={deleteMenuItem}/>
     <MenuItemOptions optionsData={optionsData} viewState={viewState}/>
     <ActiveItemForm viewState={viewState} activeItem={activeItem} editItem={editItem}

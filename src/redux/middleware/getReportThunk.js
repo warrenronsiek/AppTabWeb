@@ -1,8 +1,9 @@
-import {updateReportType} from '../actions/reportActions'
+import {updateReportType, updateReportUrl, updateReportProcessing} from '../actions/reportActions'
 import generateReport from '../../api/generateReport'
 
 const reportThunk = (reportType) => (dispatch, getState) => {
   dispatch(updateReportType(reportType));
+  dispatch(updateReportProcessing(true));
   const state = getState(),
     venueId = state.activeVenue.venueId,
     report = reportType,
@@ -11,7 +12,10 @@ const reportThunk = (reportType) => (dispatch, getState) => {
     groupbyInterval = state.reports.interval;
 
   generateReport({venueId, report, start, end, groupbyInterval})
-    .then(res => console.log(res))
+    .then(res => {
+      dispatch(updateReportUrl(res.data));
+      dispatch(updateReportProcessing(false));
+    })
     .catch(err => console.log(err))
 };
 
