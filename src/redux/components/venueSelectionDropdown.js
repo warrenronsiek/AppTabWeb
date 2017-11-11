@@ -30,7 +30,7 @@ const VenueDropdown = ({venues, setActiveVenue, activeVenue}) => (
         <DropdownButton title={activeVenue.name || 'Select Venue'} id='Venue Selection'>
           {venues.map(venue => (
             <MenuItem key={venue.venueId}
-                      onClick={() => setActiveVenue(venue.venueId, venue.name, venue.address)}>{venue.name}</MenuItem>
+                      onClick={() => setActiveVenue(venue.venueId, venue.name, venue.address, venue.timeRanges)}>{venue.name}</MenuItem>
           ))}
         </DropdownButton>
       </ButtonGroup>

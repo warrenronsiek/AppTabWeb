@@ -1,7 +1,21 @@
 import React from 'react'
-import {Collapse, FormGroup, ControlLabel, FormControl, HelpBlock, Grid, Row, Col, Button} from 'react-bootstrap'
+import {
+  Collapse,
+  FormGroup,
+  ControlLabel,
+  FormControl,
+  HelpBlock,
+  Grid,
+  Row,
+  Col,
+  Button,
+  ButtonToolbar,
+  ToggleButtonGroup,
+  ToggleButton
+} from 'react-bootstrap'
 import centsIntToString from '../../common/centsIntToString'
 import stringToCentsInt from '../../common/stringToCentsInt'
+
 const tagProcessor = string => string.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").split(' ');
 
 const styles = {
@@ -26,10 +40,16 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     display: 'flex'
+  },
+  buttonToolBarContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    display: 'flex'
   }
 };
 
-const ActiveItemForm = ({viewState, activeItem, editItem, updateOptionSetName, updateOption, addOption, updateItem, cancelEditing, addOptionSet}) => (
+const ActiveItemForm = ({viewState, activeItem, editItem, updateOptionSetName, updateOption, addOption, updateItem, cancelEditing, addOptionSet, venueTimeRanges, updateTimeRanges}) => (
   <div style={styles.collapseContainer}>
     <Collapse in={viewState === 'editingMenuItem'}>
       <div>
@@ -61,6 +81,15 @@ const ActiveItemForm = ({viewState, activeItem, editItem, updateOptionSetName, u
             <HelpBlock>Enter tags separated by spaces.</HelpBlock>
           </FormGroup>
         </form>
+        <div style={styles.buttonToolBarContainer}>
+          <ButtonToolbar style={{marginRight: '10px'}}>
+            <ToggleButtonGroup type='checkbox' value={activeItem.timeRanges.map(timeRange => timeRange.id)}
+                               onChange={values => updateTimeRanges(values, venueTimeRanges)}>
+              {venueTimeRanges.map(timeRange => (
+                <ToggleButton key={timeRange.id} value={timeRange.id}>{timeRange.name}</ToggleButton>))}
+            </ToggleButtonGroup>
+          </ButtonToolbar>
+        </div>
         {activeItem.optionSets.map(optionSet => (
           <div key={optionSet.optionSetId}>
             <form style={{width: '450px', marginLeft: '25px', marginRight: '25px'}}>
@@ -98,7 +127,8 @@ const ActiveItemForm = ({viewState, activeItem, editItem, updateOptionSetName, u
           </div>
         ))}
         <div style={styles.buttonContainer}>
-          <Button style={styles.button} onClick={() => updateItem(activeItem.itemId, activeItem.name, activeItem.description, activeItem.price, activeItem.category, activeItem.tags, activeItem.optionSets, activeItem.venueId)}>Done</Button>
+          <Button style={styles.button}
+                  onClick={() => updateItem(activeItem.itemId, activeItem.name, activeItem.description, activeItem.price, activeItem.category, activeItem.tags, activeItem.optionSets, activeItem.venueId)}>Done</Button>
           <Button style={styles.button} onClick={() => cancelEditing()}>Cancel</Button>
           <Button style={styles.button} onClick={() => addOptionSet()}>Add Option Set</Button>
         </div>

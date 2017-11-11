@@ -44,7 +44,7 @@ const styles = {
 const Menus = ({
                  menuItems, updateItem, addItem, editItem, viewOptions, optionsData, viewState, activeItem,
                  updateOptionSetName, updateOption, cancelEditing, addOption, addOptionSet, addMenuItem, activeVenue,
-                 venues, setActiveVenue, deleteMenuItem
+                 venues, setActiveVenue, deleteMenuItem, updateTimeRanges
                }) => (
   <div style={styles.container}>
     <VenueDropdown setActiveVenue={setActiveVenue} activeVenue={activeVenue} venues={venues}/>
@@ -52,7 +52,8 @@ const Menus = ({
     <MenuItemOptions optionsData={optionsData} viewState={viewState}/>
     <ActiveItemForm viewState={viewState} activeItem={activeItem} editItem={editItem}
                     updateOptionSetName={updateOptionSetName} updateOption={updateOption} addOption={addOption}
-                    addOptionSet={addOptionSet} updateItem={updateItem} cancelEditing={cancelEditing}/>
+                    addOptionSet={addOptionSet} updateItem={updateItem} cancelEditing={cancelEditing}
+                    venueTimeRanges={activeVenue.timeRanges} updateTimeRanges={updateTimeRanges}/>
     <div style={styles.buttonContainer}>
       <Button style={styles.button} onClick={() => addMenuItem(activeVenue.venueId)} disabled={!activeVenue.venueId}>Add
         Item</Button>
@@ -77,7 +78,8 @@ Menus.propTypes = {
   activeVenue: PropTypes.object,
   venues: PropTypes.array,
   setActiveVenue: PropTypes.func.isRequired,
-  deleteMenuItem: PropTypes.func.isRequired
+  deleteMenuItem: PropTypes.func.isRequired,
+  updateTimeRanges: PropTypes.func.isRequired
 };
 
 export default Menus

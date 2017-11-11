@@ -80,7 +80,7 @@ const MenuTable = ({menuItems, viewOptions, editItem, deleteItem}) => (
             <Button>View Options</Button>
           </td>
           <td style={styles.editCol}>
-            <Button onClick={() => editItem(item.itemId, item.name, item.description, item.price, item.category, item.tags, item.optionSets, item.venueId)}>Edit</Button>
+            <Button onClick={() => editItem(item.itemId, item.name, item.description, item.price, item.category, item.tags, item.optionSets, item.venueId, item.timeRanges)}>Edit</Button>
           </td>
           <td>
             <Button onClick={() => deleteItem(item.itemId, item.venueId)}>Delete</Button>
