@@ -25,16 +25,16 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateActiveMenuItem(itemId, itemName, itemDescription, price, category, tags, options, venueId, timeRanges)),
   updateOptionSetName: (optionSetId, name) => dispatch(updateOptionSetName(optionSetId, name)),
   updateOption: (optionSetId, optionId, name, price) => dispatch(updateOption(optionSetId, optionId, name, price)),
-  updateItem: (itemId, itemName, itemDescription, price, category, tags, options, venueId) =>
-    dispatch(updateMenuItemThunk(itemId, itemName, itemDescription, price, category, tags, options, venueId)),
+  updateItem: (itemId, itemName, itemDescription, price, category, tags, options, venueId, timeRanges) =>
+    dispatch(updateMenuItemThunk(itemId, itemName, itemDescription, price, category, tags, options, venueId, timeRanges)),
   cancelEditing: () => dispatch(cancelEditing()),
   addOption: optionSetId => dispatch(addOption(optionSetId)),
   addOptionSet: () => dispatch(addOptionSet()),
   addMenuItem: venueId => dispatch(addMenuItem(venueId)),
   setActiveVenue: (venueId, name, address, timeRanges) => dispatch(updateActiveVenue(venueId, name, address, timeRanges)),
   deleteMenuItem: (itemId, venueId) => dispatch(deleteMenuItemThunk(venueId, itemId)),
-  updateTimeRanges: (toggleButtonValues, timeRanges) => {
-    dispatch(updateTimeRanges(timeRanges.filter(timeRange => toggleButtonValues.indexOf(timeRange.id) >= 0)))
+  updateTimeRanges: (toggleButtonValues) => {
+    dispatch(updateTimeRanges(toggleButtonValues))
   }
 });
 

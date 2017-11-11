@@ -28,7 +28,7 @@ const menu = (state = [], action) => {
         tags: action.tags,
         venueId: action.venueId,
         timeRanges: action.timeRanges
-      }];
+      }].sort((a, b)=> a.name > b.name);
     case DELETE_MENU_ITEM:
       return [...state.filter(item => item.itemId !== action.itemId)];
     default:

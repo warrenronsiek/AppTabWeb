@@ -83,8 +83,8 @@ const ActiveItemForm = ({viewState, activeItem, editItem, updateOptionSetName, u
         </form>
         <div style={styles.buttonToolBarContainer}>
           <ButtonToolbar style={{marginRight: '10px'}}>
-            <ToggleButtonGroup type='checkbox' value={activeItem.timeRanges.map(timeRange => timeRange.id)}
-                               onChange={values => updateTimeRanges(values, venueTimeRanges)}>
+            <ToggleButtonGroup type='checkbox' value={activeItem.timeRanges}
+                               onChange={values => updateTimeRanges(values)}>
               {venueTimeRanges.map(timeRange => (
                 <ToggleButton key={timeRange.id} value={timeRange.id}>{timeRange.name}</ToggleButton>))}
             </ToggleButtonGroup>
@@ -128,7 +128,7 @@ const ActiveItemForm = ({viewState, activeItem, editItem, updateOptionSetName, u
         ))}
         <div style={styles.buttonContainer}>
           <Button style={styles.button}
-                  onClick={() => updateItem(activeItem.itemId, activeItem.name, activeItem.description, activeItem.price, activeItem.category, activeItem.tags, activeItem.optionSets, activeItem.venueId)}>Done</Button>
+                  onClick={() => updateItem(activeItem.itemId, activeItem.name, activeItem.description, activeItem.price, activeItem.category, activeItem.tags, activeItem.optionSets, activeItem.venueId, activeItem.timeRanges)}>Done</Button>
           <Button style={styles.button} onClick={() => cancelEditing()}>Cancel</Button>
           <Button style={styles.button} onClick={() => addOptionSet()}>Add Option Set</Button>
         </div>

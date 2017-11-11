@@ -36,6 +36,8 @@ const dedynamoify = objlist => {
   }, {}))
 };
 
+const getRangeIds = dedynamofied => objlist.reduce(item => item.id);
+
 const loginThunk = (email, password) => (dispatch) => {
   let clientId, stripeId;
   return Promise.resolve(dispatch(statusLoggingIn()))
@@ -67,7 +69,7 @@ const loginThunk = (email, password) => (dispatch) => {
           item.Tags.SS,
           (item.ItemOptions.S === '"NULL"') ? [] : JSON.parse(item.ItemOptions.S),
           item.VenueId.S,
-          (item.TimeRanges) ? JSON.parse(item.TimeRanges) : [])));
+          (item.TimeRanges) ? get(item, 'TimeRanges.SS') : [])));
       dispatch(updateStripeId(stripeId));
       return Promise.resolve(dispatch(statusLoginComplete()));
     })
@@ -79,6 +81,7 @@ const loginThunk = (email, password) => (dispatch) => {
       }
     })
     .catch(err => {
+      console.log(err);
       switch (err.message) {
         case 'wrong username or password':
           dispatch(statusWrongCredentials());
