@@ -48,7 +48,7 @@ const Menus = ({
                }) => (
   <div style={styles.container}>
     <VenueDropdown setActiveVenue={setActiveVenue} activeVenue={activeVenue} venues={venues}/>
-    <MenuTable menuItems={menuItems} viewOptions={viewOptions} editItem={editItem} deleteItem={deleteMenuItem}/>
+    <MenuTable menuItems={menuItems} viewOptions={viewOptions} editItem={editItem} deleteItem={deleteMenuItem} activeVenueTimeRanges={activeVenue.timeRanges}/>
     <MenuItemOptions optionsData={optionsData} viewState={viewState}/>
     <ActiveItemForm viewState={viewState} activeItem={activeItem} editItem={editItem}
                     updateOptionSetName={updateOptionSetName} updateOption={updateOption} addOption={addOption}

@@ -1,5 +1,6 @@
 import React from 'react'
 import {Table, Button} from 'react-bootstrap'
+import {find} from 'lodash'
 import centsIntToString from '../../common/centsIntToString'
 
 const styles = {
@@ -47,7 +48,7 @@ const styles = {
   },
 };
 
-const MenuTable = ({menuItems, viewOptions, editItem, deleteItem}) => (
+const MenuTable = ({menuItems, viewOptions, editItem, deleteItem, activeVenueTimeRanges}) => (
   <div style={styles.tableContainer}>
     <Table>
       <thead>
@@ -57,6 +58,7 @@ const MenuTable = ({menuItems, viewOptions, editItem, deleteItem}) => (
         <th style={styles.categoryCol}>Category</th>
         <th style={styles.priceCol}>Price</th>
         <th style={styles.tagsCol}>Tags</th>
+        <th>Menu</th>
         <th style={styles.optionsCol}/>
         <th style={styles.editCol}/>
         <th/>
@@ -75,6 +77,9 @@ const MenuTable = ({menuItems, viewOptions, editItem, deleteItem}) => (
                 <text>{tag}</text>
               </div>)}
             </div>
+          </td>
+          <td>
+            {item.timeRanges.map(timeRangeId => <text>{find(activeVenueTimeRanges, timeRange => timeRange.id === timeRangeId).name + ' '}</text>) }
           </td>
           <td style={styles.optionsCol} onClick={() => viewOptions(item.itemId, item.optionSets)}>
             <Button>View Options</Button>
