@@ -81,7 +81,6 @@ const loginThunk = (email, password) => (dispatch) => {
       }
     })
     .catch(err => {
-      console.log(err);
       switch (err.message) {
         case 'wrong username or password':
           dispatch(statusWrongCredentials());

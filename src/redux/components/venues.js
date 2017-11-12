@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'proptypes'
-import {FormGroup, FormControl, ControlLabel, Table, Button, Collapse, Grid, Row, Col} from 'react-bootstrap'
+import {FormGroup, FormControl, ControlLabel, Table, Button, Collapse, Grid, Row, Col, HelpBlock} from 'react-bootstrap'
 
 const styles = {
   container: {
@@ -41,7 +41,7 @@ const styles = {
   }
 };
 
-const venues = ({venueList, activeVenue, venueFormStatus, setActiveVenue, updateActiveVenue, doneEditing, addVenue, cancelEditing, updateTimeRange, addTimeRange}) => (
+const venues = ({venueList, activeVenue, venueFormStatus, setActiveVenue, updateActiveVenue, doneEditing, addVenue, cancelEditing, updateTimeRange, addTimeRange, updateButtonDisabled}) => (
   <div style={styles.container}>
     <div style={styles.tableContainer}>
       <Table>
@@ -87,10 +87,11 @@ const venues = ({venueList, activeVenue, venueFormStatus, setActiveVenue, update
                     </FormGroup>
                   </Col>
                   <Col sm={6}>
-                    <FormGroup style={{display: 'inlineBlock'}}>
+                    <FormGroup style={{display: 'inlineBlock'}} validationState={timeRange.rangeValid}>
                       <ControlLabel>Time Range</ControlLabel>
                       <FormControl type='text' value={timeRange.range}
                                    onChange={text => updateTimeRange(timeRange.name, timeRange.id, text.target.value)}/>
+                      {(timeRange.rangeValid === 'error') ? <HelpBlock>Please use 24 hour time. E.g. 10:00-15:30</HelpBlock>: null}
                     </FormGroup>
                   </Col>
                 </Row>
@@ -106,7 +107,7 @@ const venues = ({venueList, activeVenue, venueFormStatus, setActiveVenue, update
             <h3>Updating...</h3>
           </div>
           : <div style={styles.buttonContainer}>
-            <Button style={styles.button}
+            <Button style={styles.button} disabled={updateButtonDisabled}
                     onClick={() => doneEditing(activeVenue.venueId, activeVenue.name, activeVenue.address, activeVenue.timeRanges)}>Done</Button>
             <Button style={styles.button} onClick={() => cancelEditing()}>Cancel</Button>
           </div>
@@ -140,7 +141,8 @@ venues.propTypes = {
   doneEditing: PropTypes.func.isRequired,
   addVenue: PropTypes.func.isRequired,
   updateTimeRange: PropTypes.func.isRequired,
-  addTimeRange: PropTypes.func.isRequired
+  addTimeRange: PropTypes.func.isRequired,
+  updateButtonDisabled: PropTypes.bool.isRequired
 };
 
 export default venues

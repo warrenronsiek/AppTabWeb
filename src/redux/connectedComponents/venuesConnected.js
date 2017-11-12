@@ -7,7 +7,8 @@ import venueThunk from '../middleware/venueThunk'
 const mapStateToProps = state => ({
   venueList: state.venues,
   activeVenue: state.activeVenue,
-  venueFormStatus: state.venueFormStatus
+  venueFormStatus: state.venueFormStatus,
+  updateButtonDisabled: state.activeVenue.updateButtonDisabled
 });
 
 const mapDispatchToProps = (dispatch) => ({

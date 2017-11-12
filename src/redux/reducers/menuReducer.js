@@ -17,7 +17,6 @@ import crypto from 'crypto'
 const menu = (state = [], action) => {
   switch (action.type) {
     case UPDATE_MENU_ITEM:
-      console.log(action);
       return [...state.filter(item => item.itemId !== action.itemId), {
         itemId: action.itemId,
         name: action.name,
