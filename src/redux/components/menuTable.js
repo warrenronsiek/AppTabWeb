@@ -79,7 +79,7 @@ const MenuTable = ({menuItems, viewOptions, editItem, deleteItem, activeVenueTim
             </div>
           </td>
           <td>
-            {item.timeRanges.map(timeRangeId => <text>{find(activeVenueTimeRanges, timeRange => timeRange.id === timeRangeId).name + ' '}</text>) }
+            {item.timeRanges.map(timeRangeId => <text key={timeRangeId}>{find(activeVenueTimeRanges, timeRange => timeRange.id === timeRangeId).name + ' '}</text>) }
           </td>
           <td style={styles.optionsCol} onClick={() => viewOptions(item.itemId, item.optionSets)}>
             <Button>View Options</Button>
