@@ -66,7 +66,7 @@ const loginThunk = (email, password) => (dispatch) => {
       res.venues.Items.forEach(venue => dispatch(updateVenue(venue.VenueId.S, venue.Name.S, venue.Address.S, dedynamoify(get(venue, 'TimeRanges.L')))));
       res.menus.forEach(item =>
         dispatch(updateMenuItem(item.ItemId.S, item.ItemName.S, item.ItemDescription.S, item.Price.N, item.Category.S,
-          item.Tags.SS,
+          (JSON.stringify(item.Tags.SS) === JSON.stringify(['NULL'])) ? [] : item.Tags.SS,
           (item.ItemOptions.S === '"NULL"') ? [] : JSON.parse(item.ItemOptions.S),
           item.VenueId.S,
           (item.TimeRanges) ? get(item, 'TimeRanges.SS') : [])));
