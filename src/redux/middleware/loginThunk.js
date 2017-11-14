@@ -22,6 +22,22 @@ import {get} from 'lodash'
 
 const decode = require('jwt-decode');
 
+function decapitalizeFirstLetter(string) {
+  return string.charAt(0).toLowerCase() + string.slice(1);
+}
+
+const dedynamoify = objlist => {
+  if (!objlist) {
+    return []
+  }
+  return objlist.map(obj => Object.keys(obj.M).reduce((accum, key) => {
+    accum[decapitalizeFirstLetter(key)] = get(obj, `M[${key}].S`) || get(obj, `M[${key}].N`);
+    return accum
+  }, {}))
+};
+
+const getRangeIds = dedynamofied => objlist.reduce(item => item.id);
+
 const loginThunk = (email, password) => (dispatch) => {
   let clientId, stripeId;
   return Promise.resolve(dispatch(statusLoggingIn()))
@@ -47,10 +63,13 @@ const loginThunk = (email, password) => (dispatch) => {
     .then(() => getClientLoginData({clientId}))
     .then((res) => {
       stripeId = get(res, 'stripeData.Item.StripeId.S');
-      res.venues.Items.forEach(venue => dispatch(updateVenue(venue.VenueId.S, venue.Name.S, venue.Address.S)));
+      res.venues.Items.forEach(venue => dispatch(updateVenue(venue.VenueId.S, venue.Name.S, venue.Address.S, dedynamoify(get(venue, 'TimeRanges.L')))));
       res.menus.forEach(item =>
         dispatch(updateMenuItem(item.ItemId.S, item.ItemName.S, item.ItemDescription.S, item.Price.N, item.Category.S,
-          item.Tags.SS, (item.ItemOptions.S === 'NULL') ? [] : JSON.parse(item.ItemOptions.S), item.VenueId.S)));
+          item.Tags.SS,
+          (item.ItemOptions.S === '"NULL"') ? [] : JSON.parse(item.ItemOptions.S),
+          item.VenueId.S,
+          (item.TimeRanges) ? get(item, 'TimeRanges.SS') : [])));
       dispatch(updateStripeId(stripeId));
       return Promise.resolve(dispatch(statusLoginComplete()));
     })

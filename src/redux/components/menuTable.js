@@ -1,5 +1,6 @@
 import React from 'react'
 import {Table, Button} from 'react-bootstrap'
+import {find} from 'lodash'
 import centsIntToString from '../../common/centsIntToString'
 
 const styles = {
@@ -47,7 +48,7 @@ const styles = {
   },
 };
 
-const MenuTable = ({menuItems, viewOptions, editItem, deleteItem}) => (
+const MenuTable = ({menuItems, viewOptions, editItem, deleteItem, activeVenueTimeRanges}) => (
   <div style={styles.tableContainer}>
     <Table>
       <thead>
@@ -57,6 +58,7 @@ const MenuTable = ({menuItems, viewOptions, editItem, deleteItem}) => (
         <th style={styles.categoryCol}>Category</th>
         <th style={styles.priceCol}>Price</th>
         <th style={styles.tagsCol}>Tags</th>
+        <th>Menu</th>
         <th style={styles.optionsCol}/>
         <th style={styles.editCol}/>
         <th/>
@@ -76,11 +78,14 @@ const MenuTable = ({menuItems, viewOptions, editItem, deleteItem}) => (
               </div>)}
             </div>
           </td>
+          <td>
+            {item.timeRanges.map(timeRangeId => <text key={timeRangeId}>{find(activeVenueTimeRanges, timeRange => timeRange.id === timeRangeId).name + ' '}</text>) }
+          </td>
           <td style={styles.optionsCol} onClick={() => viewOptions(item.itemId, item.optionSets)}>
             <Button>View Options</Button>
           </td>
           <td style={styles.editCol}>
-            <Button onClick={() => editItem(item.itemId, item.name, item.description, item.price, item.category, item.tags, item.optionSets, item.venueId)}>Edit</Button>
+            <Button onClick={() => editItem(item.itemId, item.name, item.description, item.price, item.category, item.tags, item.optionSets, item.venueId, item.timeRanges)}>Edit</Button>
           </td>
           <td>
             <Button onClick={() => deleteItem(item.itemId, item.venueId)}>Delete</Button>

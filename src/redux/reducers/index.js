@@ -14,10 +14,12 @@ import {
 } from './passwordResetReducer'
 import {venueFormStatus, venues, activeVenue} from './venueReducer'
 import {menu, activeMenuItem, viewableMenuOptions, menuViewState} from './menuReducer'
+import {reports} from "./reportReducer";
 
 export default combineReducers({
   routing: routerReducer,
   stripeData,
+  reports,
   passwordResetStatus,
   passwordResetValidator,
   validResetPassword,

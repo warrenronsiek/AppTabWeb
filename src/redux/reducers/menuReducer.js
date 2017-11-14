@@ -8,21 +8,13 @@ import {
   ADD_OPTION,
   ADD_OPTION_SET,
   ADD_MENU_ITEM,
-  DELETE_MENU_ITEM
+  DELETE_MENU_ITEM,
+  UPDATE_TIME_RANGES
 } from '../actions/menuActions'
 import {sortBy, maxBy, get} from 'lodash'
 import crypto from 'crypto'
 
-const menu = (state = [{
-  itemId: 1,
-  name: 'steak',
-  description: 'a steak',
-  category: 'main',
-  price: '1599',
-  tags: ['beef', 'sauce'],
-  venueId: 'v1',
-  optionSets: JSON.parse('[{"optionSetName":"steak", "optionSetId": 0,"data":[{"optionName":"rare","price":0,"isSelected":false,"optionSetName":"steak", "optionId": 0},{"optionName":"medium","price":0,"isSelected":false,"optionSetName":"steak", "optionId": 1},{"optionName":"well-done","price":0,"isSelected":false,"optionSetName":"steak", "optionId": 2}]}]')
-}], action) => {
+const menu = (state = [], action) => {
   switch (action.type) {
     case UPDATE_MENU_ITEM:
       return [...state.filter(item => item.itemId !== action.itemId), {
@@ -33,8 +25,9 @@ const menu = (state = [{
         optionSets: action.optionSets,
         price: action.price,
         tags: action.tags,
-        venueId: action.venueId
-      }];
+        venueId: action.venueId,
+        timeRanges: action.timeRanges
+      }].sort((a, b)=> a.name > b.name);
     case DELETE_MENU_ITEM:
       return [...state.filter(item => item.itemId !== action.itemId)];
     default:
@@ -68,7 +61,11 @@ const menuViewState = (state = '', action) => {
   }
 };
 
-const activeMenuItem = (state = {tags: [], optionSets: [{optionSetName: '', optionSetId: 0, data: []}]}, action) => {
+const activeMenuItem = (state = {
+  tags: [],
+  optionSets: [{optionSetName: '', optionSetId: 0, data: []}],
+  timeRanges: []
+}, action) => {
   let otherOptionSets, currentOptionSet, otherOptions;
   switch (action.type) {
     case UPDATE_ACTIVE_MENU_ITEM:
@@ -80,8 +77,11 @@ const activeMenuItem = (state = {tags: [], optionSets: [{optionSetName: '', opti
         optionSets: action.optionSets,
         price: action.price,
         tags: action.tags,
-        venueId: action.venueId
+        venueId: action.venueId,
+        timeRanges: action.timeRanges
       };
+    case UPDATE_TIME_RANGES:
+      return {...state, timeRanges: action.timeRanges};
     case ADD_MENU_ITEM:
       return {
         itemId: crypto.randomBytes(10).toString('hex'),
@@ -91,7 +91,8 @@ const activeMenuItem = (state = {tags: [], optionSets: [{optionSetName: '', opti
         optionSets: [],
         price: 0,
         tags: [],
-        venueId: action.venueId
+        venueId: action.venueId,
+        timeRanges: []
       };
     case UPDATE_OPTION_SET_NAME:
       otherOptionSets = state.optionSets.filter(optionSet => optionSet.optionSetId !== action.optionSetId);
@@ -105,9 +106,9 @@ const activeMenuItem = (state = {tags: [], optionSets: [{optionSetName: '', opti
           }], optionSet => optionSet.optionSetId)
       };
     case UPDATE_OPTION:
-        otherOptionSets = state.optionSets.filter(optionSet => optionSet.optionSetId !== action.optionSetId);
-        currentOptionSet = state.optionSets.filter(optionSet => optionSet.optionSetId === action.optionSetId)[0];
-        otherOptions = currentOptionSet.data.filter(option => option.optionId !== action.optionId);
+      otherOptionSets = state.optionSets.filter(optionSet => optionSet.optionSetId !== action.optionSetId);
+      currentOptionSet = state.optionSets.filter(optionSet => optionSet.optionSetId === action.optionSetId)[0];
+      otherOptions = currentOptionSet.data.filter(option => option.optionId !== action.optionId);
       return {
         ...state, optionSets: sortBy([
           ...otherOptionSets,
