@@ -20,8 +20,28 @@ const styles = {
   },
   table: {
     width: '90%'
+  },
+  tableNumberCol: {
+    width: '10%'
+  },
+  dateCol: {
+    width: '20%'
+  },
+  nameCol: {
+    width: '15%'
+  },
+  amountCol: {
+    width: '10%',
+  },
+  itemsCol: {
+    width: '20%'
+  },
+  editButtonCol: {
+    width: '10%'
+  },
+  cancelButtonCol: {
+    width: '10%'
   }
-
 };
 
 const transactions = ({transactions, venues, activeVenue, setActiveVenue, updateActiveTransaction, cancelTransaction, updateTransactionAmount, activeTransaction}) => (
@@ -30,13 +50,13 @@ const transactions = ({transactions, venues, activeVenue, setActiveVenue, update
     <Table style={styles.table}>
       <thead>
       <tr>
-        <th>Table Number</th>
-        <th>Date</th>
-        <th>Name</th>
-        <th>Amount</th>
-        <th>Items</th>
-        <th/>
-        <th/>
+        <th style={styles.tableNumberCol}>Table Number</th>
+        <th style={styles.dateCol}>Date</th>
+        <th style={styles.nameCol}>Name</th>
+        <th style={styles.amountCol}>Amount</th>
+        <th style={styles.itemsCol}>Items</th>
+        <th style={styles.editButtonCol}/>
+        <th style={styles.cancelButtonCol}/>
       </tr>
       </thead>
       <tbody>
@@ -58,9 +78,6 @@ const transactions = ({transactions, venues, activeVenue, setActiveVenue, update
               <text>{item.itemName}</text>
             </div>))}
           </td>
-          <td>
-            <Button onClick={() => cancelTransaction({transactionId: transaction.transactionId})}>Cancel</Button>
-          </td>
           {(activeTransaction.transactionId)
             ? <td>
               <Button onClick={() => updateTransactionAmount({transactionId: activeTransaction.transactionId, amount: activeTransaction.amount})}>Done</Button>
@@ -68,6 +85,9 @@ const transactions = ({transactions, venues, activeVenue, setActiveVenue, update
             : <td>
             <Button onClick={() => updateActiveTransaction({transactionId: transaction.transactionId, amount: transaction.amount})}>Edit</Button>
           </td>}
+          <td>
+            <Button onClick={() => cancelTransaction({transactionId: transaction.transactionId})}>Cancel</Button>
+          </td>
         </tr>
       ))}
       </tbody>
