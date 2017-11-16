@@ -12,6 +12,7 @@ import {
   passwordResetValidator,
   validResetPassword,
 } from './passwordResetReducer'
+import {transactions} from "./transactionReducer";
 import {venueFormStatus, venues, activeVenue} from './venueReducer'
 import {menu, activeMenuItem, viewableMenuOptions, menuViewState} from './menuReducer'
 import {reports} from "./reportReducer";
@@ -25,6 +26,7 @@ export default combineReducers({
   validResetPassword,
   passwordReset,
   menu,
+  transactions,
   validPassword,
   registerParams,
   loginParams,

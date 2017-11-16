@@ -14,6 +14,7 @@ export default class NavContainer extends React.Component {
           <NavItem eventKey='/venues'>Venues</NavItem>
           <NavItem eventKey='/menus'>Menus</NavItem>
           <NavItem eventKey='/reports'>Reports</NavItem>
+          <NavItem eventKey='/transactions'>Orders</NavItem>
         </Nav>
         {this.props.children}
       </div>
