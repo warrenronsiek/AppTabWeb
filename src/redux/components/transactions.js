@@ -1,11 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-  Collapse,
   FormGroup,
-  ControlLabel,
   FormControl,
-  HelpBlock,
   Button,
   Table
 } from 'react-bootstrap'
@@ -27,7 +24,7 @@ const styles = {
 
 };
 
-const transactions = ({transactions, venues, activeVenue, setActiveVenue, setActiveTransaction, cancelTransaction, finishedEditingTransactionAmount, updateTransactionAmount, activeTransactionId}) => (
+const transactions = ({transactions, venues, activeVenue, setActiveVenue, updateActiveTransaction, cancelTransaction, updateTransactionAmount, activeTransaction}) => (
   <div style={styles.container}>
     <VenueSelectionDropdown setActiveVenue={setActiveVenue} activeVenue={activeVenue} venues={venues}/>
     <Table style={styles.table}>
@@ -48,19 +45,29 @@ const transactions = ({transactions, venues, activeVenue, setActiveVenue, setAct
           <td>{transaction.transactionId.slice(-3)}</td>
           <td>{transaction.createDate.toLocaleDateString() + ' ' + transaction.createDate.toLocaleTimeString()}</td>
           <td>{transaction.name}</td>
-          <td>{(transaction.transactionId === activeTransactionId)
-            ? <FormGroup><FormControl type='text' value={centsIntToString(transaction.amount)} onChange={text => updateTransactionAmount({transactionId: transaction.transactionId, amount: stringToCentsInt(text.target.value)})}/></FormGroup>
+          <td>{(transaction.transactionId === activeTransaction.transactionId)
+            ? <FormGroup><FormControl type='text' value={activeTransaction.amount ? centsIntToString(activeTransaction.amount) : 0}
+                                      onChange={text => updateActiveTransaction({
+                                        transactionId: activeTransaction.transactionId,
+                                        amount: stringToCentsInt(text.target.value)
+                                      })}/></FormGroup>
             : '$' + centsIntToString(transaction.amount)}
           </td>
-          <td>{transaction.items.map(item => (<div>
-            <text>{item.itemName}</text>
-          </div>))}</td>
+          <td>{transaction.items.map(item => (
+            <div key={item.itemId}>
+              <text>{item.itemName}</text>
+            </div>))}
+          </td>
           <td>
             <Button onClick={() => cancelTransaction({transactionId: transaction.transactionId})}>Cancel</Button>
           </td>
-          <td>
-            <Button onClick={() => setActiveTransaction(transaction.transactionId)}>Edit</Button>
-          </td>
+          {(activeTransaction.transactionId)
+            ? <td>
+              <Button onClick={() => updateTransactionAmount({transactionId: activeTransaction.transactionId, amount: activeTransaction.amount})}>Done</Button>
+            </td>
+            : <td>
+            <Button onClick={() => updateActiveTransaction({transactionId: transaction.transactionId, amount: transaction.amount})}>Edit</Button>
+          </td>}
         </tr>
       ))}
       </tbody>
@@ -72,10 +79,9 @@ transactions.propTypes = {
   venues: PropTypes.array,
   activeVenue: PropTypes.object,
   setActiveVenue: PropTypes.func.isRequired,
-  activeTransactionId: PropTypes.string.isRequired,
+  activeTransaction: PropTypes.object,
   updateTransactionAmount: PropTypes.func.isRequired,
-  setActiveTransaction: PropTypes.func.isRequired,
-  finishedEditingTransactionAmount: PropTypes.func.isRequired,
+  updateActiveTransaction: PropTypes.func.isRequired,
   cancelTransaction: PropTypes.func.isRequired
 };
 

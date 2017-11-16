@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import {
   cancelTransaction,
   updateTransactionAmount,
-  setActiveTransaction,
+  updateActiveTransaction,
   finishedEditingTransactionAmount
 } from '../actions/transactionActions';
 import {updateActiveVenue} from '../actions/venueActions'
@@ -12,17 +12,17 @@ const mapStateToProps = state => ({
   transactions: state.transactions.visibleTransactions,
   venues: state.venues,
   activeVenue: state.activeVenue,
-  activeTransactionId: state.transactions.activeTransactionId,
-
+  activeTransaction: state.transactions.activeTransaction,
 });
 
 const mapDispatchToProps = dispatch => ({
   setActiveVenue: (venueId, name, address, timeRanges) => dispatch(updateActiveVenue(venueId, name, address, timeRanges)),
-  updateTransactionAmount: ({transactionId, amount, createDate, nodeId, items, venueId, name}) =>
-    dispatch(updateTransactionAmount({transactionId, amount})),
+  updateTransactionAmount: ({transactionId, amount}) => {
+    dispatch(updateTransactionAmount({transactionId, amount}));
+    dispatch(finishedEditingTransactionAmount())
+  },
   cancelTransaction: ({transactionId}) => dispatch(cancelTransaction({transactionId})),
-  setActiveTransaction: (transactionId) => dispatch(setActiveTransaction(transactionId)),
-  finishedEditingTransactionAmount: () => dispatch(finishedEditingTransactionAmount())
+  updateActiveTransaction: ({transactionId, amount}) => dispatch(updateActiveTransaction({transactionId, amount})),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(transactions)

@@ -13,13 +13,12 @@ export const updateTransactionAmount = ({transactionId, amount}) => {
   return {type: UPDATE_TRANSACTION_AMOUNT, payload: {transactionId, amount}}
 };
 
-export const SET_ACTIVE_TRANSACTION = 'SET_ACTIVE_TRANSACTION';
-export const setActiveTransaction = (transactionId) => {
-  return {type: SET_ACTIVE_TRANSACTION, transactionId}
+export const UPDATE_ACTIVE_TRANSACTION = 'UPDATE_ACTIVE_TRANSACTION';
+export const updateActiveTransaction = ({transactionId, amount}) => {
+  return {type: UPDATE_ACTIVE_TRANSACTION, payload: {transactionId, amount}}
 };
 
 export const FINISHED_EDITING_TRANSACTION_AMOUNT = 'FINISHED_EDITING_TRANSACTION_AMOUNT';
 export const finishedEditingTransactionAmount = () => {
   return {type: FINISHED_EDITING_TRANSACTION_AMOUNT, }
 };
-
