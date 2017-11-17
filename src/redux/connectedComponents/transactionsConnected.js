@@ -1,12 +1,10 @@
 import {connect} from 'react-redux';
 import {
-  cancelTransaction,
-  updateTransactionAmount,
   updateActiveTransaction,
-  finishedEditingTransactionAmount
 } from '../actions/transactionActions';
 import {updateActiveVenue} from '../actions/venueActions'
 import transactions from '../components/transactions';
+import {cancelTransactionThunk, editTransactionThunk} from '../middleware/transactionThunks'
 
 const mapStateToProps = state => ({
   transactions: state.transactions.visibleTransactions,
@@ -17,11 +15,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   setActiveVenue: (venueId, name, address, timeRanges) => dispatch(updateActiveVenue(venueId, name, address, timeRanges)),
-  updateTransactionAmount: ({transactionId, amount}) => {
-    dispatch(updateTransactionAmount({transactionId, amount}));
-    dispatch(finishedEditingTransactionAmount())
-  },
-  cancelTransaction: ({transactionId}) => dispatch(cancelTransaction({transactionId})),
+  updateTransactionAmount: ({transactionId, amount}) => dispatch(editTransactionThunk({transactionId, amount})),
+  cancelTransaction: ({transactionId}) => dispatch(cancelTransactionThunk({transactionId})),
   updateActiveTransaction: ({transactionId, amount}) => dispatch(updateActiveTransaction({transactionId, amount})),
 });
 

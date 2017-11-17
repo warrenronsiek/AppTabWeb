@@ -40,7 +40,7 @@ const dedynamoify = objlist => {
 
 const getRangeIds = dedynamofied => objlist.reduce(item => item.id);
 
-const loginThunk = (email, password) => (dispatch, getState) => {
+const loginThunk = (email, password) => (dispatch) => {
   let clientId, stripeId;
   return Promise.resolve(dispatch(statusLoggingIn()))
     .then(() => {
