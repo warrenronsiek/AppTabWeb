@@ -12,11 +12,13 @@ import {
   statusMysteryError,
   updateStripeId
 } from '../actions/loginActions'
+import {updateTransaction} from '../actions/transactionActions'
 import {updateVenue} from '../actions/venueActions'
 import {push} from 'react-router-redux'
 import {WrongCredentialsError} from '../../errors'
 import cookie from 'react-cookie'
 import getClientLoginData from '../../api/getClientLoginData'
+import getTransactions from '../../api/getTransactions'
 import {updateMenuItem} from "../actions/menuActions";
 import {get} from 'lodash'
 
@@ -38,7 +40,7 @@ const dedynamoify = objlist => {
 
 const getRangeIds = dedynamofied => objlist.reduce(item => item.id);
 
-const loginThunk = (email, password) => (dispatch) => {
+const loginThunk = (email, password) => (dispatch, getState) => {
   let clientId, stripeId;
   return Promise.resolve(dispatch(statusLoggingIn()))
     .then(() => {
@@ -80,6 +82,16 @@ const loginThunk = (email, password) => (dispatch) => {
         return Promise.resolve(dispatch(push('/stripeConnect')))
       }
     })
+    .then(() => getTransactions({clientId}))
+    .then(res => res.transactions.forEach(t => dispatch(updateTransaction({
+      transactionId: t.TransactionId.S,
+      amount: parseInt(t.Amount.N),
+      createDate: t.CreateDate.S,
+      nodeId: t.NodeId.S,
+      items: t.Items.SS.map(item => JSON.parse(item)),
+      venueId: t.VenueId.S,
+      name: get(t, 'Name.S')
+    }))))
     .catch(err => {
       switch (err.message) {
         case 'wrong username or password':

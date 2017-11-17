@@ -62,8 +62,8 @@ const transactions = ({transactions, venues, activeVenue, setActiveVenue, update
       <tbody>
       {transactions.map(transaction => (
         <tr key={transaction.transactionId}>
-          <td>{transaction.transactionId.slice(-3)}</td>
-          <td>{transaction.createDate.toLocaleDateString() + ' ' + transaction.createDate.toLocaleTimeString()}</td>
+          <td>{transaction.nodeId.slice(-3)}</td>
+          <td>{transaction.date.toLocaleDateString() + ' ' + transaction.date.toLocaleTimeString()}</td>
           <td>{transaction.name}</td>
           <td>{(transaction.transactionId === activeTransaction.transactionId)
             ? <FormGroup><FormControl type='text' value={activeTransaction.amount ? centsIntToString(activeTransaction.amount) : 0}
