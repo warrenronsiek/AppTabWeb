@@ -9,7 +9,7 @@ const venueThunk = (venueId, name, address, timeRanges) => (dispatch, getState) 
       if (state.venueFormStatus === 'editing') {
         return editVenue({venueId, name, address, timeRanges})
       } else if (state.venueFormStatus === 'addingVenue') {
-        return createVenue({venueId, name, address, clientId: state.clientId})
+        return createVenue({venueId, name, address, clientId: state.clientId, timeRanges})
       } else {
         throw new Error('state is not in \'editing\' or in \'addingVenue\'')
       }

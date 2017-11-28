@@ -42,7 +42,7 @@ const venueFormStatus = (state = '', action) => {
 const activeVenue = (state = {timeRanges: [], updateButtonDisabled: true}, action) => {
   switch (action.type) {
     case UPDATE_ACTIVE_VENUE:
-      return {...state, venueId: action.venueId, address: action.address, name: action.name, timeRanges: action.timeRanges};
+      return {...state, venueId: action.venueId, address: action.address, name: action.name, timeRanges: action.timeRanges, updateButtonDisabled: true};
     case UPDATE_TIME_RANGE:
       let newTimeRanges = [...state.timeRanges.filter(timeRange => timeRange.id !== action.id), {
           id: action.id,
@@ -61,7 +61,8 @@ const activeVenue = (state = {timeRanges: [], updateButtonDisabled: true}, actio
         ...state,
         timeRanges: [...state.timeRanges, {
           name: '', range: '', id: (state.timeRanges.reduce((max, timeRange) => Math.max(max, parseInt(timeRange.id)), 0) + 1).toString()
-        }].sort((a, b) => a.id > b.id)
+        }].sort((a, b) => a.id > b.id),
+        updateButtonDisabled: true
       };
     default:
       return state
