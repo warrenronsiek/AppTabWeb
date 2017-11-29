@@ -12,6 +12,7 @@ import Register from './redux/connectedComponents/registerConnected'
 import StripeConnect from './scenes/stripeConnect'
 import StripeRedirect from './scenes/stripeRedirect'
 import PasswordReset from './redux/connectedComponents/passwordResetConnected'
+import Transactions from './scenes/transactionScene'
 import SupportScene from './scenes/support'
 import VenueScene from './scenes/venueScene'
 import MenuScene from './scenes/menuScene'
@@ -35,6 +36,7 @@ ReactDOM.render(
       <Route path="/venues" components={VenueScene} onEnter={loginRequired}/>
       <Route path="/menus" components={MenuScene} onEnter={loginRequired}/>
       <Route path="/reports" components={ReportScene} onEnter={loginRequired}/>
+      <Route path="/transactions" components={Transactions} onEnter={loginRequired}/>
     </Router>
   </Provider>,
   document.getElementById('app')
