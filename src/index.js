@@ -6,6 +6,8 @@ import ReactDOM from 'react-dom'
 import {Provider} from 'react-redux'
 import {Route, Router} from 'react-router'
 import {store, history} from "./redux/store"
+import cookie from 'react-cookie'
+import {loadData} from "./common/loadData";
 
 import Login from './redux/connectedComponents/loginConnected'
 import Register from './redux/connectedComponents/registerConnected'
@@ -17,10 +19,23 @@ import SupportScene from './scenes/support'
 import VenueScene from './scenes/venueScene'
 import MenuScene from './scenes/menuScene'
 import ReportScene from './scenes/reportScene'
+import {updateAuthParams, updateClientId} from "./redux/actions/loginActions";
 
 const loginRequired = (nextState, replace) => {
   if (store.getState().loginStatus !== 'loggedIn') {
-    replace('/')
+    const
+      clientId = cookie.load('clientId'),
+      accessToken = cookie.load('accessToken'),
+      refreshToken = cookie.load('refreshToken'),
+      idToken = cookie.load('idToken'),
+      updateTime = cookie.load('updateTime');
+    if (clientId && accessToken && refreshToken && idToken && updateTime) {
+      store.dispatch(updateClientId(clientId));
+      store.dispatch(updateAuthParams(idToken, accessToken, refreshToken, decodeURIComponent(updateTime)));
+      loadData()
+    } else {
+      replace('/')
+    }
   }
 };
 

@@ -16,8 +16,9 @@ import {transactions} from "./transactionReducer";
 import {venueFormStatus, venues, activeVenue} from './venueReducer'
 import {menu, activeMenuItem, viewableMenuOptions, menuViewState} from './menuReducer'
 import {reports} from "./reportReducer";
+import cookie from 'react-cookie'
 
-export default combineReducers({
+const appReducer = combineReducers({
   routing: routerReducer,
   stripeData,
   reports,
@@ -42,4 +43,13 @@ export default combineReducers({
   activeMenuItem,
   viewableMenuOptions,
   menuViewState
-})
+});
+
+const rootReducer = (state, action) => {
+  if (action.type === '@@router/LOCATION_CHANGE') {
+    cookie.save('path', action.payload.pathname)
+  }
+  return appReducer(state, action)
+};
+
+export default rootReducer
