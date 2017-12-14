@@ -6,41 +6,18 @@ import {
   updateAuthParams,
   updateClientId,
   statusLoggingIn,
-  statusLoginComplete,
   statusWrongCredentials,
   statusNetworkError,
   statusMysteryError,
-  updateStripeId
 } from '../actions/loginActions'
-import {updateTransaction} from '../actions/transactionActions'
-import {updateVenue} from '../actions/venueActions'
 import {push} from 'react-router-redux'
 import {WrongCredentialsError} from '../../errors'
 import cookie from 'react-cookie'
-import getClientLoginData from '../../api/getClientLoginData'
-import getTransactions from '../../api/getTransactions'
-import {updateMenuItem} from "../actions/menuActions";
-import {get} from 'lodash'
+import {loadData} from "../../common/loadData";
 
 const decode = require('jwt-decode');
 
-function decapitalizeFirstLetter(string) {
-  return string.charAt(0).toLowerCase() + string.slice(1);
-}
-
-const dedynamoify = objlist => {
-  if (!objlist) {
-    return []
-  }
-  return objlist.map(obj => Object.keys(obj.M).reduce((accum, key) => {
-    accum[decapitalizeFirstLetter(key)] = get(obj, `M[${key}].S`) || get(obj, `M[${key}].N`);
-    return accum
-  }, {}))
-};
-
-const getRangeIds = dedynamofied => objlist.reduce(item => item.id);
-
-const loginThunk = (email, password) => (dispatch) => {
+const loginThunk = (email, password) => (dispatch, getState) => {
   let clientId, stripeId;
   return Promise.resolve(dispatch(statusLoggingIn()))
     .then(() => {
@@ -62,37 +39,16 @@ const loginThunk = (email, password) => (dispatch) => {
         p2 = Promise.resolve(dispatch(updateClientId(clientId)));
       return Promise.all([p1, p2])
     })
-    .then(() => getClientLoginData({clientId}))
-    .then((res) => {
-      stripeId = get(res, 'stripeData.Item.StripeId.S');
-      res.venues.Items.forEach(venue => dispatch(updateVenue(venue.VenueId.S, venue.Name.S, venue.Address.S, dedynamoify(get(venue, 'TimeRanges.L')))));
-      res.menus.forEach(item =>
-        dispatch(updateMenuItem(item.ItemId.S, item.ItemName.S, item.ItemDescription.S, item.Price.N, item.Category.S,
-          (JSON.stringify(item.Tags.SS) === JSON.stringify(['NULL'])) ? [] : item.Tags.SS,
-          (item.ItemOptions.S === '"NULL"') ? [] : JSON.parse(item.ItemOptions.S),
-          item.VenueId.S,
-          (item.TimeRanges) ? get(item, 'TimeRanges.SS') : [])));
-      dispatch(updateStripeId(stripeId));
-      return Promise.resolve(dispatch(statusLoginComplete()));
-    })
+    .then(() => loadData())
     .then(() => {
-      if (stripeId) {
+      if (getState().stripeData.stripeId) {
         return Promise.resolve(dispatch(push('/venues')))
       } else {
         return Promise.resolve(dispatch(push('/stripeConnect')))
       }
     })
-    .then(() => getTransactions({clientId}))
-    .then(res => res.transactions.forEach(t => dispatch(updateTransaction({
-      transactionId: t.TransactionId.S,
-      amount: parseInt(t.Amount.N),
-      createDate: t.CreateDate.S,
-      nodeId: t.NodeId.S,
-      items: t.Items.SS.map(item => JSON.parse(item)),
-      venueId: t.VenueId.S,
-      name: get(t, 'Name.S')
-    }))))
     .catch(err => {
+      console.log(err);
       switch (err.message) {
         case 'wrong username or password':
           dispatch(statusWrongCredentials());
