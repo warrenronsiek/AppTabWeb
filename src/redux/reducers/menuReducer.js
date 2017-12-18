@@ -14,31 +14,24 @@ import {
 import {sortBy, maxBy, get} from 'lodash'
 import crypto from 'crypto'
 
+// a menu item is of shape { itemId, name, description, category, itemOptions, price, tags, venueId,timeRanges, extendedDescription, imageUrl}
 const menu = (state = [], action) => {
   switch (action.type) {
     case UPDATE_MENU_ITEM:
-      return [...state.filter(item => item.itemId !== action.itemId), {
-        itemId: action.itemId,
-        name: action.name,
-        description: action.description,
-        category: action.category,
-        optionSets: action.optionSets,
-        price: action.price,
-        tags: action.tags,
-        venueId: action.venueId,
-        timeRanges: action.timeRanges
-      }].sort((a, b) => a.name > b.name);
+      return [...state.filter(item => item.itemId !== action.payload.itemId), {
+        ...action.payload
+      }].sort((a, b) => a.itemName > b.itemName);
     case DELETE_MENU_ITEM:
-      return [...state.filter(item => item.itemId !== action.itemId)];
+      return [...state.filter(item => item.itemId !== action.payload.itemId)];
     default:
       return state
   }
 };
 
-const viewableMenuOptions = (state = {itemId: '', optionSets: [{optionSetName: '', data: []}]}, action) => {
+const viewableMenuOptions = (state = {itemId: '', itemOptions: [{optionSetName: '', data: []}]}, action) => {
   switch (action.type) {
     case VIEW_OPTIONS:
-      return {itemId: action.itemId, optionSets: action.optionSets};
+      return {itemId: action.itemId, itemOptions: action.itemOptions};
     default:
       return state
   }
@@ -63,54 +56,48 @@ const menuViewState = (state = '', action) => {
 
 const activeMenuItem = (state = {
   tags: [],
-  optionSets: [{optionSetName: '', optionSetId: 0, data: []}],
+  itemOptions: [{optionSetName: '', optionSetId: 0, data: []}],
   timeRanges: []
 }, action) => {
   let otherOptionSets, currentOptionSet, otherOptions;
   switch (action.type) {
     case UPDATE_ACTIVE_MENU_ITEM:
       return {
-        itemId: action.itemId,
-        name: action.name,
-        description: action.description,
-        category: action.category,
-        optionSets: action.optionSets,
-        price: action.price,
-        tags: action.tags,
-        venueId: action.venueId,
-        timeRanges: action.timeRanges
+        ...action.payload
       };
     case UPDATE_TIME_RANGES:
       return {...state, timeRanges: action.timeRanges};
     case ADD_MENU_ITEM:
       return {
         itemId: crypto.randomBytes(10).toString('hex'),
-        name: '',
-        description: '',
+        itemName: '',
+        itemDescription: '',
         category: '',
-        optionSets: [],
+        itemOptions: [],
         price: 0,
         tags: [],
         venueId: action.venueId,
-        timeRanges: []
+        timeRanges: [],
+        extendedDescription: '',
+        imageUrl: ''
       };
     case UPDATE_OPTION_SET_NAME:
-      otherOptionSets = state.optionSets.filter(optionSet => optionSet.optionSetId !== action.optionSetId);
-      currentOptionSet = state.optionSets.filter(optionSet => optionSet.optionSetId === action.optionSetId)[0];
+      otherOptionSets = state.itemOptions.filter(optionSet => optionSet.optionSetId !== action.optionSetId);
+      currentOptionSet = state.itemOptions.filter(optionSet => optionSet.optionSetId === action.optionSetId)[0];
       return {
         ...state,
-        optionSets: sortBy([...otherOptionSets,
+        itemOptions: sortBy([...otherOptionSets,
           {
             ...currentOptionSet,
             optionSetName: action.name
           }], optionSet => optionSet.optionSetId)
       };
     case UPDATE_OPTION:
-      otherOptionSets = state.optionSets.filter(optionSet => optionSet.optionSetId !== action.optionSetId);
-      currentOptionSet = state.optionSets.filter(optionSet => optionSet.optionSetId === action.optionSetId)[0];
+      otherOptionSets = state.itemOptions.filter(optionSet => optionSet.optionSetId !== action.optionSetId);
+      currentOptionSet = state.itemOptions.filter(optionSet => optionSet.optionSetId === action.optionSetId)[0];
       otherOptions = currentOptionSet.data.filter(option => option.optionId !== action.optionId);
       return {
-        ...state, optionSets: sortBy([
+        ...state, itemOptions: sortBy([
           ...otherOptionSets,
           {
             ...currentOptionSet,
@@ -124,18 +111,18 @@ const activeMenuItem = (state = {
     case ADD_OPTION_SET:
       return {
         ...state,
-        optionSets: [...state.optionSets, {
+        itemOptions: [...state.itemOptions, {
           optionSetName: '',
-          optionSetId: get(maxBy(state.optionSets, optionSet => optionSet.optionSetId), 'optionSetId') + 1 || 0,
+          optionSetId: get(maxBy(state.itemOptions, optionSet => optionSet.optionSetId), 'optionSetId') + 1 || 0,
           data: []
         }]
       };
     case ADD_OPTION:
-      otherOptionSets = state.optionSets.filter(optionSet => optionSet.optionSetId !== action.optionSetId);
-      currentOptionSet = state.optionSets.filter(optionSet => optionSet.optionSetId === action.optionSetId)[0];
+      otherOptionSets = state.itemOptions.filter(optionSet => optionSet.optionSetId !== action.optionSetId);
+      currentOptionSet = state.itemOptions.filter(optionSet => optionSet.optionSetId === action.optionSetId)[0];
       return {
         ...state,
-        optionSets: sortBy([...otherOptionSets, {
+        itemOptions: sortBy([...otherOptionSets, {
           ...currentOptionSet,
           data: sortBy([
             ...currentOptionSet.data,

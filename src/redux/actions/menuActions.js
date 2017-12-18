@@ -1,26 +1,22 @@
+
+// payload is of shape: {itemId, name, description, price, category, tags, itemOptions, venueId, timeRanges, extendedDescription, imageUrl}
 export const UPDATE_MENU_ITEM = 'UPDATE_MENU_ITEM';
-export const updateMenuItem = (itemId, name, description, price, category, tags, optionSets, venueId, timeRanges) => {
-  return {type: UPDATE_MENU_ITEM, itemId, name, description, price, category, tags, optionSets, venueId, timeRanges}
+export const updateMenuItem = (payload) => {
+  return {
+    type: UPDATE_MENU_ITEM, payload: payload
+  }
 };
 
 export const VIEW_OPTIONS = 'VIEW_OPTIONS';
-export const viewOptions = (itemId, optionSets) => {
-  return {type: VIEW_OPTIONS, itemId, optionSets}
+export const viewOptions = (itemId, itemOptions) => {
+  return {type: VIEW_OPTIONS, itemId, itemOptions}
 };
 
+// payload is of shape: {itemId, name, description, price, category, tags, itemOptions, venueId, timeRanges, extendedDescription, imageUrl}
 export const UPDATE_ACTIVE_MENU_ITEM = 'UPDATE_ACTIVE_MENU_ITEM';
-export const updateActiveMenuItem = (itemId, name, description, price, category, tags, optionSets, venueId, timeRanges) => {
+export const updateActiveMenuItem = (payload) => {
   return {
-    type: UPDATE_ACTIVE_MENU_ITEM,
-    itemId,
-    name,
-    description,
-    price,
-    category,
-    tags,
-    optionSets,
-    venueId,
-    timeRanges
+    type: UPDATE_ACTIVE_MENU_ITEM, payload : payload
   }
 };
 

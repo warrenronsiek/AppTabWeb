@@ -6,6 +6,7 @@ import getClientLoginData from "../api/getClientLoginData";
 import getTransactions from "../api/getTransactions";
 import {updateTransaction} from "../redux/actions/transactionActions";
 import {get} from 'lodash'
+import {updateCredentials} from "../api/aws";
 
 function decapitalizeFirstLetter(string) {
   return string.charAt(0).toLowerCase() + string.slice(1);
@@ -23,30 +24,41 @@ const dedynamoify = objlist => {
 
 const loadData = () => {
   const state = store.getState();
+  updateCredentials(state.authParams.idToken);
 
   return getClientLoginData({clientId: state.clientId})
     .then((res) => {
       let stripeId = get(res, 'stripeData.Item.StripeId.S');
       res.venues.Items.forEach(venue => store.dispatch(updateVenue(venue.VenueId.S, venue.Name.S, venue.Address.S, dedynamoify(get(venue, 'TimeRanges.L')))));
       res.menus.forEach(item =>
-        store.dispatch(updateMenuItem(item.ItemId.S, item.ItemName.S, item.ItemDescription.S, item.Price.N, item.Category.S,
-          (JSON.stringify(item.Tags.SS) === JSON.stringify(['NULL'])) ? [] : item.Tags.SS,
-          (item.ItemOptions.S === '"NULL"') ? [] : JSON.parse(item.ItemOptions.S),
-          item.VenueId.S,
-          (item.TimeRanges) ? get(item, 'TimeRanges.SS') : [])));
+        store.dispatch(updateMenuItem({
+          itemId: item.ItemId.S,
+          itemName: item.ItemName.S,
+          itemDescription: item.ItemDescription.S,
+          price: item.Price.N,
+          category: item.Category.S,
+          tags: (JSON.stringify(item.Tags.SS) === JSON.stringify(['NULL'])) ? [] : item.Tags.SS,
+          itemOptions: (item.ItemOptions.S === '"NULL"') ? [] : JSON.parse(item.ItemOptions.S),
+          venueId: item.VenueId.S,
+          timeRanges: (item.TimeRanges) ? get(item, 'TimeRanges.SS') : [],
+          extendedDescription: get(item, 'ExtendedDescription.S', '') === 'NULL' ? '' : get(item, 'ExtendedDescription.S', ''),
+          imageUrl: get(item, 'ImageUrl.S', 'NULL')
+        })));
       store.dispatch(updateStripeId(stripeId));
-      store.dispatch(statusLoginComplete());
       return getTransactions({clientId: state.clientId})
     })
-    .then(res => res.transactions.forEach(t => store.dispatch(updateTransaction({
-      transactionId: t.TransactionId.S,
-      amount: parseInt(t.Amount.N),
-      createDate: t.CreateDate.S,
-      nodeId: t.NodeId.S,
-      items: t.Items.SS.map(item => JSON.parse(item)),
-      venueId: t.VenueId.S,
-      name: get(t, 'Name.S')
-    }))))
+    .then(res => {
+      res.transactions.forEach(t => store.dispatch(updateTransaction({
+        transactionId: t.TransactionId.S,
+        amount: parseInt(t.Amount.N),
+        createDate: t.CreateDate.S,
+        nodeId: t.NodeId.S,
+        items: t.Items.SS.map(item => JSON.parse(item)),
+        venueId: t.VenueId.S,
+        name: get(t, 'Name.S')
+      })));
+      store.dispatch(statusLoginComplete());
+    })
 };
 
 export {loadData}
