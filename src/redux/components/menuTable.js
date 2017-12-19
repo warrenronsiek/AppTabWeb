@@ -47,6 +47,9 @@ const styles = {
     display: 'flex',
     flexDirection: 'row'
   },
+  chooseFile: {
+    maxWidth: '200px',
+  }
 };
 
 class MenuTable extends Component {
@@ -116,8 +119,7 @@ class MenuTable extends Component {
                        onChange={change => {
                          let file = this.inputRefs[item.itemId + '-input'].files[0];
                          this.props.updateImage(file, item.itemId);
-                       }}
-                       />
+                       }}/>
               </td>
             </tr>
           ))}

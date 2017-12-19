@@ -22,7 +22,7 @@ const menu = (state = [], action) => {
         ...action.payload
       }].sort((a, b) => a.itemName > b.itemName);
     case DELETE_MENU_ITEM:
-      return [...state.filter(item => item.itemId !== action.payload.itemId)];
+      return [...state.filter(item => item.itemId !== action.itemId)];
     default:
       return state
   }

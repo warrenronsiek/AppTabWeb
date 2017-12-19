@@ -58,6 +58,7 @@ const loadData = () => {
         name: get(t, 'Name.S')
       })));
       store.dispatch(statusLoginComplete());
+      return Promise.resolve()
     })
 };
 

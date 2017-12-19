@@ -8,6 +8,7 @@ import {Route, Router} from 'react-router'
 import {store, history} from "./redux/store"
 import cookie from 'react-cookie'
 import {loadData} from "./common/loadData";
+import './css/bootstrap.min.css';
 
 import Login from './redux/connectedComponents/loginConnected'
 import Register from './redux/connectedComponents/registerConnected'
@@ -33,8 +34,31 @@ const loginRequired = (nextState, replace) => {
       store.dispatch(updateClientId(clientId));
       store.dispatch(updateAuthParams(idToken, accessToken, refreshToken, decodeURIComponent(updateTime)));
       loadData()
+        .catch(err => {
+          store.dispatch({
+            type: '@@router/LOCATION_CHANGE',
+            payload: {
+              pathname: '/',
+              search: '',
+              hash: '',
+              action: 'RESET',
+              key: null,
+              query: {}
+            }
+          })
+        })
     } else {
-      replace('/')
+      store.dispatch({
+        type: '@@router/LOCATION_CHANGE',
+        payload: {
+          pathname: '/',
+          search: '',
+          hash: '',
+          action: 'RESET',
+          key: null,
+          query: {}
+        }
+      })
     }
   }
 };
