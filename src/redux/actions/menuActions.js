@@ -1,5 +1,5 @@
 
-// payload is of shape: {itemId, name, description, price, category, tags, itemOptions, venueId, timeRanges, extendedDescription, imageUrl}
+// payload is of shape: {itemId, name, description, price, category, tags, itemOptions, venueId, timeRanges, extendedDescription, image: {imageName, imageUrl}}
 export const UPDATE_MENU_ITEM = 'UPDATE_MENU_ITEM';
 export const updateMenuItem = (payload) => {
   return {
@@ -12,7 +12,7 @@ export const viewOptions = (itemId, itemOptions) => {
   return {type: VIEW_OPTIONS, itemId, itemOptions}
 };
 
-// payload is of shape: {itemId, name, description, price, category, tags, itemOptions, venueId, timeRanges, extendedDescription, imageUrl}
+// payload is of shape: {itemId, name, description, price, category, tags, itemOptions, venueId, timeRanges, extendedDescription, image: {imageName, imageUrl}}
 export const UPDATE_ACTIVE_MENU_ITEM = 'UPDATE_ACTIVE_MENU_ITEM';
 export const updateActiveMenuItem = (payload) => {
   return {

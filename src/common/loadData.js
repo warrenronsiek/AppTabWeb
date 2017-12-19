@@ -42,7 +42,7 @@ const loadData = () => {
           venueId: item.VenueId.S,
           timeRanges: (item.TimeRanges) ? get(item, 'TimeRanges.SS') : [],
           extendedDescription: get(item, 'ExtendedDescription.S', '') === 'NULL' ? '' : get(item, 'ExtendedDescription.S', ''),
-          imageUrl: get(item, 'ImageUrl.S', 'NULL')
+          image: {imageName: get(item, 'Image.M.ImageName.S', 'NULL'), imageUrl:  get(item, 'Image.M.ImageUrl.S', 'NULL')}
         })));
       store.dispatch(updateStripeId(stripeId));
       return getTransactions({clientId: state.clientId})

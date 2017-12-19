@@ -22,10 +22,10 @@ const updateImageThunk = (file, itemId) => (dispatch, getState) => {
   let key = state.activeVenue.venueId + '/' + itemId + '.png';
   let menuItem = find(state.menu, item => item.itemId === itemId);
   let imageUrl = imageBucketUrl + '/' + key;
-  dispatch(updateMenuItem({...menuItem, imageUrl: imageUrl}));
+  dispatch(updateMenuItem({...menuItem, image: {imageUrl, imageName: file.name}}));
 
   s3.upload({Key: key, Body: file}).promise()
-    .then(() => updateMenuItemApi({...menuItem, imageUrl: imageUrl}))
+    .then(() => updateMenuItemApi({...menuItem, imageUrl, imageName: file.name}))
     .catch(err => console.log(err));
 };
 

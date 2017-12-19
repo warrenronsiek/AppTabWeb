@@ -14,7 +14,7 @@ import {
 import {sortBy, maxBy, get} from 'lodash'
 import crypto from 'crypto'
 
-// a menu item is of shape { itemId, name, description, category, itemOptions, price, tags, venueId,timeRanges, extendedDescription, imageUrl}
+// a menu item is of shape { itemId, name, description, category, itemOptions, price, tags, venueId,timeRanges, extendedDescription, image: {imageName, imageUrl}}
 const menu = (state = [], action) => {
   switch (action.type) {
     case UPDATE_MENU_ITEM:
@@ -79,7 +79,7 @@ const activeMenuItem = (state = {
         venueId: action.venueId,
         timeRanges: [],
         extendedDescription: '',
-        imageUrl: ''
+        image: {imageName: '', imageUrl: ''}
       };
     case UPDATE_OPTION_SET_NAME:
       otherOptionSets = state.itemOptions.filter(optionSet => optionSet.optionSetId !== action.optionSetId);

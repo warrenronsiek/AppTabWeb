@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Table, Button, ToggleButton} from 'react-bootstrap'
 import PropTypes from 'prop-types'
-import {find} from 'lodash'
+import {find, get} from 'lodash'
 import centsIntToString from '../../common/centsIntToString'
 
 const styles = {
@@ -47,8 +47,9 @@ const styles = {
     display: 'flex',
     flexDirection: 'row'
   },
-  chooseFile: {
-    maxWidth: '200px',
+  inputStyle: {
+    visibility: 'hidden',
+    display: 'none'
   }
 };
 
@@ -114,12 +115,19 @@ class MenuTable extends Component {
                 <Button onClick={() => this.props.deleteItem(item.itemId, item.venueId)}>Delete</Button>
               </td>
               <td>
-                <input type="file" id={item.itemId + '-input'} key={item.itemId + '-input'}
-                       ref={input => this.inputRefs[item.itemId + '-input'] = input}
-                       onChange={change => {
-                         let file = this.inputRefs[item.itemId + '-input'].files[0];
-                         this.props.updateImage(file, item.itemId);
-                       }}/>
+                <div style={{flexDirection: 'row', display: 'flex', minWidth: '200px'}}>
+                  <div>
+                    <Button onClick={() => document.getElementById(item.itemId + '-input').click()}>Image</Button>
+
+                  </div>
+                  <input type="file" id={item.itemId + '-input'} key={item.itemId + '-input'} style={styles.inputStyle}
+                         ref={input => this.inputRefs[item.itemId + '-input'] = input}
+                         onChange={change => {
+                           let file = this.inputRefs[item.itemId + '-input'].files[0];
+                           this.props.updateImage(file, item.itemId);
+                         }}/>
+                  <text style={{paddingLeft: '10px'}}>{get(item, 'image.imageName') === 'NULL' ? 'No image found.' : get(item, 'image.imageName')}</text>
+                </div>
               </td>
             </tr>
           ))}

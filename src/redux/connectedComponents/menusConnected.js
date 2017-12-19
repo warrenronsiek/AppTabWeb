@@ -21,12 +21,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   viewOptions: (itemId, itemOptions) => dispatch(viewOptions(itemId, itemOptions)),
-  editItem: ({itemId, itemName, itemDescription, price, category, tags, itemOptions, venueId, timeRanges, extendedDescription, imageUrl}) =>
-    dispatch(updateActiveMenuItem({itemId, itemName, itemDescription, price, category, tags, itemOptions, venueId, timeRanges, extendedDescription, imageUrl})),
+  editItem: ({itemId, itemName, itemDescription, price, category, tags, itemOptions, venueId, timeRanges, extendedDescription, image}) =>
+    dispatch(updateActiveMenuItem({itemId, itemName, itemDescription, price, category, tags, itemOptions, venueId, timeRanges, extendedDescription, image})),
   updateOptionSetName: (optionSetId, name) => dispatch(updateOptionSetName(optionSetId, name)),
   updateOption: (optionSetId, optionId, name, price) => dispatch(updateOption(optionSetId, optionId, name, price)),
-  updateItem: ({itemId, itemName, itemDescription, price, category, tags, itemOptions, venueId, timeRanges, extendedDescription, imageUrl}) =>
-    dispatch(updateMenuItemThunk({itemId, itemName, itemDescription, price, category, tags, itemOptions, venueId, timeRanges, extendedDescription, imageUrl})),
+  updateItem: ({itemId, itemName, itemDescription, price, category, tags, itemOptions, venueId, timeRanges, extendedDescription, image}) =>
+    dispatch(updateMenuItemThunk({itemId, itemName, itemDescription, price, category, tags, itemOptions, venueId, timeRanges, extendedDescription, image})),
   cancelEditing: () => dispatch(cancelEditing()),
   addOption: optionSetId => dispatch(addOption(optionSetId)),
   addOptionSet: () => dispatch(addOptionSet()),
