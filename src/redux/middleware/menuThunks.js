@@ -5,9 +5,9 @@ import {s3} from "../../api/aws";
 import {find} from 'lodash'
 import {imageBucketUrl} from "../../vars";
 
-const updateMenuItemThunk = ({itemId, itemName, itemDescription, price, category, tags, itemOptions, venueId, timeRanges, extendedDescription, imageUrl}) => (dispatch) => {
-  dispatch(updateMenuItem({itemId, itemName, itemDescription, price, category, tags, itemOptions, venueId, timeRanges, extendedDescription, imageUrl}));
-  updateMenuItemApi({itemId, itemName, itemDescription, price, category, tags, itemOptions: (itemOptions.length === 0) ? 'NULL' : itemOptions, venueId, timeRanges, extendedDescription, imageUrl})
+const updateMenuItemThunk = ({itemId, itemName, itemDescription, price, category, tags, itemOptions, venueId, timeRanges, extendedDescription, image}) => (dispatch) => {
+  dispatch(updateMenuItem({itemId, itemName, itemDescription, price, category, tags, itemOptions, venueId, timeRanges, extendedDescription, image}));
+  updateMenuItemApi({itemId, itemName, itemDescription, price, category, tags, itemOptions: (itemOptions.length === 0) ? 'NULL' : itemOptions, venueId, timeRanges, extendedDescription, imageUrl: image.imageUrl, imageName: image.imageName})
     .catch(err => console.log(err))
 };
 
