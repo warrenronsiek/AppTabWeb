@@ -38,7 +38,7 @@ const loadData = () => {
           price: item.Price.N,
           category: item.Category.S,
           tags: (JSON.stringify(item.Tags.SS) === JSON.stringify(['NULL'])) ? [] : item.Tags.SS,
-          itemOptions: (item.ItemOptions.S === '"NULL"') ? [] : JSON.parse(item.ItemOptions.S),
+          itemOptions: (item.ItemOptions.S === 'NULL') ? [] : item.ItemOptions.S,
           venueId: item.VenueId.S,
           timeRanges: (item.TimeRanges) ? get(item, 'TimeRanges.SS') : [],
           extendedDescription: get(item, 'ExtendedDescription.S', '') === 'NULL' ? '' : get(item, 'ExtendedDescription.S', ''),
