@@ -56,28 +56,33 @@ const ActiveItemForm = ({viewState, activeItem, editItem, updateOptionSetName, u
         <form style={{width: '500px'}}>
           <FormGroup>
             <ControlLabel>Name</ControlLabel>
-            <FormControl type='text' value={activeItem.name}
-                         onChange={text => editItem(activeItem.itemId, text.target.value, activeItem.description, activeItem.price, activeItem.category, activeItem.tags, activeItem.optionSets, activeItem.venueId)}/>
+            <FormControl type='text' value={activeItem.itemName}
+                         onChange={text => editItem({...activeItem, itemName: text.target.value})}/>
           </FormGroup>
           <FormGroup>
             <ControlLabel>Description</ControlLabel>
-            <FormControl type='text' value={activeItem.description}
-                         onChange={text => editItem(activeItem.itemId, activeItem.name, text.target.value, activeItem.price, activeItem.category, activeItem.tags, activeItem.optionSets, activeItem.venueId)}/>
+            <FormControl type='text' value={activeItem.itemDescription}
+                         onChange={text => editItem({...activeItem, itemDescription: text.target.value})}/>
+          </FormGroup>
+          <FormGroup>
+            <ControlLabel>Expanded Description</ControlLabel>
+            <FormControl componentClass='textarea' value={activeItem.extendedDescription}
+                         onChange={text => editItem({...activeItem, extendedDescription: text.target.value})}/>
           </FormGroup>
           <FormGroup>
             <ControlLabel>Price</ControlLabel>
             <FormControl type='text' value={activeItem.price ? centsIntToString(activeItem.price) : '0'}
-                         onChange={text => editItem(activeItem.itemId, activeItem.name, activeItem.description, stringToCentsInt(text.target.value), activeItem.category, activeItem.tags, activeItem.optionSets, activeItem.venueId)}/>
+                         onChange={text => editItem({...activeItem, price: stringToCentsInt(text.target.value)})}/>
           </FormGroup>
           <FormGroup>
             <ControlLabel>Category</ControlLabel>
             <FormControl type='text' value={activeItem.category}
-                         onChange={text => editItem(activeItem.itemId, activeItem.name, activeItem.description, activeItem.price, text.target.value, activeItem.tags, activeItem.optionSets, activeItem.venueId)}/>
+                         onChange={text => editItem({...activeItem, category: text.target.value})}/>
           </FormGroup>
           <FormGroup>
             <ControlLabel>Tags</ControlLabel>
             <FormControl type='text' value={activeItem.tags.reduce((accum, str) => accum + ' ' + str, '').slice(1)}
-                         onChange={text => editItem(activeItem.itemId, activeItem.name, activeItem.description, activeItem.price, activeItem.category, tagProcessor(text.target.value), activeItem.optionSets, activeItem.venueId)}/>
+                         onChange={text => editItem({...activeItem, tags: tagProcessor(text.target.value)})}/>
             <HelpBlock>Enter tags separated by spaces.</HelpBlock>
           </FormGroup>
         </form>
@@ -90,7 +95,7 @@ const ActiveItemForm = ({viewState, activeItem, editItem, updateOptionSetName, u
             </ToggleButtonGroup>
           </ButtonToolbar>
         </div>
-        {activeItem.optionSets.map(optionSet => (
+        {activeItem.itemOptions.map(optionSet => (
           <div key={optionSet.optionSetId}>
             <form style={{width: '450px', marginLeft: '25px', marginRight: '25px'}}>
               <FormGroup>
@@ -128,7 +133,7 @@ const ActiveItemForm = ({viewState, activeItem, editItem, updateOptionSetName, u
         ))}
         <div style={styles.buttonContainer}>
           <Button style={styles.button}
-                  onClick={() => updateItem(activeItem.itemId, activeItem.name, activeItem.description, activeItem.price, activeItem.category, activeItem.tags, activeItem.optionSets, activeItem.venueId, activeItem.timeRanges)}>Done</Button>
+                  onClick={() => updateItem({...activeItem})}>Done</Button>
           <Button style={styles.button} onClick={() => cancelEditing()}>Cancel</Button>
           <Button style={styles.button} onClick={() => addOptionSet()}>Add Option Set</Button>
         </div>
