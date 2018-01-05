@@ -3,14 +3,17 @@
  */
 import React from 'react'
 import PropTypes from 'proptypes'
-import {FormGroup, ControlLabel, FormControl, PageHeader, Button} from 'react-bootstrap'
+import {FormGroup, ControlLabel, FormControl, PageHeader, Button, Image} from 'react-bootstrap'
+import LandingImage from '../../static/landingImage.jpg'
+import InfoBlock from './infoBlock'
+import Chronometer from '../../static/chronometer'
 
 require('../../css/bootstrap.min.css');
 
 const styles = {
   parent: {
     position: 'relative',
-    height: 500
+    flex: 1,
   },
   form: {
     marginTop: '150px'
@@ -56,6 +59,26 @@ const styles = {
   passwordResetButton: {
     width: '130px',
     marginRight: '10px'
+  },
+  imageContainer: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    maxHeight: 600,
+    height: 600,
+    backgroundImage: `url(${LandingImage})`,
+    backgroundSize: 'cover',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  infoContainer: {
+    height: 600,
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'grey'
   }
 };
 
@@ -74,12 +97,22 @@ const LoginSwitch = (props) => {
   }
 };
 
+
+
 const login = ({
                  email, password, updateEmail, updatePassword, submitLoginCredentials, loginStatus, navToRegister,
                  navToPasswordReset
                }) => (
   <div style={styles.parent}>
-    <PageHeader style={{position: 'relative', paddingLeft: '40px'}}>AppTab</PageHeader>
+    <div style={styles.imageContainer}>
+      <h1 style={{color: 'black', fontSize: 60}}>AppTab</h1>
+      <h1 style={{color: 'black', fontSize: 30}}>Turn tables faster at reduced cost.</h1>
+    </div>
+    <div style={styles.infoContainer}>
+      <InfoBlock RenderSvg={Chronometer}>
+        <p>test</p>
+      </InfoBlock>
+    </div>
     <form style={styles.form}>
       <FormGroup style={styles.formGroup}>
         <ControlLabel>Email</ControlLabel>
