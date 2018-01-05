@@ -1,41 +1,48 @@
 import React, {Component} from 'react'
 import PropTypes from 'proptypes'
-import Loadable from 'react-loadable'
 
-let RenderSvg;
 const styles = {
   infoBlockContainer: {
     flex: 1,
-    flexDirection: 'column'
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    display: 'flex'
   },
   infoSVGContainer: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 120,
+    width: 120,
+  },
+  infoSVGSubContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
   },
   infoTextContainer: {
-    flex: 1
+    paddingTop: 50,
+    flex: 5,
+    width: '70%'
   }
 };
 
-class InfoBlock extends Component {
-  static propTypes = {
-    RenderSvg: PropTypes.func.isRequired
-  };
-  componentWillMount () {
-    RenderSvg = this.props.RenderSvg
-  }
-
-  render() {
-    return (
-      <div style={styles.infoBlockContainer}>
-        <div style={styles.infoSVGContainer}>
-          <RenderSvg/>
-        </div>
-        <div style={styles.infoTextContainer}>
-          {this.props.children}
-        </div>
-      </div>
-    )
+const infoBlockWrapper = (SvgComponent) => {
+  return class extends Component {
+    render() {
+      return (
+        <div style={styles.infoBlockContainer}>
+          <div style={styles.infoSVGContainer}>
+            <div style={styles.infoSVGSubContainer}>
+              <SvgComponent/>
+            </div>
+          </div>
+          <div style={styles.infoTextContainer}>
+            {this.props.children}
+          </div>
+        </div>)
+    }
   }
 };
-
-export default InfoBlock
+export default infoBlockWrapper

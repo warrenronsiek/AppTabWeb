@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 483.8 483.8" style="enable-background:new 0 0 483.8 483.8;" xml:space="preserve">
+import React from 'react'
+export default () =>
+<svg viewBox="0 0 483.8 483.8">
 <g>
 	<g>
 		<path d="M123.2,134H15.7C7,134,0,141,0,149.7v310.6C0,469,7,476,15.7,476h107.5c8.7,0,15.7-7,15.7-15.7V149.7

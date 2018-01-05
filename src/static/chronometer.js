@@ -2,7 +2,7 @@ import React from 'react'
 
 export default () => (
 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-	 viewBox="0 0 487.125 487.125" style={{enableBackground: '0 0 487.125 487.125', width: '100%'}}>
+	 viewBox="0 0 487.125 487.125" style={{width: '100%'}}>
 <g>
 	<g>
 		<path d="M459.5,168.562c3.5,3.5,9.1,3.5,12.5,0l12.5-12.5c3.5-3.5,3.5-9.1,0-12.5l-28.3-28.3c-3.5-3.5-9.1-3.5-12.5,0l-12.5,12.5
