@@ -3,23 +3,14 @@
  */
 import React from 'react'
 import PropTypes from 'proptypes'
-import {FormGroup, ControlLabel, FormControl, PageHeader, Button, Image} from 'react-bootstrap'
-import LandingImage from '../../static/landingImage.jpg'
-import infoBlockWrapper from './infoBlock'
-import Chronometer from '../../static/chronometer'
-const ChonometerWrapped = infoBlockWrapper(Chronometer);
-import Savings from '../../static/piggy-bank'
-const SavingsWrapped = infoBlockWrapper(Savings);
-import Charts from '../../static/bar-chart'
-const ChartsWrapped = infoBlockWrapper(Charts);
-import YouTube from 'react-youtube'
+import {FormGroup, ControlLabel, FormControl, PageHeader, Button} from 'react-bootstrap'
 
 require('../../css/bootstrap.min.css');
 
 const styles = {
   parent: {
     position: 'relative',
-    flex: 1,
+    height: 500
   },
   form: {
     marginTop: '150px'
@@ -28,6 +19,13 @@ const styles = {
     width: '300px',
     position: 'relative',
     margin: 'auto',
+  },
+  header: {
+    textAlign: 'center',
+  },
+  subHeader: {
+    textAlign: 'center',
+    margin: "auto"
   },
   buttonContainer: {
     position: 'relative',
@@ -58,46 +56,7 @@ const styles = {
   passwordResetButton: {
     width: '130px',
     marginRight: '10px'
-  },
-  imageContainer: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    maxHeight: 600,
-    height: 600,
-    backgroundImage: `url(${LandingImage})`,
-    backgroundSize: 'cover',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  infoContainer: {
-    height: 400,
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  infoText: {
-    textAlign: 'center',
-    fontSize: 16,
-  },
-  youTubeContainer: {
-    flex: 1,
-    backgroundColor: '#E4E4E4',
-    alignItems: 'center',
-    justifyContent: 'center',
-    display: 'flex',
-    paddingTop: 30,
-    paddingBottom: 30
-  },
-  header: {
-    display: 'flex',
-    flex: 1,
-    maxHeight: 100,
-    height: 100,
-    flexDirection: 'row'
-  },
+  }
 };
 
 const LoginSwitch = (props) => {
@@ -120,28 +79,7 @@ const login = ({
                  navToPasswordReset
                }) => (
   <div style={styles.parent}>
-    <div style={styles.header}>
-
-    </div>
-    <div style={styles.imageContainer}>
-      <h1 style={{color: 'black', fontSize: 60}}>AppTab</h1>
-      <h1 style={{color: 'black', fontSize: 30}}>Turn tables faster at reduced cost.</h1>
-    </div>
-    <div style={styles.infoContainer}>
-      <ChonometerWrapped>
-        <h5 style={styles.infoText}>Not all customers want to talk to the waitstaff. AppTab allows your customers to order and transact faster.</h5>
-      </ChonometerWrapped>
-      <SavingsWrapped>
-        <h5 style={styles.infoText}>Outsourcing some of your customer service to AppTabb allows you to serve more customers with fewer staff.</h5>
-      </SavingsWrapped>
-      <ChartsWrapped>
-        <h5 style={styles.infoText}>Our analytics portal should serve all of your needs. If it doesn't have the reports you want, we will build it.</h5>
-      </ChartsWrapped>
-    </div>
-    <div style={styles.youTubeContainer}>
-      <YouTube videoId='02kUk7qvieM'/>
-    </div>
-
+    <PageHeader style={{position: 'relative', paddingLeft: '40px'}}>AppTab</PageHeader>
     <form style={styles.form}>
       <FormGroup style={styles.formGroup}>
         <ControlLabel>Email</ControlLabel>

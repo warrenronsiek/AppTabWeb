@@ -1,18 +1,26 @@
 /**
  * Created by warren on 3/17/17.
  */
-import React from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'proptypes'
 import {FormGroup, ControlLabel, FormControl, PageHeader, Button, Image} from 'react-bootstrap'
 import LandingImage from '../../static/landingImage.jpg'
 import infoBlockWrapper from './infoBlock'
 import Chronometer from '../../static/chronometer'
+
 const ChonometerWrapped = infoBlockWrapper(Chronometer);
 import Savings from '../../static/piggy-bank'
+
 const SavingsWrapped = infoBlockWrapper(Savings);
 import Charts from '../../static/bar-chart'
+
 const ChartsWrapped = infoBlockWrapper(Charts);
+import Contact from '../../static/phone-call'
+
+const ContactWrapped = infoBlockWrapper(Contact);
 import YouTube from 'react-youtube'
+import Logo from '../../static/apptab_logo_circle.png'
+import ProfilePic from '../../static/Simone-Anne-Warren-Oakland-Headshots-23.jpg'
 
 require('../../css/bootstrap.min.css');
 
@@ -20,44 +28,6 @@ const styles = {
   parent: {
     position: 'relative',
     flex: 1,
-  },
-  form: {
-    marginTop: '150px'
-  },
-  formGroup: {
-    width: '300px',
-    position: 'relative',
-    margin: 'auto',
-  },
-  buttonContainer: {
-    position: 'relative',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: '30px',
-  },
-  button: {
-    marginRight: '10px',
-    width: '90px'
-  },
-  statusTextContainer: {
-    position: 'relative',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 'auto',
-    marginTop: '20px'
-  },
-  passwordResetButtonContainer: {
-    position: 'relative',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: '10px',
-  },
-  passwordResetButton: {
-    width: '130px',
-    marginRight: '10px'
   },
   imageContainer: {
     flex: 1,
@@ -94,91 +64,170 @@ const styles = {
   header: {
     display: 'flex',
     flex: 1,
-    maxHeight: 100,
-    height: 100,
-    flexDirection: 'row'
+    height: 83,
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    borderBottomColor: 'grey',
+    position: 'fixed',
+    width: '100%',
+    borderBottomWidth: 'thin',
+    paddingBottom: 1,
+    borderBottom: 'solid'
   },
-};
-
-const LoginSwitch = (props) => {
-  switch (props.loginStatus) {
-    case 'loggingIn':
-      return <h3>Logging In...</h3>;
-    case 'wrongCredentials':
-      return <h3>Wrong username or password</h3>;
-    case 'networkError':
-      return <h3>Network Error</h3>;
-    case 'mysteryError':
-      return <h3>Mysterious Error</h3>;
-    default:
-      return null;
+  logoContainer: {
+    width: 80,
+    maxWidth: 80
+  },
+  navContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    display: 'flex'
+  },
+  loginContainer: {
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingRight: 30,
+    flex: 1,
+    display: 'flex'
+  },
+  contactContainer: {
+    flex: 1,
+    display: 'flex',
+    height: 400,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  profileContainer: {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    height: 500,
+    marginBottom: 50
+  },
+  profileSubContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    border: 'solid',
+    borderWidth: 1,
+    borderColor: '#D4D4D4',
+    flexDirection: 'column',
+    maxWidth: 302,
+  },
+  profileTextContainer: {
+    textAlign: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  profileImageContainer: {
+    width: 300,
+    height: 370,
+    overflow: 'hidden',
+  },
+  footer: {
+    height: 200,
+    backgroundColor: '#d4d4d4',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    display: 'flex',
+    flex: 1,
+    paddingLeft: 30,
+    flexDirection: 'column'
+  },
+  navButton: {
+    flex: 1,
+    border: 'none',
+    marginLeft: 5,
+    marginRight: 5,
+    outline: 0,
+    hover: 'none'
   }
 };
 
-const login = ({
-                 email, password, updateEmail, updatePassword, submitLoginCredentials, loginStatus, navToRegister,
-                 navToPasswordReset
-               }) => (
-  <div style={styles.parent}>
-    <div style={styles.header}>
+class Landing extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {stickyNav: false}
+  }
 
-    </div>
-    <div style={styles.imageContainer}>
-      <h1 style={{color: 'black', fontSize: 60}}>AppTab</h1>
-      <h1 style={{color: 'black', fontSize: 30}}>Turn tables faster at reduced cost.</h1>
-    </div>
-    <div style={styles.infoContainer}>
-      <ChonometerWrapped>
-        <h5 style={styles.infoText}>Not all customers want to talk to the waitstaff. AppTab allows your customers to order and transact faster.</h5>
-      </ChonometerWrapped>
-      <SavingsWrapped>
-        <h5 style={styles.infoText}>Outsourcing some of your customer service to AppTabb allows you to serve more customers with fewer staff.</h5>
-      </SavingsWrapped>
-      <ChartsWrapped>
-        <h5 style={styles.infoText}>Our analytics portal should serve all of your needs. If it doesn't have the reports you want, we will build it.</h5>
-      </ChartsWrapped>
-    </div>
-    <div style={styles.youTubeContainer}>
-      <YouTube videoId='02kUk7qvieM'/>
-    </div>
-
-    <form style={styles.form}>
-      <FormGroup style={styles.formGroup}>
-        <ControlLabel>Email</ControlLabel>
-        <FormControl type="text" value={email} placeholder="Please enter your email"
-                     onChange={text => updateEmail(text.target.value)}/>
-        <ControlLabel>Password</ControlLabel>
-        <FormControl type="password" value={password} placeholder="Please enter your password"
-                     onChange={text => updatePassword(text.target.value)}/>
-      </FormGroup>
-    </form>
-    {(loginStatus === 'loggingIn')
-      ? null
-      : <div>
-        <div style={styles.buttonContainer}>
-          <Button style={styles.button} onClick={() => submitLoginCredentials(email, password)}>Login</Button>
-          <Button style={styles.button} onClick={() => navToRegister()}>Register</Button>
+  render() {
+    return (
+      <div style={styles.parent}>
+        <div style={Object.assign({}, styles.header,{} )}>
+          <div style={styles.logoContainer}>
+            <Image src={Logo} responsive/>
+          </div>
+          <div style={styles.navContainer}>
+            <button style={styles.navButton} onClick={() => this.refs.info.scrollIntoView({behavior: 'smooth'})}>Info</button>
+            <button style={styles.navButton} onClick={() => this.refs.demo.scrollIntoView({behavior: 'smooth'})}>Demo</button>
+            <button style={styles.navButton} onClick={() => this.refs.contact.scrollIntoView({behavior: 'smooth'})}>Contact</button>
+            <button style={styles.navButton} onClick={() => this.refs.team.scrollIntoView({behavior: 'smooth'})}>Team</button>
+          </div>
+          <div style={styles.loginContainer}>
+            <Button onClick={() => navToLogin()}>Login</Button>
+          </div>
         </div>
-        <div style={styles.passwordResetButtonContainer}>
-          <Button style={styles.passwordResetButton} onClick={() => navToPasswordReset()}>Reset Password</Button>
+        <div style={styles.imageContainer}>
+          <h1 style={{color: 'black', fontSize: 60}}>AppTab</h1>
+          <h1 style={{color: 'black', fontSize: 30}}>Turn tables faster at reduced cost.</h1>
+          <h1 style={{color: 'black', fontSize: 30}}>Smartphone Mobile POS.</h1>
+        </div>
+        <div style={styles.infoContainer} ref='info'>
+          <ChonometerWrapped>
+            <h5 style={styles.infoText}>Not all customers want to talk to waitstaff. AppTab allows those customers to
+              order and transact faster.</h5>
+          </ChonometerWrapped>
+          <SavingsWrapped>
+            <h5 style={styles.infoText}>Letting AppTab handle some of your customer service allows you to serve more
+              customers with fewer staff.</h5>
+          </SavingsWrapped>
+          <ChartsWrapped>
+            <h5 style={styles.infoText}>Our analytics portal should serve all of your needs. If it doesn't have the
+              reports
+              you want, we will build it.</h5>
+          </ChartsWrapped>
+        </div>
+        <div style={styles.youTubeContainer} ref='demo'>
+          <YouTube videoId='QMwfFrMjlHE'/>
+        </div>
+        <div style={styles.contactContainer} ref='contact'>
+          <ContactWrapped>
+            <h5 style={{color: 'black', fontSize: 18, textAlign: 'center'}}>Email: support@apptab.io</h5>
+            <h5 style={{color: 'black', fontSize: 18, textAlign: 'center'}}>Phone: (510) 883-4346</h5>
+          </ContactWrapped>
+        </div>
+        <div style={styles.profileContainer} ref='team'>
+          <div style={styles.profileSubContainer}>
+            <div style={styles.profileImageContainer}>
+              <Image src={ProfilePic} responsive style={{maxHeight: 500, marginLeft: 0, marginTop: -70}}/>
+            </div>
+            <div style={styles.profileTextContainer}>
+              <h5 style={{color: 'black', fontSize: 16, textAlign: 'center', fontWeight: 'normal'}}>
+                Warren Ronsiek is the founder and CEO of AppTab Inc. As a fullstack developer, data scientist, and AWS
+                architect there is almost nothing that he can't accomplish.
+              </h5>
+            </div>
+          </div>
+        </div>
+        <div style={styles.footer}>
+          <h5>&#169; AppTab Inc.</h5>
+          <h5 style={{marginTop: -5}}>1511 Julia Street</h5>
+          <h5 style={{marginTop: -5}}>Apt. 4</h5>
+          <h5 style={{marginTop: -5}}>Berkeley, CA. 94703</h5>
+          <h5 style={{marginTop: -5}}>Icons by <a href="https://www.flaticon.com/authors/gregor-cresnar">Gregor Cresnar</a>.</h5>
         </div>
       </div>
-    }
-    <div style={styles.statusTextContainer}>
-      <LoginSwitch loginStatus={loginStatus}/>
-    </div>
-  </div>
-);
-
-login.propTypes = {
-  email: PropTypes.string,
-  password: PropTypes.string,
-  updateEmail: PropTypes.func.isRequired,
-  updatePassword: PropTypes.func.isRequired,
-  submitLoginCredentials: PropTypes.func.isRequired,
-  loginStatus: PropTypes.string,
-  navToRegister: PropTypes.func.isRequired,
-  navToPasswordReset: PropTypes.func.isRequired
+    )
+  }
 };
 
-export default login
+Landing.propTypes = {
+  navToLogin: PropTypes.func.isRequired
+};
+
+export default Landing
