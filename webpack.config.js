@@ -38,14 +38,15 @@ const common_build = {
   module: {
     loaders: [
       {
-        test: /\.(png|woff|woff2|eot|ttf|csv|svg|ico)$/,
+        test: /\.(woff|woff2|eot|ttf|csv|svg|ico|png|jpg)$/,
         loader: 'url-loader?limit=100000',
-        include: PATHS.src
+        include: [PATHS.src]
       }, {
         test: /\.json$/,
         loader: 'json-loader',
         include: PATHS.static
-      }]
+      }
+    ]
   },
   plugins: [
     new HtmlwebpackPlugin({

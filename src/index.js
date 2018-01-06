@@ -20,6 +20,7 @@ import SupportScene from './scenes/support'
 import VenueScene from './scenes/venueScene'
 import MenuScene from './scenes/menuScene'
 import ReportScene from './scenes/reportScene'
+import Landing from './redux/connectedComponents/landingConnected'
 import {updateAuthParams, updateClientId} from "./redux/actions/loginActions";
 
 const loginRequired = (nextState, replace) => {
@@ -66,7 +67,8 @@ const loginRequired = (nextState, replace) => {
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/" component={Login}/>
+      <Route path="/" component={Landing}/>
+      <Route path='/login' component={Login}/>
       <Route path="/stripeConnect" component={StripeConnect} onEnter={loginRequired}/>
       <Route path="/stripeRedirect" component={StripeRedirect}/>
       <Route path="/register" component={Register}/>
