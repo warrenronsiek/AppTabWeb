@@ -13,6 +13,7 @@ import './css/bootstrap.min.css';
 import Login from './redux/connectedComponents/loginConnected'
 import Register from './redux/connectedComponents/registerConnected'
 import StripeConnect from './scenes/stripeConnect'
+import Privacy from './redux/components/privacyPolicy'
 import StripeRedirect from './scenes/stripeRedirect'
 import PasswordReset from './redux/connectedComponents/passwordResetConnected'
 import Transactions from './scenes/transactionScene'
@@ -70,6 +71,7 @@ ReactDOM.render(
       <Route path="/" component={Landing}/>
       <Route path='/login' component={Login}/>
       <Route path="/stripeConnect" component={StripeConnect} onEnter={loginRequired}/>
+      <Route path='/privacy' component={Privacy}/>
       <Route path="/stripeRedirect" component={StripeRedirect}/>
       <Route path="/register" component={Register}/>
       <Route path="/password-reset" component={PasswordReset}/>

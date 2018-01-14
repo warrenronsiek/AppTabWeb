@@ -70,8 +70,7 @@ const styles = {
     borderBottomColor: 'grey',
     position: 'fixed',
     width: '100%',
-    borderBottomWidth: 'thin',
-    paddingBottom: 1,
+    borderBottomWidth: 1,
     borderBottom: 'solid'
   },
   logoContainer: {
@@ -169,7 +168,7 @@ class Landing extends Component {
             <button style={styles.navButton} onClick={() => this.refs.team.scrollIntoView({behavior: 'smooth'})}>Team</button>
           </div>
           <div style={styles.loginContainer}>
-            <Button onClick={() => navToLogin()}>Login</Button>
+            <Button onClick={() => this.props.navToLogin()}>Login</Button>
           </div>
         </div>
         <div style={styles.imageContainer}>
