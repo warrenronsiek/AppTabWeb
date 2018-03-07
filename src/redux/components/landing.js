@@ -29,15 +29,15 @@ class Landing extends Component {
           <div className="navbar-header">
             <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
               <span className="sr-only">Toggle navigation</span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
+              <span className="icon-bar"/>
+              <span className="icon-bar"/>
+              <span className="icon-bar"/>
             </button>
             <a data-scroll className="navbar-brand" onClick={() => this.refs.hero.scrollIntoView({behavior: 'smooth'})}><img src={require("../../static/logo.png")}/></a>
           </div>
           <div id="navbar" className="collapse navbar-collapse">
             <ul className="nav navbar-nav navbar-right">
-              <li><a data-scroll onClick={() => this.refs.features.scrollIntoView({behavior: 'smooth'})}>Features</a></li>
+              <li><a data-scroll onClick={() => this.refs.features.scrollIntoView({behavior: 'smooth', block: 'end'})}>Features</a></li>
               <li><a data-scroll onClick={() => this.refs.demo.scrollIntoView({behavior: 'smooth'})}>Demo</a></li>
               <li><a data-scroll onClick={() => this.refs.team.scrollIntoView({behavior: 'smooth'})}>Team</a></li>
               <li><a data-scroll onClick={() => this.refs.contact.scrollIntoView({behavior: 'smooth'})}>Contact</a></li>
@@ -52,7 +52,7 @@ class Landing extends Component {
             <div className="heroMsg col-md-6 col-md-offset-6 col-sm-6 col-sm-offset-6 col-v-centered col-xs-12">
               <p><span className="small">Smartphone Mobile POS</span><br/>
               <span className="big">Turn tables faster, <br/>at reduced cost.</span><br/>
-              <a data-scroll onClick={() => this.refs.features.scrollIntoView({behavior: 'smooth'})}><img className="bttn" src={require("../../static/btn.png")} height="50px"/></a></p>
+              <a data-scroll onClick={() => this.refs.features.scrollIntoView({behavior: 'smooth',  block: 'end'})}><img className="bttn" src={require("../../static/btn.png")} height="50px"/></a></p>
             </div>
           </div>
         </div>
@@ -89,7 +89,7 @@ class Landing extends Component {
           <div className="row">
             <div className="col-md-12">
                 <div className="video"><div className="embed-responsive embed-responsive-16by9">
-                    <iframe className="embed-responsive-item" width="800" height="450" src="https://www.youtube.com/embed/QMwfFrMjlHE?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    <iframe className="embed-responsive-item" width="800" height="450" src="https://www.youtube.com/embed/QMwfFrMjlHE?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen/>
                   </div></div>
             </div>
           </div>
