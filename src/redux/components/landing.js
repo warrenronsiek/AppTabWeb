@@ -37,7 +37,7 @@ class Landing extends Component {
           </div>
           <div id="navbar" className="collapse navbar-collapse">
             <ul className="nav navbar-nav navbar-right">
-              <li><a data-scroll onClick={() => this.refs.features.scrollIntoView({behavior: 'smooth'})}>Features</a></li>
+              <li><a data-scroll onClick={() => this.refs.features.scrollIntoView({behavior: 'smooth', block: 'end'})}>Features</a></li>
               <li><a data-scroll onClick={() => this.refs.demo.scrollIntoView({behavior: 'smooth'})}>Demo</a></li>
               <li><a data-scroll onClick={() => this.refs.team.scrollIntoView({behavior: 'smooth'})}>Team</a></li>
               <li><a data-scroll onClick={() => this.refs.contact.scrollIntoView({behavior: 'smooth'})}>Contact</a></li>
